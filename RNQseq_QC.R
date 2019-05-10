@@ -15,7 +15,7 @@ colSums2(as.matrix(dataMatrix))
 sampleDists <- dist(t(bestData))
 #sampleDists <- dist(t(bestData[nrow(bestData),4:ncol(bestData)]))
 sampleDistMatrix <- as.matrix(sampleDists)
-colors <- viridis(255) 
+colors <- inferno(255) 
 hc <- hclust(sampleDists)
 # png(filename = "Images/AllSamples_bestTranscripts_ClusterDendrogram.png", width=1500, res = 75)
   plot(hc, main="Cluster dendrogram of best transcripts")
@@ -37,7 +37,7 @@ ggplot(data = scores, aes(x = PC1, y = PC2, label = rownames(scores))) +
   geom_point(colour="black", alpha=1, size=3) + 
 #  geom_text(colour = "tomato", alpha = 1, size = 3) +
   ggtitle("PCA plot for all samples in final pool") + theme(title = element_text(size=20))
-# ggsave(filename = "Images/PCAplot_allSamples.eps", device="eps")
+# ggsave(filename = "Images/PCAplot_allSamples.pdf", device="pdf")
 
 
 

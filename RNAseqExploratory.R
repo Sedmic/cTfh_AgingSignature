@@ -27,11 +27,11 @@ geneMatrix <- probeGenes[,c(66:71,24:31)]
 gsg <- goodSamplesGenes(t(geneMatrix), verbose = 6)
 geneMatrix <- geneMatrix[gsg[[1]],]
 
-png(file = "Images/Elderly_v1-v-v2_Heatmap.png", height=600,width=1500, res=100)
+# png(file = "Images/Elderly_v1-v-v2_Heatmap.png", height=600,width=1500, res=100)
 heatmap.2(as.matrix(t(geneMatrix)),trace="none", col=RdYlBu, cexRow=0.5, cexCol=1,key.title=NA, scale="column", 
           main="Elderly adults",key.ylab=NA, key.xlab=NA, keysize=1, density.info="none", Colv = TRUE,
           margins=c(8,5), Rowv=FALSE )# lmat = lmat, lwid = lwid, lhei = lhei)
-dev.off()
+# dev.off()
 
 geneMatrix <- probeGenes[,c(60:65,78:83,54:59,72:77,48:53,66:71)] 
 gsg <- goodSamplesGenes(t(geneMatrix), verbose = 6)
@@ -63,11 +63,11 @@ lwid = c(0.5,4)
 lhei = c(1.5,4)
 layout(mat = lmat, widths = lwid, heights = lhei)
 
-png(file = "Images/YvE_HiHi_transFactor.png", height=7000,width=10000, res=100)
+# png(file = "Images/YvE_HiHi_transFactor.png", height=7000,width=10000, res=100)
 heatmap.2(as.matrix(t(YvE_v2)),trace="none", col=RdYlBu, cexRow=0.5, cexCol=0.5,key.title=NA, scale="column", 
           main="Selected Genes",key.ylab=NA, key.xlab=NA, keysize=1, density.info="none", 
           margins=c(8,5), Rowv=FALSE )# lmat = lmat, lwid = lwid, lhei = lhei)
-dev.off()
+# dev.off()
 
 
 

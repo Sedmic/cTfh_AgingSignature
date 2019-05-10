@@ -7,9 +7,14 @@ library("DESeq2")
 library("GSVA")
 library("GSEABase")
 library("pheatmap")
+library("viridis")
+library("tools")
+library("ggcorrplot")
+library("ggrepel")
 
 bestDataLog <- read.csv(file="bestDataLog.csv",stringsAsFactors = FALSE); rownames(bestDataLog) <- bestDataLog$X; bestDataLog$X <- NULL
-
+phenotypeMatrix <- read.csv(file="../../Analysis/BAA_yr4_AllMergedData_FC.csv"); phenotypeMatrix <- phenotypeMatrix[-c(62:73),]; rownames(phenotypeMatrix) <- phenotypeMatrix$Subject; 
+phenotypeMatrix$Subject <- NULL
 gsets <- getGmt("DifferentialExpression/GSVA/h.all.v6.1.symbols.gmt")
 HiHiv2 <- as.matrix(bestDataLog[,grep("HiHi_v2",colnames(bestDataLog))])
 GSVAhallmark <- gsva(HiHiv2, gsets, method="gsva")
@@ -22,8 +27,8 @@ rownames(GSVAhallmark) <- toTitleCase(tolower(substr(rownames(GSVAhallmark),star
 annotateHeatmap <- data.frame(row.names = colnames(GSVAhallmark), ageGroup = c(rep("Young", 6),rep("Elderly", 8)))
 ann_colors = list(  ageGroup = c("Young" ="orange", "Elderly" = "purple")  )
 pheatmap(GSVAhallmark, scale="none", cluster_col=T, annotation_col = annotateHeatmap, show_colnames=F, main="GSVA scores - Hallmark genesets",
-         annotation_colors = ann_colors, cutree_cols = 3, cutree_rows=2, fontsize_row = 8, color=viridis(100)
-        #, filename = "DifferentialExpression/GSVA/Images/GSVAhallmark_allGeneSets.png"
+         annotation_colors = ann_colors, cutree_cols = 3, cutree_rows=2, fontsize_row = 8, color=inferno(100)
+#         , filename = "DifferentialExpression/GSVA/Images/GSVAhallmark_allGeneSets.pdf"
 )
 
 
@@ -75,7 +80,7 @@ ggplot(data=phenotypeMatrix, aes(x=`TNFa`,y=`GSVAscoreTNF`, fill="black")) + the
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=18,hjust = 0.5))+
   ggtitle("GSVA for TNFa-NFkB vs serum TNF") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("GSVA score for TNFa-NFkB geneset")  + xlab("TNF (pg/mL)")+
   scale_fill_manual(values=c('black','#E69F00')) + scale_color_manual(values=c('black', '#E69F00'))
-# ggsave(filename = "DifferentialExpression/GSVA/Images/GSVA_TNF-NFkB_vs_serumTNF_all.png", device="png")
+# ggsave(filename = "DifferentialExpression/GSVA/Images/GSVA_TNF-NFkB_vs_serumTNF_all.pdf", device="pdf")
 cor.test(phenotypeMatrix$TNFa, phenotypeMatrix$GSVAscoreTNF, use="complete")
 
 
@@ -327,5 +332,166 @@ rownames(clinicalCharacteristics) <- clinicalCharacteristics$full.id; clinicalCh
 
 summary(lm(data = clinicalCharacteristics, HALLMARK_CHOLESTEROL_HOMEOSTASIS ~ sex + age))
 summary(lm(data = clinicalCharacteristics, HALLMARK_IL6_JAK_STAT3_SIGNALING ~ sex + age))
+summary(lm(data = clinicalCharacteristics, HALLMARK_HEDGEHOG_SIGNALING ~ age))
+summary(lm(data = clinicalCharacteristics, HALLMARK_INFLAMMATORY_RESPONSE ~ BMI))
+
+
+
+
+
+
+# ****************************************************** Correlate GSVA scores against phenotype ***************************************
+
+bestDataLog <- read.csv(file="bestDataLog.csv",stringsAsFactors = FALSE); rownames(bestDataLog) <- bestDataLog$X; bestDataLog$X <- NULL
+
+gsets <- getGmt("DifferentialExpression/GSVA/h.all.v6.1.symbols.gmt")
+HiHiv2 <- as.matrix(bestDataLog[,grep("HiHi_v2",colnames(bestDataLog))])
+GSVAhallmark <- gsva(HiHiv2, gsets, method="gsva")
+colnames(GSVAhallmark) <- substr(colnames(GSVAhallmark),start=2,stop=7)
+rownames(GSVAhallmark) <- toTitleCase(tolower(substr(rownames(GSVAhallmark),start =10, stop=50)))
+
+phenotypeMatrix <- read.csv(file="../../Analysis/BAA_yr4_AllMergedData_FC.csv"); phenotypeMatrix <- phenotypeMatrix[-c(62:73),]; rownames(phenotypeMatrix) <- phenotypeMatrix$Subject; 
+phenotypeMatrix$Subject <- NULL
+
+phenotypeGSVA <- merge(phenotypeMatrix, t(GSVAhallmark), by=0)
+rownames(phenotypeGSVA) <- phenotypeGSVA$Row.names
+phenotypeGSVA$Row.names <- phenotypeGSVA$Visit <- phenotypeGSVA$GSVA_TNF_category <- NULL
+# write.csv(phenotypeGSVA, file = "phenotypeGSVA.csv")
+
+
+phenotypeGSVAYoung <- phenotypeGSVA[1:6,]
+phenotypeGSVAElderly <- phenotypeGSVA[7:14,]
+
+
+corrAll <- cor(phenotypeGSVA[,c(2:23, 530:579)], use="complete")
+p.matAll <- cor_pmat(phenotypeGSVA[,c(2:23, 530:579)], use="complete")
+colorScheme <- colorRampPalette(c("#67a9cf","white", "#ef8a62"))(3)
+
+a<- ggcorrplot(corrAll, hc.order=FALSE, type="lower",outline.col="white",lab=FALSE, p.mat=p.matAll, insig="blank", tl.cex=7, colors=colorScheme, title = "All GSVA scores")
+a
+
+corrY <- cor(phenotypeGSVAYoung[, c(2:23, 530:579)], use="complete")
+p.matY <- cor_pmat(phenotypeGSVAYoung[, c(2:23, 530:579)], use="complete")
+b<- ggcorrplot(corrY, hc.order=FALSE, type="lower",outline.col="white",lab=FALSE, p.mat=p.matY, insig="blank", tl.cex=5, colors=colorScheme, title = "Young GSVA scores" )
+b
+
+corrE <- cor(phenotypeGSVAElderly[, c(2:23, 530:579)], use="complete")
+p.matE <- cor_pmat(phenotypeGSVAElderly[, c(2:23, 530:579)], use="complete")
+c<- ggcorrplot(corrE, hc.order=FALSE, type="lower",outline.col="white",lab=FALSE, p.mat=p.matE, insig="blank", tl.cex=5, colors=colorScheme,title = "Elderly GSVA scores" )
+c
+# ggsave(b,filename="DifferentialExpression/GSVA/Images/interCategorycorrelations_Young.svg")
+# ggsave(c,filename="DifferentialExpression/GSVA/Images/interCategorycorrelations_Elderly.svg")
+# ggsave(a,filename="DifferentialExpression/GSVA/Images/interCategorycorrelations_All.svg")
+
+
+
+#  GSVA-TNF vs GSVA-Apoptosis response 
+a <- cor.test(phenotypeGSVAYoung$Tnfa_signaling_via_nfkb, phenotypeGSVAYoung$Apoptosis, use="complete")
+b <- cor.test(phenotypeGSVAElderly$Tnfa_signaling_via_nfkb, phenotypeGSVAElderly$Apoptosis, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ",  formatC(a$p.value, format = "e", digits = 1))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ",  formatC(b$p.value, format = "e", digits = 1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.65,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=18)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.65,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=18)))
+ggplot(data=phenotypeGSVA, aes(x=`Tnfa_signaling_via_nfkb`,y=`Apoptosis`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
+  geom_point(data=subset(phenotypeGSVA, Identifier=="Elderly", stat="identity"), size=6, pch=21) + 
+  geom_point(data=subset(phenotypeGSVA, Identifier=="Young", stat="identity"), size=6, pch=21) +  #ylim(-1,1) + xlim(0,3)+
+  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=24,hjust = 0.5))+
+  ggtitle("GSVA scores: Apoptosis vs TNF-NFkB") + theme(plot.title = element_text(size=28,hjust = 0.5)) + ylab("Apoptosis GSVA score")  + xlab("TNF-NFkB GSVA score")+
+  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
+# ggsave(filename = "DifferentialExpression/GSVA/Images/Apoptosis_vs_TNF_GSVAscores.pdf", device="pdf", width=8, height=6)
+
+
+#  Plasmablast vs GSVA-Hedgehog response 
+a <- cor.test(phenotypeGSVAYoung$Hedgehog_signaling, phenotypeGSVAYoung$`ASC.freqLive`, use="complete")
+b <- cor.test(phenotypeGSVAElderly$Hedgehog_signaling, phenotypeGSVAElderly$`ASC.freqLive`, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", round(a$p.value,2))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", round(b$p.value,3))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.65,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=18)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.65,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=18)))
+ggplot(data=phenotypeGSVA, aes(x=`Hedgehog_signaling`,y=`ASC.freqLive`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
+  geom_point(data=subset(phenotypeGSVA, Identifier=="Elderly", stat="identity"), size=6, pch=21) + 
+  geom_point(data=subset(phenotypeGSVA, Identifier=="Young", stat="identity"), size=6, pch=21) +  #ylim(-1,1) + xlim(0,3)+
+  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=24,hjust = 0.5))+
+  ggtitle("GSVA: Plasmablast resp vs Hedgehog") + theme(plot.title = element_text(size=28,hjust = 0.5)) + ylab("Plasmablast FC")  + xlab("Hedgehog GSVA score")+
+  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
+# ggsave(filename = "DifferentialExpression/GSVA/Images/Plasmablast_vs_Hedgehog_GSVAscores.pdf", device="pdf", width=8, height=6)
+
+
+#  Tfh resp vs GSVA-Hedgehog_signaling response      
+a <- cor.test(phenotypeGSVAYoung$Hedgehog_signaling, phenotypeGSVAYoung$`Tfh_ICOShi.CD38hi...Freq..of....`, use="complete")
+b <- cor.test(phenotypeGSVAElderly$Hedgehog_signaling, phenotypeGSVAElderly$`Tfh_ICOShi.CD38hi...Freq..of....`, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", round(a$p.value,2))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", round(b$p.value,3))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.65,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=18)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.65,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=18)))
+ggplot(data=phenotypeGSVA, aes(x=`Hedgehog_signaling`,y=`Tfh_ICOShi.CD38hi...Freq..of....`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
+  geom_point(data=subset(phenotypeGSVA, Identifier=="Elderly", stat="identity"), size=6, pch=21) + 
+  geom_point(data=subset(phenotypeGSVA, Identifier=="Young", stat="identity"), size=6, pch=21) +  #ylim(-1,1) + xlim(0,3)+
+  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=24,hjust = 0.5))+
+  ggtitle("GSVA: Tfh resp vs Hedgehog") + theme(plot.title = element_text(size=28,hjust = 0.5)) + ylab("Tfh response FC")  + xlab("Hedgehog GSVA score")+
+  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
+# ggsave(filename = "DifferentialExpression/GSVA/Images/HiHi_vs_Hedgehog_GSVAscores.pdf", device="pdf", width=8, height=6)
+
+
+summary(lm(data = phenotypeGSVA, Inflammatory_response ~ Apoptosis))
+summary(lm(data = phenotypeGSVA, Hedgehog_signaling ~ TNFa))
+
+
+
+# ****************************************************** Correlate GSVA scores against transcripts ***************************************
+phenotypeGSVA <- merge(phenotypeMatrix, t(GSVAhallmark), by=0); rownames(phenotypeGSVA) <- phenotypeGSVA$Row.names
+phenotypeGSVA$Row.names <- phenotypeGSVA$Visit <- phenotypeGSVA$GSVA_TNF_category <- NULL
+
+geneList <- c("BIRC5", "BCL2", "BCL2L2","BCL2A1", "BCL2L4", "BID", "BAD", "BCL2L11")
+geneOfInterest <- bestDataLog[geneList,grep("HiHi_v2",colnames(bestDataLog))]
+colnames(geneOfInterest) <- substr(colnames(geneOfInterest),start=2,stop=7)
+phenotypeGSVA <- merge(phenotypeGSVA, t(geneOfInterest), by=0); phenotypeGSVAYoung <- phenotypeGSVA[1:6,]; phenotypeGSVAElderly <- phenotypeGSVA[7:14,]
+
+a <- cor.test(phenotypeGSVAYoung$Tnfa_signaling_via_nfkb, phenotypeGSVAYoung$`BCL2A1`, use="complete")
+b <- cor.test(phenotypeGSVAElderly$Tnfa_signaling_via_nfkb, phenotypeGSVAElderly$`BCL2A1`, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format = "e", digits = 1))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value,format = "e", digits = 1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.55,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=18)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.55,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=18)))
+ggplot(data=phenotypeGSVA, aes(x=`Tnfa_signaling_via_nfkb`,y=`BCL2A1`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
+  geom_point(data=subset(phenotypeGSVA, Identifier=="Elderly", stat="identity"), size=6, pch=21) + 
+  geom_point(data=subset(phenotypeGSVA, Identifier=="Young", stat="identity"), size=6, pch=21) +  #ylim(-1,1) + xlim(0,3)+
+  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=24,hjust = 0.5))+
+  ggtitle("BCL2A1 vs GSVA:TNF-NFkB") + theme(plot.title = element_text(size=28,hjust = 0.5)) + ylab("log2 counts of BCL2A1")  + xlab("TNF-NFkB GSVA score")+
+  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
+# ggsave(filename = "DifferentialExpression/GSVA/Images/BCL2A1_vs_TNF_GSVAscores.pdf", device="pdf")
+
+
+proSurvivalGenes <- c("BCL2","BCL2L1","MCL1","BCL2A1","BCL2L12","BCL2L2","BCL2L10")
+proSurvival <- bestDataLog[proSurvivalGenes,grep("HiHi_v2",colnames(bestDataLog))]
+colnames(proSurvival) <- substr(colnames(proSurvival),start=2,stop=7)
+a <- cor(phenotypeGSVAYoung$`Tnfa_signaling_via_nfkb`, t(proSurvival[,1:6]))
+b <- cor(phenotypeGSVAElderly$`Tnfa_signaling_via_nfkb`, t(proSurvival[,7:14]))
+proSurvivalYvE <- data.frame(Young=t(a),Elderly=t(b),Category="ProSurvival")
+
+ApoptoticGenes <- c("BAK1","BCLAF1","BCL2L13","BCL2L11","BBC3","PMAIP1","BCL2L14", "BAX", "BID")
+Apoptotic <- bestDataLog[ApoptoticGenes,grep("HiHi_v2",colnames(bestDataLog))]
+colnames(Apoptotic) <- substr(colnames(Apoptotic),start=2,stop=7)
+a<- cor(phenotypeGSVAYoung$`Tnfa_signaling_via_nfkb`, t(Apoptotic[,1:6]))
+b<- cor(phenotypeGSVAElderly$`Tnfa_signaling_via_nfkb`, t(Apoptotic[,7:14]))
+ApoptoticYvE <-  data.frame(Young=t(a),Elderly=t(b), Category="Apoptotic")
+
+cellLifeDeath <- rbind(proSurvivalYvE, ApoptoticYvE)
+
+ggplot(data=cellLifeDeath, aes(x=`Young`,y=`Elderly`, color=`Category`)) + theme_bw() +  theme(legend.position = c(0.2,0.1), legend.text = element_text(size=20)) +
+  geom_point(size=4) +
+  geom_text_repel(size=7, point.padding = 0.5, show.legend = F, aes(label=row.names(cellLifeDeath))) + 
+  ggtitle("Correlations to GSVA TNF-NFkB score") + theme(plot.title = element_text(size=24,hjust = 0.5)) + xlim(-1,1) + ylim(-1,1)+
+  ylab("Pearson r, Elderly")  + xlab("Pearson r, Young") +
+  geom_vline(xintercept=0, linetype="dashed", color="grey", size=1) + geom_hline(yintercept=0, linetype="dashed", color="grey", size=1) +
+  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5)) +
+  scale_color_viridis_d(begin=0, end=0.65)
+# ggsave(filename="DifferentialExpression/GSVA/Images/Bcl_family_GSVATNF_hihi_v2.pdf", device="pdf")
+
+
 
 

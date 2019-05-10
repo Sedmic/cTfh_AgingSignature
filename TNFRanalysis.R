@@ -118,8 +118,7 @@ ggplot(data=logDataSelectedv1, aes(x=subset,y=TNFRSF1A, fill=`labels`)) + theme_
   theme(axis.text = element_text(size=22,hjust = 0.5))+ theme(axis.title = element_text(size=22,hjust = 0.5), axis.title.x = element_blank())+
   scale_fill_manual(values=colors) + ylim(3.5, 11) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-# ggsave(filename = "Images/TNFR1_allSubsets_v1.png", device="png")
-# ggsave(filename = "Images/TNFR1_allSubsets_v1.eps", device="eps")
+# ggsave(filename = "Images/TNFR1_allSubsets_v1.pdf", device="pdf")
 
 ggplot(data=logDataSelectedv1, aes(x=subset,y=TNFRSF1B, fill=`labels`)) + theme_bw() +  theme(legend.position = "none") +
   geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=labels)) + 
@@ -128,8 +127,7 @@ ggplot(data=logDataSelectedv1, aes(x=subset,y=TNFRSF1B, fill=`labels`)) + theme_
   theme(axis.text = element_text(size=22,hjust = 0.5))+ theme(axis.title = element_text(size=22,hjust = 0.5), axis.title.x = element_blank())+
   scale_fill_manual(values=colors) + ylim(7.5,16) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-# ggsave(filename = "Images/TNFR2_allSubsets_v1.png", device="png")
-# ggsave(filename = "Images/TNFR2_allSubsets_v1.eps", device="eps")
+# ggsave(filename = "Images/TNFR2_allSubsets_v1.pdf", device="pdf")
 
 summary(lm(data = logDataSelectedv1, TNFRSF1A ~ subset + ageGroup))
 summary(lm(data = logDataSelectedv1, TNFRSF1B ~ subset + ageGroup))
@@ -140,18 +138,18 @@ summary(lm(data = logDataSelectedv1, TNFRSF1B ~ subset + ageGroup))
 
 # what about the day 0 to day 7 change in TNFR1 and 2? 
 # just ICOS+CD38+ cTfh
-probeList <- c("TNFRSF1A", "TNFRSF1B")
+probeList <- c("TNFRSF1A", "TNFRSF1B", "BCL2A1", "MCL1", "BID")
 probeGenes <- bestDataLog[probeList,grep("HiHi",colnames(bestDataLog))]  
 logDataSelected <- cbind(
   probeGenes[,grep("HiHi_v1",colnames(probeGenes))], probeGenes[,grep("HiHi_v2",colnames(probeGenes))], 
   probeGenes[,grep("LoLo_v1",colnames(probeGenes))], probeGenes[,grep("LoLo_v2",colnames(probeGenes))], 
   probeGenes[,grep("Naive_v1",colnames(probeGenes))], probeGenes[,grep("Naive_v2",colnames(probeGenes))])
-
-# TNFR1 pre-post vaccine
 logDataSelected <- data.frame(t(logDataSelected))
 logDataSelected$ageGroup <- c(rep("Young", 6), rep("Elderly",7),rep("Young", 6), rep("Elderly",8) )
 logDataSelected$visit <- substr(rownames(logDataSelected), start=15,stop=16)
 logDataSelected$subject <- substr(rownames(logDataSelected), start=2,stop=7)
+
+# TNFR1 pre-post vaccine
 TNFRSF1A_beforeAfter <- dcast(logDataSelected, subject~visit, value.var = "TNFRSF1A" )  # give me a before-after view of the matrix
 TNFRSF1A_beforeAfter <- na.omit(TNFRSF1A_beforeAfter); colnames(TNFRSF1A_beforeAfter) <- c("subject","visit1","visit2")
 ggplot(data=TNFRSF1A_beforeAfter, aes()) + theme_bw() + 
@@ -169,9 +167,9 @@ TNFRSF1B_beforeAfter <- na.omit(TNFRSF1B_beforeAfter); colnames(TNFRSF1B_beforeA
 ggplot(data=TNFRSF1B_beforeAfter, aes()) + theme_bw() + 
   geom_segment(data=TNFRSF1B_beforeAfter[1:6,], aes(x=" Day0", xend=" Day7", y=visit1, yend=visit2), color="orange",size=1) + 
   geom_segment(data=TNFRSF1B_beforeAfter[7:13,], aes(x="Day0", xend="Day7", y=visit1, yend=visit2), colour="purple",size=1) +
-  ylab("Log Counts of TNFRSF1A") + ggtitle("TNFRSF1B Pre-Post vaccine") + 
-  theme(axis.text = element_text(size=28,hjust = 0.5))+ theme(axis.title = element_text(size=28,hjust = 0.5), axis.title.x = element_blank())+
-  theme(plot.title = element_text(size=36,hjust = 0.5)) 
+  ylab("Log Counts of TNFRSF1B") + ggtitle("TNFRSF1B Pre-Post vaccine") + 
+  theme(axis.text = element_text(size=24,hjust = 0.5))+ theme(axis.title = element_text(size=24,hjust = 0.5), axis.title.x = element_blank())+
+  theme(plot.title = element_text(size=30,hjust = 0.5)) 
 # ggsave(filename="Images/TNFR2_HiHi_beforeAfter.pdf", device="pdf")
 
 
@@ -184,11 +182,46 @@ ggplot(data=TNFRSFratio_beforeAfter, aes()) + theme_bw() +
   geom_segment(data=TNFRSFratio_beforeAfter[1:6,], aes(x=" Day0", xend=" Day7", y=visit1, yend=visit2), color="orange",size=1) + 
   geom_segment(data=TNFRSFratio_beforeAfter[7:13,], aes(x="Day0", xend="Day7", y=visit1, yend=visit2), colour="purple",size=1) +
   ylab("Log Counts of TNFRSF1A/TNFRSF1B") + ggtitle("Ratio Pre-Post vaccine") + 
-  theme(axis.text = element_text(size=28,hjust = 0.5))+ theme(axis.title = element_text(size=28,hjust = 0.5), axis.title.x = element_blank())+
-  theme(plot.title = element_text(size=36,hjust = 0.5)) 
+  theme(axis.text = element_text(size=24,hjust = 0.5))+ theme(axis.title = element_text(size=22,hjust = 0.5), axis.title.x = element_blank())+
+  theme(plot.title = element_text(size=30,hjust = 0.5)) 
 # ggsave(filename="Images/TNFRratio_HiHi_beforeAfter.pdf", device="pdf")
 
 
+
+# BCL2A1 pre-post vaccine
+BCL2A1_beforeAfter <- dcast(logDataSelected, subject~visit, value.var = "BCL2A1" )  # give me a before-after view of the matrix
+BCL2A1_beforeAfter <- na.omit(BCL2A1_beforeAfter); colnames(BCL2A1_beforeAfter) <- c("subject","visit1","visit2")
+ggplot(data=BCL2A1_beforeAfter, aes()) + theme_bw() + 
+  geom_segment(data=BCL2A1_beforeAfter[1:6,], aes(x=" Day0", xend=" Day7", y=visit1, yend=visit2), color="orange",size=1) + 
+  geom_segment(data=BCL2A1_beforeAfter[7:13,], aes(x="Day0", xend="Day7", y=visit1, yend=visit2), colour="purple",size=1) +
+  ylab("Log Counts of BCL2A1") + ggtitle("BCL2A1 Pre-Post vaccine") + 
+  theme(axis.text = element_text(size=24,hjust = 0.5))+ theme(axis.title = element_text(size=24,hjust = 0.5), axis.title.x = element_blank())+
+  theme(plot.title = element_text(size=30,hjust = 0.5)) 
+# ggsave(filename="Images/BCL2A1_HiHi_beforeAfter.pdf", device="pdf")
+
+
+# MCL1 pre-post vaccine
+MCL1_beforeAfter <- dcast(logDataSelected, subject~visit, value.var = "MCL1" )  # give me a before-after view of the matrix
+MCL1_beforeAfter <- na.omit(MCL1_beforeAfter); colnames(MCL1_beforeAfter) <- c("subject","visit1","visit2")
+ggplot(data=MCL1_beforeAfter, aes()) + theme_bw() + 
+  geom_segment(data=MCL1_beforeAfter[1:6,], aes(x=" Day0", xend=" Day7", y=visit1, yend=visit2), color="orange",size=1) + 
+  geom_segment(data=MCL1_beforeAfter[7:13,], aes(x="Day0", xend="Day7", y=visit1, yend=visit2), colour="purple",size=1) +
+  ylab("Log Counts of MCL1") + ggtitle("MCL1 Pre-Post vaccine") + 
+  theme(axis.text = element_text(size=24,hjust = 0.5))+ theme(axis.title = element_text(size=24,hjust = 0.5), axis.title.x = element_blank())+
+  theme(plot.title = element_text(size=30,hjust = 0.5)) 
+# ggsave(filename="Images/MCL1_HiHi_beforeAfter.pdf", device="pdf")
+
+
+# BID pre-post vaccine
+BID_beforeAfter <- dcast(logDataSelected, subject~visit, value.var = "BID" )  # give me a before-after view of the matrix
+BID_beforeAfter <- na.omit(BID_beforeAfter); colnames(BID_beforeAfter) <- c("subject","visit1","visit2")
+ggplot(data=BID_beforeAfter, aes()) + theme_bw() + 
+  geom_segment(data=BID_beforeAfter[1:6,], aes(x=" Day0", xend=" Day7", y=visit1, yend=visit2), color="orange",size=1) + 
+  geom_segment(data=BID_beforeAfter[7:13,], aes(x="Day0", xend="Day7", y=visit1, yend=visit2), colour="purple",size=1) +
+  ylab("Log Counts of BID") + ggtitle("BID Pre-Post vaccine") + 
+  theme(axis.text = element_text(size=24,hjust = 0.5))+ theme(axis.title = element_text(size=24,hjust = 0.5), axis.title.x = element_blank())+
+  theme(plot.title = element_text(size=30,hjust = 0.5)) 
+# ggsave(filename="Images/BID_HiHi_beforeAfter.pdf", device="pdf")
 
 
 #  ****************************** ICOS-CD38- cTfh subset as pre-post  *************************************
@@ -511,11 +544,11 @@ ggcorrplot(correlMatrix, hc.order = T, type="lower", p.mat = pMatrix, insig = "b
 
 
 
-simplifyCorrel <- correlMatrix[c(1,11,12),]
+simplifyCorrel <- correlMatrix[c(11,12),]  # column 1 would have been for plasmablasts
 colsToRemove <- grep("ASC",colnames(simplifyCorrel))
 colsToRemove <- c(colsToRemove, grep("nAb",colnames(simplifyCorrel)))
 simplifyCorrel <- simplifyCorrel[,-colsToRemove]
-rownames(simplifyCorrel) <- c("Plasmablast FC", "H3N2.nAb.FCd28","H1N1.nAb.FCd28")
+rownames(simplifyCorrel) <- c("H3N2.nAb.FCd28","H1N1.nAb.FCd28")  # removed first element of this vector which was Plasmablast FC
 annotateHeatmap <- data.frame(row.names = colnames(simplifyCorrel), 
                               CD4subset = c(rep("ICOS+CD38+ cTfh", 3), rep("ICOS-CD38- cTfh", 3),rep("Naive CD4", 3)),
                               TNFR= c("TNFRSF1A","TNFRSF1B","TNFRSF1A/TNFRSF1B","TNFRSF1A","TNFRSF1B","TNFRSF1A/TNFRSF1B",
@@ -526,7 +559,7 @@ ann_colors = list(  CD4subset = c("ICOS+CD38+ cTfh" ="orange", "ICOS-CD38- cTfh"
 breaksList <- seq(from=-1,to=1, by=0.02)
 pheatmap(simplifyCorrel, cluster_row=T, cluster_col=F, show_rownames=T, breaks=breaksList, show_colnames=F,
          colors=colorRampPalette(rev(brewer.pal(n=3,name="RdYlBu")))(length(breaksList)), gaps_col = c(3,6)
-         , annotation_col = annotateHeatmap, annotation_colors = ann_colors,height=2.2, color=viridis(100)
+         , annotation_col = annotateHeatmap, annotation_colors = ann_colors,height=2.2, color=inferno(100)
          #, filename="Images/TNFRSF_correlations.pdf"
 )
 
@@ -682,5 +715,71 @@ ggplot(data=phenotypeMatrix, aes(x=`H3N2.nAb.FCd28`,y=`TNFRSFratiohihid7`)) + th
 
 ggplot(data=phenotypeMatrix,aes(x=`ASC.freqLive`, y=`H3N2.nAb.FCd28`)) + geom_point() + geom_smooth(method=lm)
 
+
+
+
+# TNFR1 vs nAb responses
+a <- cor.test(phenotypeMatrixYoung$`H1N1.nAb.FCd28`, phenotypeMatrixYoung$TNFRSF1Ahihid7, use="complete")
+b <- cor.test(phenotypeMatrixElderly$`H1N1.nAb.FCd28`, phenotypeMatrixElderly$TNFRSF1Ahihid7, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format="e", digits=1))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.4,  y=0.11, hjust=0, gp=gpar(col="orange3", fontsize=24)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.4,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=24)))
+ggplot(data=phenotypeMatrix, aes(x=`H1N1.nAb.FCd28`,y=`TNFRSF1Ahihid7`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=6, pch=21) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Young",stat="identity"), size=6, pch=21) +  
+  ggtitle("TNFRSF1A vs H1N1 HAI Ab") + theme(plot.title = element_text(size=32,hjust = 0.5)) + xlim(0,10) +
+  ylab("TNFRSF1A, day 7")  + xlab("H1N1.nAb.FCd28")+
+  theme(axis.text = element_text(size=24,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
+  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + 
+  annotation_custom(my_grob1) + annotation_custom(my_grob2)
+# ggsave(filename = "Images/TNFRSF1A_vs_H1N1nAb_byAge.pdf", device="pdf")
+
+
+a <- cor.test(phenotypeMatrix$`H1N1.nAb.FCd28`, phenotypeMatrix$TNFRSF1Ahihid7, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,3), "   \n", "p= ", formatC(a$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.65,  y=0.15, hjust=0, gp=gpar(col="black", fontsize=24)))
+ggplot(data=phenotypeMatrix, aes(x=`H1N1.nAb.FCd28`,y=`TNFRSF1Ahihid7`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1) + 
+  geom_point(size=6, pch=21, fill="black") + 
+  ggtitle("TNFRSF1A vs H1N1 HAI Ab") + theme(plot.title = element_text(size=24,hjust = 0.5)) + xlim(0,10) +
+  ylab("Log counts of TNFRSF1A, day 7")  + xlab("H1N1.nAb.FCd28 foldchange")+
+  #scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + 
+  annotation_custom(my_grob1)+ 
+  theme(axis.text = element_text(size=24,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))
+# ggsave(filename = "Images/TNFRSF1A_vs_H1N1nAb_allTogether.pdf", device="pdf")
+
+
+a <- cor.test(phenotypeMatrixYoung$`H3N2.nAb.FCd28`, phenotypeMatrixYoung$TNFRSF1Ahihid7, use="complete")
+b <- cor.test(phenotypeMatrixElderly$`H3N2.nAb.FCd28`, phenotypeMatrixElderly$TNFRSF1Ahihid7, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format="e", digits=1))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.4,  y=0.11, hjust=0, gp=gpar(col="orange3", fontsize=24)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.4,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=24)))
+ggplot(data=phenotypeMatrix, aes(x=`H3N2.nAb.FCd28`,y=`TNFRSF1Ahihid7`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=6, pch=21) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Young",stat="identity"), size=6, pch=21) +  
+  ggtitle("TNFRSF1A vs H3N2 HAI Ab") + theme(plot.title = element_text(size=32,hjust = 0.5)) + xlim(0,33) + #ylim(0.5,0.9)+
+  ylab("Log counts of TNFRSF1A, day 7")  + xlab("H3N2.nAb.FCd28")+
+  theme(axis.text = element_text(size=24,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
+  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + 
+  annotation_custom(my_grob1) + annotation_custom(my_grob2)
+# ggsave(filename = "Images/TNFRSF1A_vs_H3N2nAb_byAge.pdf", device="pdf")
+
+
+a <- cor.test(phenotypeMatrix$`H3N2.nAb.FCd28`, phenotypeMatrix$TNFRSF1Ahihid7, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), "  \n", "p= ", formatC(a$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.65,  y=0.15, hjust=0, gp=gpar(col="black", fontsize=24)))
+ggplot(data=phenotypeMatrix, aes(x=`H3N2.nAb.FCd28`,y=`TNFRSF1Ahihid7`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1) + 
+  geom_point(size=6, pch=21, fill="black") + 
+  ggtitle("TNFRSF1A vs H3N2 HAI Ab") + theme(plot.title = element_text(size=24,hjust = 0.5)) + xlim(0,35) +
+  ylab("Log counts of TNFRSF1A, day 7")  + xlab("H3N2.nAb.FCd28 foldchange")+
+  #scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + 
+  annotation_custom(my_grob1)+ 
+  theme(axis.text = element_text(size=24,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))
+# ggsave(filename = "Images/TNFRSF1A_vs_H3N2nAb_allTogether.pdf", device="pdf")
 
 
