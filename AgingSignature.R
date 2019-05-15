@@ -19,72 +19,6 @@ sessionInfo()
 
 
 
-
-hallmarkYvE_v1_Hi <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v1_HALLMARK.GseaPreranked.1531000213854/gsea_report_for_na_pos_1531000213854.xls", sep="\t", stringsAsFactors = F),
-                           read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v1_HALLMARK.GseaPreranked.1531000213854/gsea_report_for_na_neg_1531000213854.xls", sep="\t", stringsAsFactors = F)
-)
-hallmarkYvE_v1_Hi$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v1_Hi$NAME,start =10, stop=50)))
-hallmarkYvE_v1_Hi$NAME <- factor(hallmarkYvE_v1_Hi$NAME, levels = hallmarkYvE_v1_Hi$NAME[order(hallmarkYvE_v1_Hi$NES, decreasing = T)])
-rownames(hallmarkYvE_v1_Hi) <- hallmarkYvE_v1_Hi$NAME
-
-hallmarkYvE_v2_Hi <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1531000206530/gsea_report_for_na_pos_1531000206530.xls", sep="\t", stringsAsFactors = F),
-                           read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1531000206530/gsea_report_for_na_neg_1531000206530.xls", sep="\t", stringsAsFactors = F)
-)
-hallmarkYvE_v2_Hi$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v2_Hi$NAME,start =10, stop=50)))
-hallmarkYvE_v2_Hi$NAME <- factor(hallmarkYvE_v2_Hi$NAME, levels = hallmarkYvE_v2_Hi$NAME[order(hallmarkYvE_v2_Hi$NES, decreasing = T)])
-rownames(hallmarkYvE_v2_Hi) <- hallmarkYvE_v2_Hi$NAME
-
-hallmarkYvE_v1_Lo <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_LoLo_vs_E_LoLo_v1_Hallmark.GseaPreranked.1540914053735/gsea_report_for_na_pos_1540914053735.xls", sep="\t", stringsAsFactors = F),
-                           read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_LoLo_vs_E_LoLo_v1_Hallmark.GseaPreranked.1540914053735/gsea_report_for_na_neg_1540914053735.xls", sep="\t", stringsAsFactors = F)
-)
-hallmarkYvE_v1_Lo$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v1_Lo$NAME,start =10, stop=50)))
-hallmarkYvE_v1_Lo$NAME <- factor(hallmarkYvE_v1_Lo$NAME, levels = hallmarkYvE_v1_Lo$NAME[order(hallmarkYvE_v1_Lo$NES, decreasing = T)])
-rownames(hallmarkYvE_v1_Lo) <- hallmarkYvE_v1_Lo$NAME
-
-hallmarkYvE_v2_Lo <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_LoLo_vs_E_LoLo_v2_Hallmark.GseaPreranked.1540914059884/gsea_report_for_na_pos_1540914059884.xls", sep="\t", stringsAsFactors = F),
-                           read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_LoLo_vs_E_LoLo_v2_Hallmark.GseaPreranked.1540914059884/gsea_report_for_na_neg_1540914059884.xls", sep="\t", stringsAsFactors = F)
-)
-hallmarkYvE_v2_Lo$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v2_Lo$NAME,start =10, stop=50)))
-hallmarkYvE_v2_Lo$NAME <- factor(hallmarkYvE_v2_Lo$NAME, levels = hallmarkYvE_v2_Lo$NAME[order(hallmarkYvE_v2_Lo$NES, decreasing = T)])
-rownames(hallmarkYvE_v2_Lo) <- hallmarkYvE_v2_Lo$NAME
-
-hallmarkYvE_v1_Nav <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v1_Hallmark.GseaPreranked.1540914080384/gsea_report_for_na_pos_1540914080384.xls", sep="\t", stringsAsFactors = F),
-                            read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v1_Hallmark.GseaPreranked.1540914080384/gsea_report_for_na_neg_1540914080384.xls", sep="\t", stringsAsFactors = F)
-)
-hallmarkYvE_v1_Nav$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v1_Nav$NAME,start =10, stop=50)))
-hallmarkYvE_v1_Nav$NAME <- factor(hallmarkYvE_v1_Nav$NAME, levels = hallmarkYvE_v1_Nav$NAME[order(hallmarkYvE_v1_Nav$NES, decreasing = T)])
-rownames(hallmarkYvE_v1_Nav) <- hallmarkYvE_v1_Nav$NAME
-
-hallmarkYvE_v2_Nav <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v2_Hallmark.GseaPreranked.1540914108109/gsea_report_for_na_pos_1540914108109.xls", sep="\t", stringsAsFactors = F), 
-                            read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v2_Hallmark.GseaPreranked.1540914108109/gsea_report_for_na_neg_1540914108109.xls", sep="\t", stringsAsFactors = F)
-)
-hallmarkYvE_v2_Nav$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v2_Nav$NAME,start =10, stop=50)))
-hallmarkYvE_v2_Nav$NAME <- factor(hallmarkYvE_v2_Nav$NAME, levels = hallmarkYvE_v2_Nav$NAME[order(hallmarkYvE_v2_Nav$NES, decreasing = T)])
-rownames(hallmarkYvE_v2_Nav) <- hallmarkYvE_v2_Nav$NAME
-
-hallmark_subsets <- data.frame(row.names=hallmarkYvE_v1_Hi$NAME[order(hallmarkYvE_v1_Hi$NAME)],
-                               v1Hi = hallmarkYvE_v1_Hi$NES[order(hallmarkYvE_v1_Hi$NAME)],
-                               v2Hi = hallmarkYvE_v2_Hi$NES[order(hallmarkYvE_v2_Hi$NAME)],
-                               v1Lo = hallmarkYvE_v1_Lo$NES[order(hallmarkYvE_v1_Lo$NAME)],
-                               v2Lo = hallmarkYvE_v2_Lo$NES[order(hallmarkYvE_v2_Lo$NAME)],
-                               v1Nav = hallmarkYvE_v1_Nav$NES[order(hallmarkYvE_v1_Nav$NAME)],
-                               v2Nav = hallmarkYvE_v2_Nav$NES[order(hallmarkYvE_v2_Nav$NAME)]
-)
-
-hallmark_subsetsREVISED <- merge(hallmarkYvE_v1_Hi[,c("NAME","NES")], hallmarkYvE_v2_Hi[,c("NAME","NES")], by='NAME'); 
-hallmark_subsetsREVISED <- merge(hallmark_subsetsREVISED, hallmarkYvE_v1_Lo[,c("NAME","NES")], by='NAME'); names(hallmark_subsetsREVISED) <- c("NAME","Hi_v1", "Hi_v2", "Lo_v1")
-hallmark_subsetsREVISED <- merge(hallmark_subsetsREVISED, hallmarkYvE_v2_Lo[,c("NAME","NES")], by='NAME')
-hallmark_subsetsREVISED <- merge(hallmark_subsetsREVISED, hallmarkYvE_v1_Nav[,c("NAME","NES")], by='NAME')
-hallmark_subsetsREVISED <- merge(hallmark_subsetsREVISED, hallmarkYvE_v2_Nav[,c("NAME","NES")], by='NAME'); names(hallmark_subsetsREVISED) <- c("NAME","Hi_v1", "Hi_v2", "Lo_v1", "Lo_v2", "Nav_v1", "Nav_v2")
-
-hallmark_subsets <- hallmark_subsetsREVISED;  rownames(hallmark_subsets) <- hallmark_subsets$NAME;  hallmark_subsets$NAME <- NULL; rm(hallmark_subsetsREVISED)
-
-
-
-
-
-
-
 # ****************************************************** Milieau Interior Nanostring dataset   ***************************************
 
 nanostringExpr <- read.csv(file="DifferentialExpression/ComparePublishedGeneSets/MilieuInterior/Nano_1000_NULL.csv", stringsAsFactors = F)
@@ -227,203 +161,620 @@ head(top.table5, 20); tail(top.table5, 20)
 
 # ******************************************************  Plot all of the individual GSEA results  ***************************************
 
-# force start at zero
-zeroRankRow <- c(0,0,0,0,1,0,0,0,0)
 
-BAAyr2gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetBAAyr2_YvE.GseaPreranked.1557426253442/gsea_report_for_na_neg_1557426253442.xls", sep="\t")
-BAAyr2gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetBAAyr2_YvE.GseaPreranked.1557426253442/WISTARBAA_YEAR4.xls", sep="\t")
-annotationInfo <- paste0("NES: ", round(BAAyr2gseaFDR$NES[grep("WISTAR",BAAyr2gseaFDR$NAME)],2), "\n", "FDR: ", formatC(BAAyr2gseaFDR$FDR.q.val[grep("WISTAR",BAAyr2gseaFDR$NAME)], format="e", digits=1))
+
+# ********************************************************************
+# *******************  WISTAR BAA YEAR 2  ****************************
+# ********************************************************************
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetBAAyr2_YvE.GseaPreranked.1557855277477/")
+BAAyr2gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855277477.xls"), sep="\t")
+BAAyr2gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t")
+NES <- BAAyr2gseaFDRd$NES[grep("WISTAR",BAAyr2gseaFDRd$NAME)]
+FDR <- BAAyr2gseaFDRd$FDR.q.val[grep("YOUTH",BAAyr2gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+  {   rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetBAAyr2_YvE.GseaPreranked.1557855277477.rpt"),row.names=NULL, stringsAsFactors = F);  FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3]) }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=BAAyr2gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("Immport SDY622") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  ggtitle("Immport SDY622 - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetBAAyr2.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetBAAyr2_YOUTH.pdf", device="pdf", height=3.5, width=5)
 
-BAAyr3gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetBAAyr3_YvE.GseaPreranked.1557418036722/gsea_report_for_na_neg_1557418036722.xls", sep="\t")
-BAAyr3gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetBAAyr3_YvE.GseaPreranked.1557418036722/WISTARBAA_YEAR4.xls", sep="\t")
+
+BAAyr2gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855277477.xls"), sep="\t")
+BAAyr2gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t")
+NES <- BAAyr2gseaFDR$NES[grep("WISTAR",BAAyr2gseaFDR$NAME)]
+FDR <- BAAyr2gseaFDR$FDR.q.val[grep("AGING",BAAyr2gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+  {  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetBAAyr2_YvE.GseaPreranked.1557855277477.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3]) }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=BAAyr2gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("Immport SDY622 - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetBAAyr2_AGING.pdf", device="pdf", height=3.5, width=5)
+
+
+
+
+
+# ********************************************************************
+# *******************  WISTAR BAA YEAR 3  ****************************
+# ********************************************************************
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetBAAyr3_YvE.GseaPreranked.1557855251717/")
+BAAyr3gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855251717.xls"), sep="\t")
+BAAyr3gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
 BAAyr3gsea <- rbind(zeroRankRow,BAAyr3gsea)
-annotationInfo <- paste0("NES: ", round(BAAyr3gseaFDR$NES[grep("WISTAR",BAAyr3gseaFDR$NAME)],2), "\n", "FDR: ", formatC(BAAyr3gseaFDR$FDR.q.val[grep("WISTAR",BAAyr3gseaFDR$NAME)], format="e", digits=1))
+NES <- BAAyr3gseaFDRd$NES[grep("WISTAR",BAAyr3gseaFDRd$NAME)]
+FDR <- BAAyr3gseaFDRd$FDR.q.val[grep("YOUTH",BAAyr3gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+  {  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetBAAyr3_YvE.GseaPreranked.1557855251717.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=BAAyr3gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("Immport SDY648") + ylab("Enrichment score") + xlab("Rank in gene list") + xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  ggtitle("Immport SDY648 - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetBAAyr3.pdf", device="pdf", height=3.5, width=5)
- 
-BAAyr5gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetBAAyr5_YvE.GseaPreranked.1557418052273/gsea_report_for_na_neg_1557418052273.xls", sep="\t")
-BAAyr5gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetBAAyr5_YvE.GseaPreranked.1557418052273/WISTARBAA_YEAR4.xls", sep="\t")
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetBAAyr3_YOUTH.pdf", device="pdf", height=3.5, width=5)
+
+
+BAAyr3gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855251717.xls"), sep="\t")
+BAAyr3gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855251717.xls"), sep="\t")); BAAyr3gsea <- rbind(BAAyr3gsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- BAAyr3gseaFDR$NES[grep("WISTAR",BAAyr3gseaFDR$NAME)]
+FDR <- BAAyr3gseaFDR$FDR.q.val[grep("AGING",BAAyr3gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+  {  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetBAAyr3_YvE.GseaPreranked.1557855251717.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=BAAyr3gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("Immport SDY648 - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetBAAyr3_AGING.pdf", device="pdf", height=3.5, width=5)
+
+
+
+
+
+
+# ********************************************************************
+# *******************  WISTAR BAA YEAR 5  ****************************
+# ********************************************************************
+
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetBAAyr5_YvE.GseaPreranked.1557855086230/")
+BAAyr5gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855086230.xls"), sep="\t")
+BAAyr5gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
 BAAyr5gsea <- rbind(zeroRankRow,BAAyr5gsea)
-annotationInfo <- paste0("NES: ", round(BAAyr5gseaFDR$NES[grep("WISTAR",BAAyr5gseaFDR$NAME)],2), "\n", "FDR: ", formatC(BAAyr5gseaFDR$FDR.q.val[grep("WISTAR",BAAyr5gseaFDR$NAME)], format="e", digits=1))
+NES <- BAAyr5gseaFDRd$NES[grep("WISTAR",BAAyr5gseaFDRd$NAME)]
+FDR <- BAAyr5gseaFDRd$FDR.q.val[grep("YOUTH",BAAyr5gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetBAAyr5_YvE.GseaPreranked.1557855086230.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=BAAyr5gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("Immport SDY819") + ylab("Enrichment score") + xlab("Rank in gene list") + xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  ggtitle("Immport SDY819 - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetBAAyr5.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetBAAyr5_YOUTH.pdf", device="pdf", height=3.5, width=5)
 
-GSE79396gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetGSE79396_v1.GseaPreranked.1557418196592/gsea_report_for_na_neg_1557418196592.xls", sep="\t")
-GSE79396gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetGSE79396_v1.GseaPreranked.1557418196592/WISTARBAA_YEAR4.xls", sep="\t")
-annotationInfo <- paste0("NES: ", round(GSE79396gseaFDR$NES[grep("WISTAR",GSE79396gseaFDR$NAME)],2), "\n", "FDR: ", formatC(GSE79396gseaFDR$FDR.q.val[grep("WISTAR",GSE79396gseaFDR$NAME)], format="e", digits=1))
+
+BAAyr5gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855086230.xls"), sep="\t")
+BAAyr5gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855086230.xls"), sep="\t")); BAAyr5gsea <- rbind(BAAyr5gsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- BAAyr5gseaFDR$NES[grep("WISTAR",BAAyr5gseaFDR$NAME)]
+FDR <- BAAyr5gseaFDR$FDR.q.val[grep("AGING",BAAyr5gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetBAAyr5_YvE.GseaPreranked.1557855086230.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=BAAyr5gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("Immport SDY819 - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetBAAyr5_AGING.pdf", device="pdf", height=3.5, width=5)
+
+
+
+
+
+
+
+
+# ********************************************************************
+# *******************  GSE 79396 visit 1  ****************************
+# ********************************************************************
+
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetGSE79396_v1.GseaPreranked.1557854598532/")
+GSE79396gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557854598532.xls"), sep="\t")
+GSE79396gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+# zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
+# GSE79396gsea <- rbind(zeroRankRow,GSE79396gsea)
+NES <- GSE79396gseaFDRd$NES[grep("WISTAR",GSE79396gseaFDRd$NAME)]
+FDR <- GSE79396gseaFDRd$FDR.q.val[grep("YOUTH",GSE79396gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetGSE79396_v1.GseaPreranked.1557854598532.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=GSE79396gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("GSE79396 ZostaVax day 0") + ylab("Enrichment score") + xlab("Rank in gene list") + # xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  ggtitle("GSE79396 ZostaVax day 0 - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSE79396_d0.pdf", device="pdf", height=3.5, width=5)
+ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSE79396_d0_YOUTH.pdf", device="pdf", height=3.5, width=5)
 
 
-GSE123687gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetGSE123698_2013.GseaPreranked.1557418220050/gsea_report_for_na_neg_1557418220050.xls", sep="\t")
-GSE123687gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetGSE123698_2013.GseaPreranked.1557418220050/WISTARBAA_YEAR4.xls", sep="\t")
-annotationInfo <- paste0("NES: ", round(GSE123687gseaFDR$NES[grep("WISTAR",GSE123687gseaFDR$NAME)],2), "\n", "FDR: ", formatC(GSE123687gseaFDR$FDR.q.val[grep("WISTAR",GSE123687gseaFDR$NAME)], format="e", digits=1))
+
+GSE79396gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557854598532.xls"), sep="\t")
+GSE79396gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557854598532.xls"), sep="\t")); GSE79396gsea <- rbind(GSE79396gsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- GSE79396gseaFDR$NES[grep("WISTAR",GSE79396gseaFDR$NAME)]
+FDR <- GSE79396gseaFDR$FDR.q.val[grep("AGING",GSE79396gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetGSE79396_v1.GseaPreranked.1557854598532.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
-ggplot(data=GSE123687gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("GSE123687 - 2013 dataset") + ylab("Enrichment score") + xlab("Rank in gene list") + # xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+ggplot(data=GSE79396gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("GSE79396 ZostaVax day 0 - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSE123687_2013.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSE79396_d0_AGING.pdf", device="pdf", height=3.5, width=5)
 
-GSE123696gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetGSE123698_2014.GseaPreranked.1557418214464/gsea_report_for_na_neg_1557418214464.xls", sep="\t")
-GSE123696gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetGSE123698_2014.GseaPreranked.1557418214464/WISTARBAA_YEAR4.xls", sep="\t")
-annotationInfo <- paste0("NES: ", round(GSE123696gseaFDR$NES[grep("WISTAR",GSE123696gseaFDR$NAME)],2), "\n", "FDR: ", formatC(GSE123696gseaFDR$FDR.q.val[grep("WISTAR",GSE123696gseaFDR$NAME)], format="e", digits=1))
+
+
+
+
+
+# ********************************************************************
+# *******************  GSE 123696 2013  ******************************
+# ********************************************************************
+
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetGSE123696_2013.GseaPreranked.1557855311404/")
+GSE123696gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855311404.xls"), sep="\t")
+GSE123696gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+# zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
+# GSE123696gsea <- rbind(zeroRankRow,GSE123696gsea)
+NES <- GSE123696gseaFDRd$NES[grep("WISTAR",GSE123696gseaFDRd$NAME)]
+FDR <- GSE123696gseaFDRd$FDR.q.val[grep("YOUTH",GSE123696gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetGSE123696_2013.GseaPreranked.1557855311404.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=GSE123696gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("GSE123696 - 2014 dataset") + ylab("Enrichment score") + xlab("Rank in gene list") + # xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  ggtitle("GSE123696 (2013) - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSE123696_2014.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSE123696_2013_YOUTH.pdf", device="pdf", height=3.5, width=5)
 
-GSE123698gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetGSE123698_2015.GseaPreranked.1557418210317/gsea_report_for_na_neg_1557418210317.xls", sep="\t")
-GSE123698gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetGSE123698_2015.GseaPreranked.1557418210317/WISTARBAA_YEAR4.xls", sep="\t")
-annotationInfo <- paste0("NES: ", round(GSE123698gseaFDR$NES[grep("WISTAR",GSE123698gseaFDR$NAME)],2), "\n", "FDR: ", formatC(GSE123698gseaFDR$FDR.q.val[grep("WISTAR",GSE123698gseaFDR$NAME)], format="e", digits=1))
+
+GSE123696gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855311404.xls"), sep="\t")
+GSE123696gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855311404.xls"), sep="\t")); GSE123696gsea <- rbind(GSE123696gsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- GSE123696gseaFDR$NES[grep("WISTAR",GSE123696gseaFDR$NAME)]
+FDR <- GSE123696gseaFDR$FDR.q.val[grep("AGING",GSE123696gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetGSE123696_2013.GseaPreranked.1557855311404.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=GSE123696gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("GSE123696 (2013) - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSE123696_2013_AGING.pdf", device="pdf", height=3.5, width=5)
+
+
+
+
+
+
+
+# ********************************************************************
+# *******************  GSE 123687 2014  ******************************
+# ********************************************************************
+
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetGSE123687_2014.GseaPreranked.1557855332614/")
+GSE123687gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855332614.xls"), sep="\t")
+GSE123687gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+# zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
+# GSE123687gsea <- rbind(zeroRankRow,GSE123687gsea)
+NES <- GSE123687gseaFDRd$NES[grep("WISTAR",GSE123687gseaFDRd$NAME)]
+FDR <- GSE123687gseaFDRd$FDR.q.val[grep("YOUTH",GSE123687gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetGSE123687_2014.GseaPreranked.1557855332614.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=GSE123687gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("GSE123687 (2014) - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSE123687_2014_YOUTH.pdf", device="pdf", height=3.5, width=5)
+
+
+
+GSE123687gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855332614.xls"), sep="\t")
+GSE123687gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855332614.xls"), sep="\t")); GSE123687gsea <- rbind(GSE123687gsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- GSE123687gseaFDR$NES[grep("WISTAR",GSE123687gseaFDR$NAME)]
+FDR <- GSE123687gseaFDR$FDR.q.val[grep("AGING",GSE123687gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetGSE123687_2014.GseaPreranked.1557855332614.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=GSE123687gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("GSE123687 (2014) - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSE123687_2014_AGING.pdf", device="pdf", height=3.5, width=5)
+
+
+
+
+# ********************************************************************
+# *******************  GSE 123698 2015  ******************************
+# ********************************************************************
+
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetGSE123698_2015.GseaPreranked.1557855351693/")
+GSE123698gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855351693.xls"), sep="\t")
+GSE123698gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+# zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
+# GSE123698gsea <- rbind(zeroRankRow,GSE123698gsea)
+NES <- GSE123698gseaFDRd$NES[grep("WISTAR",GSE123698gseaFDRd$NAME)]
+FDR <- GSE123698gseaFDRd$FDR.q.val[grep("YOUTH",GSE123698gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetGSE123698_2015.GseaPreranked.1557855351693.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=GSE123698gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("GSE123698 - 2015 dataset") + ylab("Enrichment score") + xlab("Rank in gene list") + # xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  ggtitle("GSE123698 (2015) - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSE123698_2015.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSE123698_2015_YOUTH.pdf", device="pdf", height=3.5, width=5)
 
 
-GSEMilieauInterieurgseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetMilieauInterieur_YvE_50kperm.GseaPreranked.1557457586028/gsea_report_for_na_neg_1557457586028.xls", sep="\t")
-GSEMilieauInterieurgsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetMilieauInterieur_YvE_50kperm.GseaPreranked.1557457586028/WISTARBAA_YEAR4.xls", sep="\t")
+GSE123698gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855351693.xls"), sep="\t")
+GSE123698gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855351693.xls"), sep="\t")); GSE123698gsea <- rbind(GSE123698gsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- GSE123698gseaFDR$NES[grep("WISTAR",GSE123698gseaFDR$NAME)]
+FDR <- GSE123698gseaFDR$FDR.q.val[grep("AGING",GSE123698gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetGSE123698_2015.GseaPreranked.1557855351693.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=GSE123698gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("GSE123698 (2015) - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSE123698_2015_AGING.pdf", device="pdf", height=3.5, width=5)
+
+
+
+
+
+
+# ********************************************************************
+# *******************  GSE 123698 2015  ******************************
+# ********************************************************************
+
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetMilieauInterieur.GseaPreranked.1557855965199/")
+GSEMilieauInterieurgseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855965199.xls"), sep="\t")
+GSEMilieauInterieurgsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
 GSEMilieauInterieurgsea <- rbind(zeroRankRow,GSEMilieauInterieurgsea)
-annotationInfo <- paste0("NES: ", round(GSEMilieauInterieurgseaFDR$NES[grep("WISTAR",GSEMilieauInterieurgseaFDR$NAME)],2), "\n", "FDR: ", formatC(GSEMilieauInterieurgseaFDR$FDR.q.val[grep("WISTAR",GSEMilieauInterieurgseaFDR$NAME)], format="e", digits=1))
+NES <- GSEMilieauInterieurgseaFDRd$NES[grep("WISTAR",GSEMilieauInterieurgseaFDRd$NAME)]
+FDR <- GSEMilieauInterieurgseaFDRd$FDR.q.val[grep("YOUTH",GSEMilieauInterieurgseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetMilieauInterieur.GseaPreranked.1557855965199.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=GSEMilieauInterieurgsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("MilieauInterieur - Nanostring") + ylab("Enrichment score") + xlab("Rank in gene list") + # xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  ggtitle("MilieauInterieur - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSEMilieauInterieur.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSEMilieauInterieurgsea_YOUTH.pdf", device="pdf", height=3.5, width=5)
+
+
+GSEMilieauInterieurgseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855965199.xls"), sep="\t")
+GSEMilieauInterieurgsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855965199.xls"), sep="\t")); GSEMilieauInterieurgsea <- rbind(GSEMilieauInterieurgsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- GSEMilieauInterieurgseaFDR$NES[grep("WISTAR",GSEMilieauInterieurgseaFDR$NAME)]
+FDR <- GSEMilieauInterieurgseaFDR$FDR.q.val[grep("AGING",GSEMilieauInterieurgseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetMilieauInterieur.GseaPreranked.1557855965199.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=GSEMilieauInterieurgsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("MilieauInterieur - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSEMilieauInterieurgsea_AGING.pdf", device="pdf", height=3.5, width=5)
 
 
 
-#  *****  CD4 subsets *******
-
-HiHiv2gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetHiHi_v2_YvE.GseaPreranked.1557424235799/gsea_report_for_na_neg_1557424235799.xls", sep="\t")
-HiHiv2gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetHiHi_v2_YvE.GseaPreranked.1557424235799/WISTARBAA_YEAR4.xls", sep="\t")
-ifelse(HiHiv2gseaFDR$FDR.q.val == 0,   # using 1/permutations as the presumed p-value since otherwise zero
-       { HiHiv2gseaFDR$FDR.q.val = 0.00002; annotationInfo <- paste0("NES: ", round(HiHiv2gseaFDR$NES[grep("WISTAR",HiHiv2gseaFDR$NAME)],2), "\n", "FDR: ", formatC(HiHiv2gseaFDR$FDR.q.val[grep("WISTAR",HiHiv2gseaFDR$NAME)], format="e", digits=1))}, 
-       { annotationInfo <- paste0("NES: ", round(HiHiv2gseaFDR$NES[grep("WISTAR",HiHiv2gseaFDR$NAME)],2), "\n", "FDR: ", formatC(HiHiv2gseaFDR$FDR.q.val[grep("WISTAR",HiHiv2gseaFDR$NAME)], format="e", digits=1)) } )
-# annotationInfo <- paste0("NES: ", round(HiHiv2gseaFDR$NES[grep("WISTAR",HiHiv2gseaFDR$NAME)],2), "\n", "FDR: ", formatC(HiHiv2gseaFDR$FDR.q.val[grep("WISTAR",HiHiv2gseaFDR$NAME)], format="e", digits=1))
+# ********************************************************************
+# *********************  +/+ YvE day 7  ******************************
+# ********************************************************************
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetHiHi_v2_YvE.GseaPreranked.1557855723962/")
+HiHiv2gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855723962.xls"), sep="\t")
+HiHiv2gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
+HiHiv2gsea <- rbind(zeroRankRow,HiHiv2gsea)
+NES <- HiHiv2gseaFDRd$NES[grep("WISTAR",HiHiv2gseaFDRd$NAME)]
+FDR <- HiHiv2gseaFDRd$FDR.q.val[grep("YOUTH",HiHiv2gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetHiHi_v2_YvE.GseaPreranked.1557855723962.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=HiHiv2gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("ICOS+CD38+ cTfh - day 7") + ylab("Enrichment score") + xlab("Rank in gene list") + # xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  ggtitle("ICOS+CD38+ cTfh day 7 - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetHiHiv2.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetHiHiv2gsea_YOUTH.pdf", device="pdf", height=3.5, width=5)
 
-HiHiv1gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetHiHi_v1_YvE.GseaPreranked.1557424538487/gsea_report_for_na_neg_1557424538487.xls", sep="\t")
-HiHiv1gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetHiHi_v1_YvE.GseaPreranked.1557424538487/WISTARBAA_YEAR4.xls", sep="\t")
-annotationInfo <- paste0("NES: ", round(HiHiv1gseaFDR$NES[grep("WISTAR",HiHiv1gseaFDR$NAME)],2), "\n", "FDR: ", formatC(HiHiv1gseaFDR$FDR.q.val[grep("WISTAR",HiHiv1gseaFDR$NAME)], format="e", digits=1))
+
+HiHiv2gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855723962.xls"), sep="\t")
+HiHiv2gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855723962.xls"), sep="\t")); HiHiv2gsea <- rbind(HiHiv2gsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- HiHiv2gseaFDR$NES[grep("WISTAR",HiHiv2gseaFDR$NAME)]
+FDR <- HiHiv2gseaFDR$FDR.q.val[grep("AGING",HiHiv2gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetHiHi_v2_YvE.GseaPreranked.1557855723962.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=HiHiv2gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("ICOS+CD38+ cTfh day 7 - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetHiHiv2gsea_AGING.pdf", device="pdf", height=3.5, width=5)
+
+
+
+
+
+# ********************************************************************
+# *********************  +/+ YvE day 0  ******************************
+# ********************************************************************
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetHiHi_v1_YvE.GseaPreranked.1557855402299/")
+HiHiv1gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855402299.xls"), sep="\t"); HiHiv1gseaFDRd <- HiHiv1gseaFDRd[-grep("AGING", HiHiv1gseaFDRd$NAME, value = F),]
+HiHiv1gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+# zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
+# HiHiv1gsea <- rbind(zeroRankRow,HiHiv1gsea)
+NES <- HiHiv1gseaFDRd$NES[grep("WISTAR",HiHiv1gseaFDRd$NAME)]
+FDR <- HiHiv1gseaFDRd$FDR.q.val[grep("YOUTH",HiHiv1gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetHiHi_v1_YvE.GseaPreranked.1557855402299.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=HiHiv1gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("ICOS+CD38+ cTfh - day 0") + ylab("Enrichment score") + xlab("Rank in gene list") + # xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  ggtitle("ICOS+CD38+ cTfh day 0 - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetHiHiv1.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetHiHiv1gsea_YOUTH.pdf", device="pdf", height=3.5, width=5)
+
+
+HiHiv1gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855402299.xls"), sep="\t"); HiHiv1gseaFDR <- HiHiv1gseaFDR[-grep("YOUTH", HiHiv1gseaFDR$NAME, value = F),]
+HiHiv1gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855402299.xls"), sep="\t")); HiHiv1gsea <- rbind(HiHiv1gsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- HiHiv1gseaFDR$NES[grep("WISTAR",HiHiv1gseaFDR$NAME)]
+FDR <- HiHiv1gseaFDR$FDR.q.val[grep("AGING",HiHiv1gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetHiHi_v1_YvE.GseaPreranked.1557855402299.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=HiHiv1gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("ICOS+CD38+ cTfh day 0 - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetHiHiv1gsea_AGING.pdf", device="pdf", height=3.5, width=5)
 
 
 
-LoLov2gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetLoLo_v2_YvE_50kperm.GseaPreranked.1557456643970/gsea_report_for_na_neg_1557456643970.xls", sep="\t")
-LoLov2gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetLoLo_v2_YvE_50kperm.GseaPreranked.1557456643970/WISTARBAA_YEAR4.xls", sep="\t")
-annotationInfo <- paste0("NES: ", round(LoLov2gseaFDR$NES[grep("WISTAR",LoLov2gseaFDR$NAME)],2), "\n", "FDR: ", formatC(LoLov2gseaFDR$FDR.q.val[grep("WISTAR",LoLov2gseaFDR$NAME)], format="e", digits=1))
-my_grob = grobTree(textGrob(annotationInfo, x=0.1,  y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+
+# ********************************************************************
+# *********************  -/- YvE day 7  ******************************
+# ********************************************************************
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetLoLo_v2_YvE.GseaPreranked.1557855890936/")
+LoLov2gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855890936.xls"), sep="\t")
+LoLov2gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+# zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
+# LoLov2gsea <- rbind(zeroRankRow,LoLov2gsea)
+NES <- LoLov2gseaFDRd$NES[grep("WISTAR",LoLov2gseaFDRd$NAME)]
+FDR <- LoLov2gseaFDRd$FDR.q.val[grep("YOUTH",LoLov2gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetLoLo_v2_YvE.GseaPreranked.1557855890936.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=LoLov2gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("ICOS-CD38- cTfh - day 7") + ylab("Enrichment score") + xlab("Rank in gene list") + # xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  ggtitle("ICOS-CD38- cTfh day 7 - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetLoLov2.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetLoLov2gsea_YOUTH.pdf", device="pdf", height=3.5, width=5)
 
-LoLov1gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetLoLo_v1_YvE.GseaPreranked.1557424554167/gsea_report_for_na_neg_1557424554167.xls", sep="\t")
-LoLov1gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetLoLo_v1_YvE.GseaPreranked.1557424554167/WISTARBAA_YEAR4.xls", sep="\t")
-annotationInfo <- paste0("NES: ", round(LoLov1gseaFDR$NES[grep("WISTAR",LoLov1gseaFDR$NAME)],2), "\n", "FDR: ", formatC(LoLov1gseaFDR$FDR.q.val[grep("WISTAR",LoLov1gseaFDR$NAME)], format="e", digits=1))
+
+LoLov2gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855890936.xls"), sep="\t")
+LoLov2gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855890936.xls"), sep="\t")); LoLov2gsea <- rbind(LoLov2gsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- LoLov2gseaFDR$NES[grep("WISTAR",LoLov2gseaFDR$NAME)]
+FDR <- LoLov2gseaFDR$FDR.q.val[grep("AGING",LoLov2gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetLoLo_v2_YvE.GseaPreranked.1557855890936.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=LoLov2gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("ICOS-CD38- cTfh day 7 - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetLoLov2gsea_AGING.pdf", device="pdf", height=3.5, width=5)
+
+# ********************************************************************
+# *********************  -/- YvE day 0  ******************************
+# ********************************************************************
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetLoLo_v1_YvE.GseaPreranked.1557855843503/")
+LoLov1gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855843503.xls"), sep="\t"); LoLov1gseaFDRd <- LoLov1gseaFDRd[-grep("AGING", LoLov1gseaFDRd$NAME, value = F),]
+LoLov1gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+# zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
+# LoLov1gsea <- rbind(zeroRankRow,LoLov1gsea)
+NES <- LoLov1gseaFDRd$NES[grep("WISTAR",LoLov1gseaFDRd$NAME)]
+FDR <- LoLov1gseaFDRd$FDR.q.val[grep("YOUTH",LoLov1gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetLoLo_v1_YvE.GseaPreranked.1557855843503.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=LoLov1gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("ICOS-CD38- cTfh - day 0") + ylab("Enrichment score") + xlab("Rank in gene list") + # xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  ggtitle("ICOS-CD38- cTfh day 0 - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetLoLov1.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetLoLov1gsea_YOUTH.pdf", device="pdf", height=3.5, width=5)
+
+
+LoLov1gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855843503.xls"), sep="\t"); LoLov1gseaFDR <- LoLov1gseaFDR[-grep("YOUTH", LoLov1gseaFDR$NAME, value = F),]
+LoLov1gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855843503.xls"), sep="\t")); LoLov1gsea <- rbind(LoLov1gsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- LoLov1gseaFDR$NES[grep("WISTAR",LoLov1gseaFDR$NAME)]
+FDR <- LoLov1gseaFDR$FDR.q.val[grep("AGING",LoLov1gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetLoLo_v1_YvE.GseaPreranked.1557855843503.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=LoLov1gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("ICOS-CD38- cTfh day 0 - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetLoLov1gsea_AGING.pdf", device="pdf", height=3.5, width=5)
 
 
 
-
-Naivev2gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetNav_v2_YvE.GseaPreranked.1557424210003/gsea_report_for_na_neg_1557424210003.xls", sep="\t")
-Naivev2gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetNav_v2_YvE.GseaPreranked.1557424210003/WISTARBAA_YEAR4.xls", sep="\t")
-annotationInfo <- paste0("NES: ", round(Naivev2gseaFDR$NES[grep("WISTAR",Naivev2gseaFDR$NAME)],2), "\n", "FDR: ", formatC(Naivev2gseaFDR$FDR.q.val[grep("WISTAR",Naivev2gseaFDR$NAME)], format="e", digits=1))
+# ********************************************************************
+# *********************  Nav YvE day 7  ******************************
+# ********************************************************************
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetNaive_v2_YvE.GseaPreranked.1557855934146/")
+Naivev2gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855934146.xls"), sep="\t")
+Naivev2gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+# zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
+# Naivev2gsea <- rbind(zeroRankRow,Naivev2gsea)
+NES <- Naivev2gseaFDRd$NES[grep("WISTAR",Naivev2gseaFDRd$NAME)]
+FDR <- Naivev2gseaFDRd$FDR.q.val[grep("YOUTH",Naivev2gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetNaive_v2_YvE.GseaPreranked.1557855934146.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=Naivev2gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("Naive CD4 - day 7") + ylab("Enrichment score") + xlab("Rank in gene list") + # xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  ggtitle("Naive CD4 day 7 - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetNaivev2.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetNaivev2gsea_YOUTH.pdf", device="pdf", height=3.5, width=5)
 
-Naivev1gseaFDR <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetNaivev1_YvE_50kperm.GseaPreranked.1557456680351/gsea_report_for_na_neg_1557456680351.xls", sep="\t")
-Naivev1gsea <- read.csv("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetNaivev1_YvE_50kperm.GseaPreranked.1557456680351/WISTARBAA_YEAR4.xls", sep="\t")
-annotationInfo <- paste0("NES: ", round(Naivev1gseaFDR$NES[grep("WISTAR",Naivev1gseaFDR$NAME)],2), "\n", "FDR: ", formatC(Naivev1gseaFDR$FDR.q.val[grep("WISTAR",Naivev1gseaFDR$NAME)], format="e", digits=1))
-my_grob = grobTree(textGrob(annotationInfo, x=0.1,  y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+
+Naivev2gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855934146.xls"), sep="\t")
+Naivev2gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855934146.xls"), sep="\t")); Naivev2gsea <- rbind(Naivev2gsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- Naivev2gseaFDR$NES[grep("WISTAR",Naivev2gseaFDR$NAME)]
+FDR <- Naivev2gseaFDR$FDR.q.val[grep("AGING",Naivev2gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetNaive_v2_YvE.GseaPreranked.1557855934146.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=Naivev2gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("Naive CD4 day 7 - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetNaivev2gsea_AGING.pdf", device="pdf", height=3.5, width=5)
+
+
+# ********************************************************************
+# *********************  Nav YvE day 0  ******************************
+# ********************************************************************
+path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetNaive_v1_YvE.GseaPreranked.1557855915997/")
+Naivev1gseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_neg_1557855915997.xls"), sep="\t")
+Naivev1gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+# zeroRankRow <- c(0,0,0,0,1,0,0,0,0)     # force start at zero for some datasets to make GSEA plot cleaner
+# Naivev1gsea <- rbind(zeroRankRow,Naivev1gsea)
+NES <- Naivev1gseaFDRd$NES[grep("WISTAR",Naivev1gseaFDRd$NAME)]
+FDR <- Naivev1gseaFDRd$FDR.q.val[grep("YOUTH",Naivev1gseaFDRd$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetNaive_v1_YvE.GseaPreranked.1557855915997.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=Naivev1gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("Naive CD4 - day 0") + ylab("Enrichment score") + xlab("Rank in gene list") + # xlim(1,31424)+
-  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  ggtitle("Naive CD4 day 0 - Down") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetNaivev1.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetNaivev1gsea_YOUTH.pdf", device="pdf", height=3.5, width=5)
+
+
+Naivev1gseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855915997.xls"), sep="\t")
+Naivev1gsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855915997.xls"), sep="\t")); Naivev1gsea <- rbind(Naivev1gsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- Naivev1gseaFDR$NES[grep("WISTAR",Naivev1gseaFDR$NAME)]
+FDR <- Naivev1gseaFDR$FDR.q.val[grep("AGING",Naivev1gseaFDR$NAME)]
+if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
+{  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetNaive_v1_YvE.GseaPreranked.1557855915997.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
+annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
+my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=Naivev1gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("Naive CD4 day 0 - Up") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetNaivev1gsea_AGING.pdf", device="pdf", height=3.5, width=5)
 
 
 
-extMicroarrays <- rbind(BAAyr2gseaFDR, BAAyr3gseaFDR, BAAyr5gseaFDR,GSE79396gseaFDR, GSE123687gseaFDR, GSE123696gseaFDR, GSE123698gseaFDR, MilieauInterieurgseaFDR)
-extMicroarrays$NAME <- c("Immport SDY622", "Immport SDY648", "Immport SDY819", "GSE79396 day 0", "GSE123687 (2013)", "GSE123696 (2014)", "GSE123698 (2015)", "Milieau Interieur")
+
+
+
+# ****************************************************** Summary plots of the GSEA results  ***************************************
+
+
+
+
+
+extMicroarrays <- rbind(BAAyr2gseaFDR, BAAyr3gseaFDR, BAAyr5gseaFDR, GSE79396gseaFDR, GSE123687gseaFDR, GSE123696gseaFDR, GSE123698gseaFDR, GSEMilieauInterieurgseaFDR,
+                        BAAyr2gseaFDRd, BAAyr3gseaFDRd, BAAyr5gseaFDRd, GSE79396gseaFDRd, GSE123687gseaFDRd, GSE123696gseaFDRd, GSE123698gseaFDRd, GSEMilieauInterieurgseaFDRd)
+extMicroarrays$NAME <- c("Immport SDY622 - Up", "Immport SDY648 - Up", "Immport SDY819 - Up", "GSE79396 day 0 - Up", "GSE123687 (2013) - Up", "GSE123696 (2014) - Up", "GSE123698 (2015) - Up", "Milieau Interieur - Up",
+                         "Immport SDY622 - Down", "Immport SDY648 - Down", "Immport SDY819 - Down", "GSE79396 day 0 - Down", "GSE123687 (2013) - Down", "GSE123696 (2014) - Down", "GSE123698 (2015) - Down", "Milieau Interieur - Down")
 extMicroarrays$NAME <- factor(extMicroarrays$NAME, levels = extMicroarrays$NAME[order(extMicroarrays$NES, decreasing = F)])
 
-ggplot(extMicroarrays, aes(x=NAME, y=NES)) + geom_bar(stat="identity", width=0.75) + theme_bw() + ylab("Normalized Enrichment Score") + 
+ggplot(extMicroarrays, aes(x=NAME, y=NES)) + geom_point(size=8) + geom_bar(stat="identity", width=0.1, fill="black") + theme_bw() + ylab("Normalized Enrichment Score") + 
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=16,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5)) + 
-  theme(axis.text.x = element_text(angle = 0, hjust = 0.5), axis.title.y = element_blank()) + coord_flip()
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/externalStudies_wholeBloodArrays.pdf")
+  theme(axis.text.x = element_text(angle = 0, hjust = 0.5), axis.title.y = element_blank()) + coord_flip() + scale_y_continuous(breaks = seq(-6,6,2))
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/externalStudies_wholeBloodArrays.pdf")
 
-CD4subsetsAgingSig <- rbind(Naivev1gseaFDR, Naivev2gseaFDR, LoLov1gseaFDR, LoLov2gseaFDR, HiHiv1gseaFDR, HiHiv2gseaFDR)
-CD4subsetsAgingSig$NAME <- c("Naive CD4 - day 0", "Naive CD4 - day 7", "ICOS-CD38- cTfh - day 0", "ICOS-CD38- cTfh - day 7", "ICOS+CD38+ cTfh - day 0", "ICOS+CD38+ cTfh - day 7")
-CD4subsetsAgingSig$DAY <- c(0,7,0,7,0,7)
+
+
+CD4subsetsAgingSig <- rbind(Naivev1gseaFDR, Naivev2gseaFDR, LoLov1gseaFDR, LoLov2gseaFDR, HiHiv1gseaFDR, HiHiv2gseaFDR,
+                            Naivev1gseaFDRd, Naivev2gseaFDRd, LoLov1gseaFDRd, LoLov2gseaFDRd, HiHiv1gseaFDRd, HiHiv2gseaFDRd)
+CD4subsetsAgingSig$NAME <- c("Naive CD4 d0 - Up", "Naive CD4 d7 - Up", "ICOS-CD38- cTfh d0 - Up", "ICOS-CD38- cTfh d7 - Up", "ICOS+CD38+ cTfh d0 - Up", "ICOS+CD38+ cTfh d7 - Up",
+                             "Naive CD4 d0 - Down", "Naive CD4 d7 - Down", "ICOS-CD38- cTfh d0 - Down", "ICOS-CD38- cTfh d7 - Down", "ICOS+CD38+ cTfh d0 - Down", "ICOS+CD38+ cTfh d7 - Down"  )
+CD4subsetsAgingSig$DAY <- c(0,7,0,7,0,7,0,7,0,7,0,7)
 CD4subsetsAgingSig$NAME <- factor(CD4subsetsAgingSig$NAME, levels = CD4subsetsAgingSig$NAME)
+#  "ICOS+CD38+ cTfh" ="#0D0887",  "ICOS-CD38- cTfh" = "#E16462", "Naive CD4" ="#F0F921"
+# myColors <- c("#FFEB00","#9A8E00","#EA0600","#9A0400","#2019C9","#08056B");   names(myColors) <- levels(CD4subsetsAgingSig$NAME)
 
-CD4subsetsAgingSig$FDR.q.val <- CD4subsetsAgingSig$FDR.q.val + 0.00002
+# CD4subsetsAgingSig$FDR.q.val <- CD4subsetsAgingSig$FDR.q.val + 0.00002    # because 1/permutations in order to not have FDR=0
 CD4subsetsAgingSig$FDR.q.val <- -log10(CD4subsetsAgingSig$FDR.q.val)
-ggplot(CD4subsetsAgingSig, aes(x=NES, y=FDR.q.val)) + geom_point(size=10) + theme_bw() + #geom_text_repel(label=CD4subsetsAgingSig$NAME, point.padding = 0.75) + 
-  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=16,hjust = 0.5)) + theme(plot.title = element_text(size=24,hjust = 0.5)) + 
-  xlim(-2,0) + ylim(0,5) + xlab("Normalized Enrichment Score") + ylab("-log10 False Discovery Rate") + ggtitle("Aging signature in CD4 subsets") + 
-  geom_text(aes(label=NAME), nudge_x = 0.35, nudge_y=0.25, size=5 )
-ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/AgingSignature_CD4subsets.pdf")
+ggplot(CD4subsetsAgingSig, aes(x=NES, y=FDR.q.val)) + geom_point(aes(size=FDR.q.val)) + theme_bw() + geom_text_repel(label=CD4subsetsAgingSig$NAME, point.padding = 0.75, size=5) +   
+#   scale_color_manual(name = "NAME", values=myColors,) +   # and in the main ggplot call,          aes( , color=NAME)
+  scale_size(range=c(3,10)) + geom_hline(yintercept = 0) + geom_vline(xintercept = 0) + theme(panel.border = element_blank()) + 
+  theme(axis.text = element_text(size=16,hjust = 0.5), axis.title = element_text(size=16,hjust = 0.5), plot.title = element_text(size=24,hjust = 0.5), axis.ticks.y = element_blank()) + 
+  xlab("Normalized Enrichment Score") + ylab("-log10 False Discovery Rate") + ggtitle("Aging signatures in CD4 subsets") + 
+  theme(axis.title.x = element_text(margin=margin(t=5,r=0,b=0,l=0)), legend.position = "left", plot.title = element_text(margin=margin(l=0,r=0,t=0,b=20))) + 
+  #geom_text(aes(label=NAME), hjust=0, nudge_x = 0.1, nudge_y=0.25, size=5 ) + 
+  scale_y_continuous(limits=c(0,5)) + scale_x_continuous(limits=c(-3,3), breaks=seq(-3,3,1))
+# ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/AgingSignature_CD4subsets.pdf", width=10, height=6)
+
+
+
+# annotateHeatmap <- data.frame(row.names = colnames(deltaNES[,-4]), Subset = c("ICOS+CD38+ cTfh", "ICOS-CD38- cTfh", "Naive CD4"))
+# ann_colors = list(  Subset = c("ICOS+CD38+ cTfh" ="#0D0887", "ICOS-CD38- cTfh" = "#E16462", "Naive CD4" ="#F0F921")  )
+pheatmap(CD4subsetsAgingSig$NES, scale="none", cluster_col=F, # annotation_col = annotateHeatmap, annotation_colors = ann_colors, 
+         show_rownames=T, cluster_row=F, main="deltaNES",
+         fontsize_row = 15, color=inferno(100)
+         #, filename = "DifferentialExpression/GSEA/Images/deltaNES_heatmap.pdf"
+)
 
 
 
@@ -432,9 +783,10 @@ ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/AgingSignature_CD
 
 #  *************************     c7 signatures by Fisher's exact  *********************************   
 
-agingSignature <- read.csv(file="DifferentialExpression/GSEA/AgingSignature/WistarBAAyr4_GeneSets.gmx.txt", stringsAsFactors = F); agingSignature <- agingSignature[-1,]
+agingSignature <- read.csv(file="DifferentialExpression/GSEA/AgingSignature/WistarBAAyr4_GeneSets.gmx.csv", stringsAsFactors = F); agingSignature <- agingSignature[-1,]
 c7signatures <- read.csv(file="DifferentialExpression/GSEA/C7_msigdb_gmx.csv", stringsAsFactors = F)
 c7signatures <- c7signatures[-1,]
+hallmarksets <- read.csv(file="DifferentialExpression/GSEA/Hallmark_msigdb_gmx.csv", stringsAsFactors = F); hallmarksets <- hallmarksets[-1,]
 
 # compare agingSignature to C7 signatures by column, calculate Fishers for overlap
 
@@ -445,15 +797,18 @@ makeContingency <- function (genelist1, genelist2)
   a <- length(which(genelist1 %in% genelist2));   b <- length(genelist2) - a;   c <- length(genelist1) - a;   d <- 33000
   return( matrix(ncol=2,  c( a, b, c, d)  ) )   }
 
-overlapResults <- sapply(c7signatures, function (x) {    return( fisher.test( makeContingency(agingSignature, x) )$p.value)      })
-overlapResults <- overlapResults[order(overlapResults, decreasing = F)]; 
+overlapResults <- sapply(c7signatures, function (x) {    return( fisher.test( makeContingency(agingSignature[,1], x) )$p.value)      })
+overlapResults <- as.data.frame(overlapResults[order(overlapResults, decreasing = F)])
 # write.csv(overlapResults, file = "DifferentialExpression/GSEA/AgingSignature/comparisonToMsigDB_C7.csv")
 
 overlapHiHi_leadingEdge <- sapply(c7signatures, function (x) {  return (fisher.test(makeContingency( HiHiv2gsea$PROBE[which(HiHiv2gsea$CORE.ENRICHMENT == "Yes")] , x) )$p.value)})
-overlapHiHi_leadingEdge <- overlapHiHi_leadingEdge[order(overlapHiHi_leadingEdge, decreasing = F)]; 
+overlapHiHi_leadingEdge <- as.data.frame(overlapHiHi_leadingEdge[order(overlapHiHi_leadingEdge, decreasing = F)])
 # write.csv(overlapHiHi_leadingEdge, file = "DifferentialExpression/GSEA/AgingSignature/HiHiv2_leadingEdge_comparisonToMsigDB_C7.csv")
 
 
+overlapResults <- sapply(hallmarksets, function (x) {    return( fisher.test( makeContingency(agingSignature[,2], x) )$p.value)      })
+overlapResults <- as.data.frame(overlapResults[order(overlapResults, decreasing = F)] )
+# write.csv(overlapResults, file = "DifferentialExpression/GSEA/AgingSignature/comparisonToMsigDB_C7.csv")
 
 
 
@@ -484,6 +839,75 @@ overlapHiHi_leadingEdge <- overlapHiHi_leadingEdge[order(overlapHiHi_leadingEdge
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+hallmarkYvE_v1_Hi <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v1_HALLMARK.GseaPreranked.1531000213854/gsea_report_for_na_pos_1531000213854.xls", sep="\t", stringsAsFactors = F),
+                           read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v1_HALLMARK.GseaPreranked.1531000213854/gsea_report_for_na_neg_1531000213854.xls", sep="\t", stringsAsFactors = F)
+)
+hallmarkYvE_v1_Hi$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v1_Hi$NAME,start =10, stop=50)))
+hallmarkYvE_v1_Hi$NAME <- factor(hallmarkYvE_v1_Hi$NAME, levels = hallmarkYvE_v1_Hi$NAME[order(hallmarkYvE_v1_Hi$NES, decreasing = T)])
+rownames(hallmarkYvE_v1_Hi) <- hallmarkYvE_v1_Hi$NAME
+
+hallmarkYvE_v2_Hi <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1531000206530/gsea_report_for_na_pos_1531000206530.xls", sep="\t", stringsAsFactors = F),
+                           read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1531000206530/gsea_report_for_na_neg_1531000206530.xls", sep="\t", stringsAsFactors = F)
+)
+hallmarkYvE_v2_Hi$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v2_Hi$NAME,start =10, stop=50)))
+hallmarkYvE_v2_Hi$NAME <- factor(hallmarkYvE_v2_Hi$NAME, levels = hallmarkYvE_v2_Hi$NAME[order(hallmarkYvE_v2_Hi$NES, decreasing = T)])
+rownames(hallmarkYvE_v2_Hi) <- hallmarkYvE_v2_Hi$NAME
+
+hallmarkYvE_v1_Lo <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_LoLo_vs_E_LoLo_v1_Hallmark.GseaPreranked.1540914053735/gsea_report_for_na_pos_1540914053735.xls", sep="\t", stringsAsFactors = F),
+                           read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_LoLo_vs_E_LoLo_v1_Hallmark.GseaPreranked.1540914053735/gsea_report_for_na_neg_1540914053735.xls", sep="\t", stringsAsFactors = F)
+)
+hallmarkYvE_v1_Lo$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v1_Lo$NAME,start =10, stop=50)))
+hallmarkYvE_v1_Lo$NAME <- factor(hallmarkYvE_v1_Lo$NAME, levels = hallmarkYvE_v1_Lo$NAME[order(hallmarkYvE_v1_Lo$NES, decreasing = T)])
+rownames(hallmarkYvE_v1_Lo) <- hallmarkYvE_v1_Lo$NAME
+
+hallmarkYvE_v2_Lo <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_LoLo_vs_E_LoLo_v2_Hallmark.GseaPreranked.1540914059884/gsea_report_for_na_pos_1540914059884.xls", sep="\t", stringsAsFactors = F),
+                           read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_LoLo_vs_E_LoLo_v2_Hallmark.GseaPreranked.1540914059884/gsea_report_for_na_neg_1540914059884.xls", sep="\t", stringsAsFactors = F)
+)
+hallmarkYvE_v2_Lo$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v2_Lo$NAME,start =10, stop=50)))
+hallmarkYvE_v2_Lo$NAME <- factor(hallmarkYvE_v2_Lo$NAME, levels = hallmarkYvE_v2_Lo$NAME[order(hallmarkYvE_v2_Lo$NES, decreasing = T)])
+rownames(hallmarkYvE_v2_Lo) <- hallmarkYvE_v2_Lo$NAME
+
+hallmarkYvE_v1_Nav <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v1_Hallmark.GseaPreranked.1540914080384/gsea_report_for_na_pos_1540914080384.xls", sep="\t", stringsAsFactors = F),
+                            read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v1_Hallmark.GseaPreranked.1540914080384/gsea_report_for_na_neg_1540914080384.xls", sep="\t", stringsAsFactors = F)
+)
+hallmarkYvE_v1_Nav$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v1_Nav$NAME,start =10, stop=50)))
+hallmarkYvE_v1_Nav$NAME <- factor(hallmarkYvE_v1_Nav$NAME, levels = hallmarkYvE_v1_Nav$NAME[order(hallmarkYvE_v1_Nav$NES, decreasing = T)])
+rownames(hallmarkYvE_v1_Nav) <- hallmarkYvE_v1_Nav$NAME
+
+hallmarkYvE_v2_Nav <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v2_Hallmark.GseaPreranked.1540914108109/gsea_report_for_na_pos_1540914108109.xls", sep="\t", stringsAsFactors = F), 
+                            read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v2_Hallmark.GseaPreranked.1540914108109/gsea_report_for_na_neg_1540914108109.xls", sep="\t", stringsAsFactors = F)
+)
+hallmarkYvE_v2_Nav$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v2_Nav$NAME,start =10, stop=50)))
+hallmarkYvE_v2_Nav$NAME <- factor(hallmarkYvE_v2_Nav$NAME, levels = hallmarkYvE_v2_Nav$NAME[order(hallmarkYvE_v2_Nav$NES, decreasing = T)])
+rownames(hallmarkYvE_v2_Nav) <- hallmarkYvE_v2_Nav$NAME
+
+hallmark_subsets <- data.frame(row.names=hallmarkYvE_v1_Hi$NAME[order(hallmarkYvE_v1_Hi$NAME)],
+                               v1Hi = hallmarkYvE_v1_Hi$NES[order(hallmarkYvE_v1_Hi$NAME)],
+                               v2Hi = hallmarkYvE_v2_Hi$NES[order(hallmarkYvE_v2_Hi$NAME)],
+                               v1Lo = hallmarkYvE_v1_Lo$NES[order(hallmarkYvE_v1_Lo$NAME)],
+                               v2Lo = hallmarkYvE_v2_Lo$NES[order(hallmarkYvE_v2_Lo$NAME)],
+                               v1Nav = hallmarkYvE_v1_Nav$NES[order(hallmarkYvE_v1_Nav$NAME)],
+                               v2Nav = hallmarkYvE_v2_Nav$NES[order(hallmarkYvE_v2_Nav$NAME)]
+)
+
+hallmark_subsetsREVISED <- merge(hallmarkYvE_v1_Hi[,c("NAME","NES")], hallmarkYvE_v2_Hi[,c("NAME","NES")], by='NAME'); 
+hallmark_subsetsREVISED <- merge(hallmark_subsetsREVISED, hallmarkYvE_v1_Lo[,c("NAME","NES")], by='NAME'); names(hallmark_subsetsREVISED) <- c("NAME","Hi_v1", "Hi_v2", "Lo_v1")
+hallmark_subsetsREVISED <- merge(hallmark_subsetsREVISED, hallmarkYvE_v2_Lo[,c("NAME","NES")], by='NAME')
+hallmark_subsetsREVISED <- merge(hallmark_subsetsREVISED, hallmarkYvE_v1_Nav[,c("NAME","NES")], by='NAME')
+hallmark_subsetsREVISED <- merge(hallmark_subsetsREVISED, hallmarkYvE_v2_Nav[,c("NAME","NES")], by='NAME'); names(hallmark_subsetsREVISED) <- c("NAME","Hi_v1", "Hi_v2", "Lo_v1", "Lo_v2", "Nav_v1", "Nav_v2")
+
+hallmark_subsets <- hallmark_subsetsREVISED;  rownames(hallmark_subsets) <- hallmark_subsets$NAME;  hallmark_subsets$NAME <- NULL; rm(hallmark_subsetsREVISED)
 
 
 ## *****************************         deltaNES          ***********************************************

@@ -167,10 +167,10 @@ summary(lm(data = phenotypeMatrixElderly, ASC.freqLive ~ cTfh_ICOShi.CD38hi...Fr
 #  ASC vs Tfh response 
 a <- cor.test(phenotypeMatrixYoung$ASC.freqLive, phenotypeMatrixYoung$cTfh_ICOShi.CD38hi...Freq..of, use="complete")
 b <- cor.test(phenotypeMatrixElderly$ASC.freqLive, phenotypeMatrixElderly$cTfh_ICOShi.CD38hi...Freq..of, use="complete")
-annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", round(a$p.value,2))
-annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", round(b$p.value,3))
-my_grob1 = grobTree(textGrob(annotationInfo, x=0.65,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=18)))
-my_grob2 = grobTree(textGrob(annotationInfo2, x=0.65,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=18)))
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value,format="e", digits=1))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.55,  y=0.12, hjust=0, gp=gpar(col="orange3", fontsize=24)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.55,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=24)))
 ggplot(data=phenotypeMatrix, aes(x=`ASC.freqLive`,y=`cTfh_ICOShi.CD38hi...Freq..of`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
   geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
   geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=6, pch=21) + 
@@ -192,8 +192,8 @@ a <- cor.test(phenotypeMatrixYoung$ASC.freqLive, phenotypeMatrixYoung$cTfh_ICOSh
 b <- cor.test(phenotypeMatrixElderly$ASC.freqLive, phenotypeMatrixElderly$cTfh_ICOShi.CD38hi...Freq..of, use="complete")
 annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format="e", digits=1))
 annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value, format="e", digits=1))
-my_grob1 = grobTree(textGrob(annotationInfo, x=0.62,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=18)))
-my_grob2 = grobTree(textGrob(annotationInfo2, x=0.62,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=18)))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.55,  y=0.12, hjust=0, gp=gpar(col="orange3", fontsize=24)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.55,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=24)))
 ggplot(data=phenotypeMatrix, aes(x=`ASC.freqLive`,y=`cTfh_ICOShi.CD38hi...Freq..of`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
   geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
   geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=6, pch=21) + 

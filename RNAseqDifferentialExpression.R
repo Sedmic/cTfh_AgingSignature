@@ -91,7 +91,7 @@ ggplot(subsetTSNE, aes(x=V1, y=V2)) +
   ggtitle("t-SNE ICOS+CD38+") +  theme_light(base_size=20)  +  scale_fill_manual(values=customPalette[unique(subsetTSNE$Class)]) +
   theme(strip.background = element_blank()) + labs(fill = "Sample cohort") + theme(legend.key = element_blank()) + 
   guides(colour=guide_legend(override.aes=list(size=8))) + xlim(-50,20) + ylim(-35,5)
-# ggsave(filename="Images/tSNE_ICOShiCD38hi.pdf", device="pdf",width=8,height=6)
+# ggsave(filename="Images/tSNE_ICOShiCD38hi.pdf", device="pdf",width=18,height=6)
 
 
 pca1 = prcomp(t(bestDataLog[,grep("HiHi", colnames(bestDataLog), value=F)]), scale = FALSE)
@@ -141,6 +141,7 @@ ggplot(tsneReorderHiHi, aes(x=V1, y=V2)) +
 
 ## ***************************     heatmap of DiffExp of HiHi vs LoLo for selected genes AllAges **************************************
 
+# **** day 0
 probeList <- c("CXCR5", "PRDM1", "BCL6", "IL10",  "IFNG","MAF","CCR6","CXCR3","GATA3",
                "BTLA","TNFRSF4", "CD38","TIGIT","SLAMF1","POU2AF1","MKI67","SH2D1A", "TOX2", "BIRC5", "TBK1")
 probeGenes <- bestDataLog[probeList,grep("v1",colnames(bestDataLog))]
@@ -149,14 +150,30 @@ Hi_v_Lo_allAges <- cbind(
   probeGenes[,grep("LoLo_v1",colnames(probeGenes))], probeGenes[,grep("LoLo_v2",colnames(probeGenes))], 
   probeGenes[,grep("Naive_v1",colnames(probeGenes))], probeGenes[,grep("Naive_v2",colnames(probeGenes))])
 
-annotateHeatmap <- data.frame(row.names = colnames(Hi_v_Lo_allAges), subset = c(rep("ICOS+CD38+ cTfh", 13),rep("ICOS-CD38- cTfh", 14),rep("Naive CD4", 14)), 
-                              ageGroup = c(rep("Young",6), rep("Elderly", 7),rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8)))
+annotateHeatmap <- data.frame(row.names = colnames(Hi_v_Lo_allAges), subset = c(rep("ICOS+CD38+ cTfh", 14),rep("ICOS-CD38- cTfh", 14),rep("Naive CD4", 14)), 
+                              ageGroup = c(rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8)))
 ann_colors = list(  subset = c("ICOS+CD38+ cTfh" ="#0D0887", "ICOS-CD38- cTfh" = "#E16462", "Naive CD4" ="#F0F921"), ageGroup = c("Young"="orange3", "Elderly" = "purple")  )
 pheatmap(Hi_v_Lo_allAges, scale="row", cluster_col=F, annotation_col = annotateHeatmap, show_colnames=F, main="Selected Tfh genes",
          gaps_col = c(13,27), annotation_colors = ann_colors, fontsize_row = 18, color=inferno(100), cellheight=30, cutree_rows=3, border_color = F, 
          #, filename = "Images/SelectedGenesHeatmapAllAges.pdf"
 )
 
+# ***** day 7
+probeList <- c("CXCR5", "PRDM1", "BCL6", "IL10",  "IFNG","MAF","CCR6","CXCR3","GATA3",
+               "BTLA","TNFRSF4", "CD38","TIGIT","SLAMF1","POU2AF1","MKI67","SH2D1A", "TOX2", "BIRC5", "TBK1")
+probeGenes <- bestDataLog[probeList,grep("v2",colnames(bestDataLog))]
+Hi_v_Lo_allAges <- cbind(
+  probeGenes[,grep("HiHi_v1",colnames(probeGenes))], probeGenes[,grep("HiHi_v2",colnames(probeGenes))], 
+  probeGenes[,grep("LoLo_v1",colnames(probeGenes))], probeGenes[,grep("LoLo_v2",colnames(probeGenes))], 
+  probeGenes[,grep("Naive_v1",colnames(probeGenes))], probeGenes[,grep("Naive_v2",colnames(probeGenes))])
+
+annotateHeatmap <- data.frame(row.names = colnames(Hi_v_Lo_allAges), subset = c(rep("ICOS+CD38+ cTfh", 13),rep("ICOS-CD38- cTfh", 14),rep("Naive CD4", 14)), 
+                              ageGroup = c(rep("Young",6), rep("Elderly", 7),rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8)))
+ann_colors = list(  subset = c("ICOS+CD38+ cTfh" ="#0D0887", "ICOS-CD38- cTfh" = "#E16462", "Naive CD4" ="#F0F921"), ageGroup = c("Young"="orange3", "Elderly" = "purple")  )
+pheatmap(Hi_v_Lo_allAges, scale="row", cluster_col=F, annotation_col = annotateHeatmap, show_colnames=F, main="Selected Tfh genes at day 7",
+         gaps_col = c(14,28), annotation_colors = ann_colors, fontsize_row = 18, color=inferno(100), cellheight=30, cutree_rows=3, border_color = F, 
+         # , filename = "Images/SelectedGenesHeatmapAllAges_day7.pdf"
+)
 
 
 # dev.off(); dev.off(); 
