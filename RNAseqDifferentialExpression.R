@@ -150,8 +150,8 @@ Hi_v_Lo_allAges <- cbind(
   probeGenes[,grep("LoLo_v1",colnames(probeGenes))], probeGenes[,grep("LoLo_v2",colnames(probeGenes))], 
   probeGenes[,grep("Naive_v1",colnames(probeGenes))], probeGenes[,grep("Naive_v2",colnames(probeGenes))])
 
-annotateHeatmap <- data.frame(row.names = colnames(Hi_v_Lo_allAges), subset = c(rep("ICOS+CD38+ cTfh", 14),rep("ICOS-CD38- cTfh", 14),rep("Naive CD4", 14)), 
-                              ageGroup = c(rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8)))
+annotateHeatmap <- data.frame(row.names = colnames(Hi_v_Lo_allAges), subset = c(rep("ICOS+CD38+ cTfh", 13),rep("ICOS-CD38- cTfh", 14),rep("Naive CD4", 14)), 
+                              ageGroup = c(rep("Young",6), rep("Elderly", 7),rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8)))
 ann_colors = list(  subset = c("ICOS+CD38+ cTfh" ="#0D0887", "ICOS-CD38- cTfh" = "#E16462", "Naive CD4" ="#F0F921"), ageGroup = c("Young"="orange3", "Elderly" = "purple")  )
 pheatmap(Hi_v_Lo_allAges, scale="row", cluster_col=F, annotation_col = annotateHeatmap, show_colnames=F, main="Selected Tfh genes",
          gaps_col = c(13,27), annotation_colors = ann_colors, fontsize_row = 18, color=inferno(100), cellheight=30, cutree_rows=3, border_color = F, 
@@ -167,8 +167,8 @@ Hi_v_Lo_allAges <- cbind(
   probeGenes[,grep("LoLo_v1",colnames(probeGenes))], probeGenes[,grep("LoLo_v2",colnames(probeGenes))], 
   probeGenes[,grep("Naive_v1",colnames(probeGenes))], probeGenes[,grep("Naive_v2",colnames(probeGenes))])
 
-annotateHeatmap <- data.frame(row.names = colnames(Hi_v_Lo_allAges), subset = c(rep("ICOS+CD38+ cTfh", 13),rep("ICOS-CD38- cTfh", 14),rep("Naive CD4", 14)), 
-                              ageGroup = c(rep("Young",6), rep("Elderly", 7),rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8)))
+annotateHeatmap <- data.frame(row.names = colnames(Hi_v_Lo_allAges), subset = c(rep("ICOS+CD38+ cTfh", 14),rep("ICOS-CD38- cTfh", 14),rep("Naive CD4", 14)), 
+                              ageGroup = c(rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8)))
 ann_colors = list(  subset = c("ICOS+CD38+ cTfh" ="#0D0887", "ICOS-CD38- cTfh" = "#E16462", "Naive CD4" ="#F0F921"), ageGroup = c("Young"="orange3", "Elderly" = "purple")  )
 pheatmap(Hi_v_Lo_allAges, scale="row", cluster_col=F, annotation_col = annotateHeatmap, show_colnames=F, main="Selected Tfh genes at day 7",
          gaps_col = c(14,28), annotation_colors = ann_colors, fontsize_row = 18, color=inferno(100), cellheight=30, cutree_rows=3, border_color = F, 

@@ -129,9 +129,9 @@ ggplot(data=logDataSelectedv1, aes(x=subset,y=TNFRSF1B, fill=`labels`)) + theme_
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 # ggsave(filename = "Images/TNFR2_allSubsets_v1.pdf", device="pdf")
 
-summary(lm(data = logDataSelectedv1, TNFRSF1A ~ subset + ageGroup))
-summary(lm(data = logDataSelectedv1, TNFRSF1B ~ subset + ageGroup))
 
+TukeyHSD(aov(data = logDataSelectedv1, TNFRSF1A ~ subset))
+TukeyHSD(aov(data = logDataSelectedv1, TNFRSF1B ~ subset))
 
 
 # ********************************  compare TNFR1 and 2 to vaccination response *****************************************
