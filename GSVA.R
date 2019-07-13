@@ -77,10 +77,10 @@ phenotypeMatrixElderly <- subset(phenotypeMatrix,Identifier=="Elderly",stat="ide
 ggplot(data=phenotypeMatrix, aes(x=`TNFa`,y=`GSVAscoreTNF`, fill="black")) + theme_bw() +  theme(legend.position = "none") +
   geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1) + 
   geom_point(size=6, pch=21) +  ylim(-1,1) + xlim(0,30)+
-  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=18,hjust = 0.5))+
-  ggtitle("GSVA for TNFa-NFkB vs serum TNF") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("GSVA score for TNFa-NFkB geneset")  + xlab("TNF (pg/mL)")+
+  theme(axis.text = element_text(size=24,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
+  ggtitle("GSVA for TNF-NFkB vs serum TNF") + theme(plot.title = element_text(size=28,hjust = 0.5)) + ylab("GSVA score for \nTNFa-NFkB geneset")  + xlab("TNF (pg/mL)")+
   scale_fill_manual(values=c('black','#E69F00')) + scale_color_manual(values=c('black', '#E69F00'))
-# ggsave(filename = "DifferentialExpression/GSVA/Images/GSVA_TNF-NFkB_vs_serumTNF_all.pdf", device="pdf")
+# ggsave(filename = "DifferentialExpression/GSVA/Images/GSVA_TNF-NFkB_vs_serumTNF_all.pdf", device="pdf", width=8, height=6)
 cor.test(phenotypeMatrix$TNFa, phenotypeMatrix$GSVAscoreTNF, use="complete")
 
 
@@ -388,10 +388,10 @@ c
 #  GSVA-TNF vs GSVA-Apoptosis response 
 a <- cor.test(phenotypeGSVAYoung$Tnfa_signaling_via_nfkb, phenotypeGSVAYoung$Apoptosis, use="complete")
 b <- cor.test(phenotypeGSVAElderly$Tnfa_signaling_via_nfkb, phenotypeGSVAElderly$Apoptosis, use="complete")
-annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ",  formatC(a$p.value, format = "e", digits = 1))
-annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ",  formatC(b$p.value, format = "e", digits = 1))
-my_grob1 = grobTree(textGrob(annotationInfo, x=0.65,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=18)))
-my_grob2 = grobTree(textGrob(annotationInfo2, x=0.65,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=18)))
+annotationInfo <- paste0("r = ", round(a$estimate,2), ";   ", "P = ",  formatC(a$p.value, format = "e", digits = 1))
+annotationInfo2 <- paste0("r = ", round(b$estimate,2), ";   ", "P = ",  formatC(b$p.value, format = "e", digits = 1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.52,  y=0.12, hjust=0, gp=gpar(col="orange3", fontsize=24)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.52,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=24)))
 ggplot(data=phenotypeGSVA, aes(x=`Tnfa_signaling_via_nfkb`,y=`Apoptosis`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
   geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
   geom_point(data=subset(phenotypeGSVA, Identifier=="Elderly", stat="identity"), size=6, pch=21) + 
@@ -452,10 +452,10 @@ phenotypeGSVA <- merge(phenotypeGSVA, t(geneOfInterest), by=0); phenotypeGSVAYou
 
 a <- cor.test(phenotypeGSVAYoung$Tnfa_signaling_via_nfkb, phenotypeGSVAYoung$`BCL2A1`, use="complete")
 b <- cor.test(phenotypeGSVAElderly$Tnfa_signaling_via_nfkb, phenotypeGSVAElderly$`BCL2A1`, use="complete")
-annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format = "e", digits = 1))
-annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value,format = "e", digits = 1))
-my_grob1 = grobTree(textGrob(annotationInfo, x=0.55,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=18)))
-my_grob2 = grobTree(textGrob(annotationInfo2, x=0.55,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=18)))
+annotationInfo <- paste0("r = ", round(a$estimate,2), ";   ", "P = ", formatC(a$p.value, format = "e", digits = 1))
+annotationInfo2 <- paste0("r = ", round(b$estimate,2), ";   ", "P = ", formatC(b$p.value,format = "e", digits = 1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.4,  y=0.12, hjust=0, gp=gpar(col="orange3", fontsize=24)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.4,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=24)))
 ggplot(data=phenotypeGSVA, aes(x=`Tnfa_signaling_via_nfkb`,y=`BCL2A1`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
   geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
   geom_point(data=subset(phenotypeGSVA, Identifier=="Elderly", stat="identity"), size=6, pch=21) + 

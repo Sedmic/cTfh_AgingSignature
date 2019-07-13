@@ -347,23 +347,23 @@ logDataSelected$ageGroup <- c(rep("Young", 6), rep("Elderly",8))
 
 a <- t.test(logDataSelected$TNFRSF1A[1:6], logDataSelected$TNFRSF1A[7:14])
 annotationInfo <- paste0("p= ", round(a$p.value,2))
-my_grob1 = grobTree(textGrob(annotationInfo, x=0.8,  y=0.95, hjust=0, gp=gpar(col="black", fontsize=24)))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.7,  y=0.95, hjust=0, gp=gpar(col="black", fontsize=32)))
 ggplot(data=logDataSelected, aes(x=ageGroup,y=TNFRSF1A, fill=`ageGroup`)) + theme_bw() +  theme(legend.position = "none") +
   geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=ageGroup)) + 
   geom_boxplot(fill="white") + geom_point(size=6, pch=21) + 
   ggtitle("TNFRSF1A at day 7") + theme(plot.title = element_text(size=36,hjust = 0.5)) + ylab("Log counts TNFRSF1A")  + 
-  theme(axis.text = element_text(size=28,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+theme(axis.title.x = element_blank())+
+  theme(axis.text = element_text(size=32,hjust = 0.5))+theme(axis.title = element_text(size=36,hjust = 0.5))+theme(axis.title.x = element_blank())+
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1)
 # ggsave(filename = "Images/TNFR1_HiHi_v2.pdf", device="pdf")
 
 a <- t.test(logDataSelected$TNFRSF1B[1:6], logDataSelected$TNFRSF1B[7:14])
 annotationInfo <- paste0("p= ", round(a$p.value,2))
-my_grob1 = grobTree(textGrob(annotationInfo, x=0.8,  y=0.95, hjust=0, gp=gpar(col="black", fontsize=24)))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.7,  y=0.95, hjust=0, gp=gpar(col="black", fontsize=32)))
 ggplot(data=logDataSelected, aes(x=ageGroup,y=TNFRSF1B, fill=`ageGroup`)) + theme_bw() +  theme(legend.position = "none") +
   geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=ageGroup)) + 
   geom_boxplot(fill="white") + geom_point(size=6, pch=21) + 
   ggtitle("TNFRSF1B at day 7") + theme(plot.title = element_text(size=36,hjust = 0.5)) + ylab("Log counts TNFRSF1B")  + 
-  theme(axis.text = element_text(size=28,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+theme(axis.title.x = element_blank())+
+  theme(axis.text = element_text(size=36,hjust = 0.5))+theme(axis.title = element_text(size=36,hjust = 0.5))+theme(axis.title.x = element_blank())+
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1)
 # ggsave(filename = "Images/TNFR2_HiHi_v2.pdf", device="pdf")
 
@@ -738,8 +738,8 @@ ggplot(data=phenotypeMatrix, aes(x=`H1N1.nAb.FCd28`,y=`TNFRSF1Ahihid7`, fill=`Id
 
 
 a <- cor.test(phenotypeMatrix$`H1N1.nAb.FCd28`, phenotypeMatrix$TNFRSF1Ahihid7, use="complete")
-annotationInfo <- paste0("r= ", round(a$estimate,3), "   \n", "p= ", formatC(a$p.value, format="e", digits=1))
-my_grob1 = grobTree(textGrob(annotationInfo, x=0.65,  y=0.15, hjust=0, gp=gpar(col="black", fontsize=24)))
+annotationInfo <- paste0("r = ", round(a$estimate,3), "   \n", "P = ", formatC(a$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.6,  y=0.15, hjust=0, gp=gpar(col="black", fontsize=32)))
 ggplot(data=phenotypeMatrix, aes(x=`H1N1.nAb.FCd28`,y=`TNFRSF1Ahihid7`)) + theme_bw() +  theme(legend.position = "none") +
   geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1) + 
   geom_point(size=6, pch=21, fill="black") + 
@@ -748,7 +748,7 @@ ggplot(data=phenotypeMatrix, aes(x=`H1N1.nAb.FCd28`,y=`TNFRSF1Ahihid7`)) + theme
   #scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + 
   annotation_custom(my_grob1)+ 
   theme(axis.text = element_text(size=24,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))
-# ggsave(filename = "Images/TNFRSF1A_vs_H1N1nAb_allTogether.pdf", device="pdf")
+# ggsave(filename = "Images/TNFRSF1A_vs_H1N1nAb_allTogether.pdf", device="pdf", width=7, height=7)
 
 
 a <- cor.test(phenotypeMatrixYoung$`H3N2.nAb.FCd28`, phenotypeMatrixYoung$TNFRSF1Ahihid7, use="complete")
@@ -770,8 +770,8 @@ ggplot(data=phenotypeMatrix, aes(x=`H3N2.nAb.FCd28`,y=`TNFRSF1Ahihid7`, fill=`Id
 
 
 a <- cor.test(phenotypeMatrix$`H3N2.nAb.FCd28`, phenotypeMatrix$TNFRSF1Ahihid7, use="complete")
-annotationInfo <- paste0("r= ", round(a$estimate,2), "  \n", "p= ", formatC(a$p.value, format="e", digits=1))
-my_grob1 = grobTree(textGrob(annotationInfo, x=0.65,  y=0.15, hjust=0, gp=gpar(col="black", fontsize=24)))
+annotationInfo <- paste0("r = ", round(a$estimate,2), "  \n", "P = ", formatC(a$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.6,  y=0.15, hjust=0, gp=gpar(col="black", fontsize=32)))
 ggplot(data=phenotypeMatrix, aes(x=`H3N2.nAb.FCd28`,y=`TNFRSF1Ahihid7`)) + theme_bw() +  theme(legend.position = "none") +
   geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1) + 
   geom_point(size=6, pch=21, fill="black") + 
@@ -780,6 +780,6 @@ ggplot(data=phenotypeMatrix, aes(x=`H3N2.nAb.FCd28`,y=`TNFRSF1Ahihid7`)) + theme
   #scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + 
   annotation_custom(my_grob1)+ 
   theme(axis.text = element_text(size=24,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))
-# ggsave(filename = "Images/TNFRSF1A_vs_H3N2nAb_allTogether.pdf", device="pdf")
+# ggsave(filename = "Images/TNFRSF1A_vs_H3N2nAb_allTogether.pdf", device="pdf", width=7, height=7)
 
 

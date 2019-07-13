@@ -20,6 +20,11 @@ dataMatrixCounts <- read.table("RawProcessing/2018July_PORTnormalization/SPREADS
 rownames(dataMatrixCounts) <- make.names(dataMatrixCounts$geneSymbol, unique=TRUE)
 dataMatrixCounts$id <- dataMatrixCounts$geneCoordinate <- dataMatrixCounts$geneSymbol <- NULL 
 
+# dataMatrixCountsList <- list()           # export each set of counts as individual txt file
+# for (i in 1:ncol(dataMatrixCounts)) { dataMatrixCountsList[[i]] <- dataMatrixCounts[,i, drop=F] }
+# names(dataMatrixCountsList) <- colnames(dataMatrixCounts)
+# for (i in 1: length(dataMatrixCountsList)) { write.table(dataMatrixCountsList[[i]][,,drop=F], file= paste0(names(dataMatrixCountsList[[i]]),".txt"), col.names = F) }
+
 dataMatrixCounts$X222006_HiHi_v1 <- NULL  # based on what was learned from the RNAseq_QC script
 
 bestDataCounts <- dataMatrixCounts
@@ -37,10 +42,10 @@ metaData$subgroup <- paste0(metaData$ageGroup,sep="_", metaData$condition)
 
 fullDataset <- DESeqDataSetFromMatrix(countData=bestDataCounts, colData=metaData,design= ~ subgroup)
 
-# vsd <- varianceStabilizingTransformation(fullDataset)
-# bestDataLog <- as.data.frame(assay(vsd))
+vsd <- varianceStabilizingTransformation(fullDataset)
+bestDataLog <- as.data.frame(assay(vsd))
 # write.csv(bestDataLog, file="bestDataLog.csv")
-bestDataLog <- read.csv("bestDataLog.csv"); rownames(bestDataLog) <- bestDataLog$X; bestDataLog$X <- NULL
+# bestDataLog <- read.csv("bestDataLog.csv"); rownames(bestDataLog) <- bestDataLog$X; bestDataLog$X <- NULL
 
 
 
@@ -103,38 +108,7 @@ scores$color <- c("#FDBF6F","#FF7F00","#FDBF6F","#FF7F00","#FDBF6F","#FF7F00","#
 ggplot(data = scores, aes(x = PC1, y = PC2, label = rownames(scores))) +
   geom_hline(yintercept = 0, colour = "gray65") + theme_bw() +  geom_vline(xintercept = 0, colour = "gray65") +  geom_point(colour=scores$color, alpha=1, size=6) + 
 #  geom_text_repel(colour = "black", alpha = 1, size = 3) +
-  ggtitle("PCA plot for all samples in final pool") + theme(title = element_text(size=20))
-# ggsave(filename = "Images/PCAplot_allSamples.pdf", device="pdf")
-
-
-
-
-metaDataHiHi <- metaData[grep("HiHi", colnames(bestDataLog)),]
-tsneMapHiHi <- Rtsne(t(bestDataLog[,grep("HiHi",colnames(bestDataLog))]),epoch=50,perplexity=6,k=2,theta=0,verbosity=TRUE,max_iter=1000)
-tsneMapHiHi <- as.data.frame(tsneMapHiHi$Y); tsneMapHiHi$subgroup <- metaDataHiHi$subgroup; rownames(tsneMapHiHi) <- rownames(metaDataHiHi)
-tsneReorderHiHi <- rbind(
-  tsneMapHiHi[grep("Y_HiHi_v1",tsneMapHiHi$subgroup),], tsneMapHiHi[grep("Y_HiHi_v2",tsneMapHiHi$subgroup),], 
-  tsneMapHiHi[grep("E_HiHi_v1",tsneMapHiHi$subgroup),], tsneMapHiHi[grep("E_HiHi_v2",tsneMapHiHi$subgroup),])
-tsneReorderHiHi$Class <- c(rep(1,length(grep("Y_HiHi_v1",tsneReorderHiHi$subgroup))),rep(2,length(grep("Y_HiHi_v2",tsneReorderHiHi$subgroup))),
-                       rep(3,length(grep("Y_LoLo_v1",tsneReorderHiHi$subgroup))),rep(4,length(grep("Y_LoLo_v2",tsneReorderHiHi$subgroup))),
-                       rep(5,length(grep("Y_Naive_v1",tsneReorderHiHi$subgroup))),rep(6,length(grep("Y_Naive_v2",tsneReorderHiHi$subgroup))),
-                       rep(7,length(grep("E_HiHi_v1",tsneReorderHiHi$subgroup))),rep(8,length(grep("E_HiHi_v2",tsneReorderHiHi$subgroup))),
-                       rep(9,length(grep("E_LoLo_v1",tsneReorderHiHi$subgroup))),rep(10,length(grep("E_LoLo_v2",tsneReorderHiHi$subgroup))),
-                       rep(11,length(grep("E_Naive_v1",tsneReorderHiHi$subgroup))),rep(12,length(grep("E_Naive_v2",tsneReorder$subgroup))))
-customPalette <- colorRampPalette(brewer.pal(12,"Paired"))(12)
-customPalette[11] <- "#DE966D"  # modify paired palette to eliminate yellow
-temp <- customPalette[c(7,8,3,4,1,1,9,10,1,1,11,12)]
-temp[5:6] <- c("#fff849","#d6cf44"); temp[9:10] <- c("#03681e","#003d10"); temp[11:12] <- c("#99930a","#686408")
-customPalette <- temp
-
-ggplot(tsneReorderHiHi, aes(x=V1, y=V2)) + 
-  geom_point(size=10,pch=21,colour="black",aes(fill=factor(Class,labels=c("Young ICOS+CD38+ Day 0","Young ICOS+CD38+ Day 7",
-                                                                          "Elderly ICOS+CD38+ Day 0","Elderly ICOS+CD38+ Day 7")))) +  
-  xlab("") + ylab("") + 
-  ggtitle("t-SNE ICOS+CD38+ cTfh") +  theme_light(base_size=15)  +  scale_fill_manual(values=customPalette[unique(tsneReorderHiHi$Class)]) +
-  theme(strip.background = element_blank()) + labs(fill = "Sample cohort") + theme(legend.key = element_blank()) +
-  guides(colour=guide_legend(override.aes=list(size=8))) #+ xlim(-60,60) + ylim(-55,70)
-# ggsave(filename="Images/tSNE_ICOShiCD38hi.pdf", device="pdf",width=8,height=6)
+  ggtitle("PCA plot for all HiHi samples in final pool") + theme(title = element_text(size=20))
 
 
 
@@ -153,10 +127,14 @@ Hi_v_Lo_allAges <- cbind(
 annotateHeatmap <- data.frame(row.names = colnames(Hi_v_Lo_allAges), subset = c(rep("ICOS+CD38+ cTfh", 13),rep("ICOS-CD38- cTfh", 14),rep("Naive CD4", 14)), 
                               ageGroup = c(rep("Young",6), rep("Elderly", 7),rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8)))
 ann_colors = list(  subset = c("ICOS+CD38+ cTfh" ="#0D0887", "ICOS-CD38- cTfh" = "#E16462", "Naive CD4" ="#F0F921"), ageGroup = c("Young"="orange3", "Elderly" = "purple")  )
-pheatmap(Hi_v_Lo_allAges, scale="row", cluster_col=F, annotation_col = annotateHeatmap, show_colnames=F, main="Selected Tfh genes",
+pheatmap(Hi_v_Lo_allAges, scale="row", cluster_col=F, annotation_col = annotateHeatmap, show_colnames=F, main="Tfh genes",
          gaps_col = c(13,27), annotation_colors = ann_colors, fontsize_row = 18, color=inferno(100), cellheight=30, cutree_rows=3, border_color = F, 
-         #, filename = "Images/SelectedGenesHeatmapAllAges.pdf"
+         # , filename = "Images/SelectedGenesHeatmapAllAges.pdf"
 )
+
+
+x <- as.numeric(Hi_v_Lo_allAges["POU2AF1",grep(paste("HiHi",sep="|"), colnames(Hi_v_Lo_allAges))])
+mean(x[7:13]) / mean(x[1:6]) ;  t.test(x[1:6],x[7:14])
 
 # ***** day 7
 probeList <- c("CXCR5", "PRDM1", "BCL6", "IL10",  "IFNG","MAF","CCR6","CXCR3","GATA3",
@@ -170,13 +148,16 @@ Hi_v_Lo_allAges <- cbind(
 annotateHeatmap <- data.frame(row.names = colnames(Hi_v_Lo_allAges), subset = c(rep("ICOS+CD38+ cTfh", 14),rep("ICOS-CD38- cTfh", 14),rep("Naive CD4", 14)), 
                               ageGroup = c(rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8)))
 ann_colors = list(  subset = c("ICOS+CD38+ cTfh" ="#0D0887", "ICOS-CD38- cTfh" = "#E16462", "Naive CD4" ="#F0F921"), ageGroup = c("Young"="orange3", "Elderly" = "purple")  )
-pheatmap(Hi_v_Lo_allAges, scale="row", cluster_col=F, annotation_col = annotateHeatmap, show_colnames=F, main="Selected Tfh genes at day 7",
+pheatmap(Hi_v_Lo_allAges, scale="row", cluster_col=F, annotation_col = annotateHeatmap, show_colnames=F, main="Tfh genes at day 7",
          gaps_col = c(14,28), annotation_colors = ann_colors, fontsize_row = 18, color=inferno(100), cellheight=30, cutree_rows=3, border_color = F, 
-         # , filename = "Images/SelectedGenesHeatmapAllAges_day7.pdf"
+        #  , filename = "Images/SelectedGenesHeatmapAllAges_day7.pdf"
 )
 
 
 # dev.off(); dev.off(); 
+
+x <- as.numeric(Hi_v_Lo_allAges["POU2AF1",grep(paste("HiHi",sep="|"), colnames(Hi_v_Lo_allAges))])
+mean(x[7:14]) / mean(x[1:6]) ;  t.test(x[1:6],x[7:14])
 
 ## ***************************     heatmap of DiffExp of HiHi vs LoLo for selected genes  YOUNG **************************************
 
@@ -563,31 +544,31 @@ ggplot(data=subset(Hallmark_HivsLo_v1, `FDR.q.val` < 0.05), aes(x=`NAME`, y=`NES
 ## *****************************       GSEA results: external Genesets    ***********************************************
 
 # all together at baseline
-ExternalGenesetsPos <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_ExternalGenesets.GseaPreranked.1539515274110/gsea_report_for_na_pos_1539515274110.xls", sep="\t")
-ExternalGenesetsNeg <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_ExternalGenesets.GseaPreranked.1539515274110/gsea_report_for_na_neg_1539515274110.xls", sep="\t")
+ExternalGenesetsPos <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_ExternalGenesets.GseaPreranked.1562102972211/gsea_report_for_na_pos_1562102972211.xls", sep="\t")
+ExternalGenesetsNeg <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_ExternalGenesets.GseaPreranked.1562102972211/gsea_report_for_na_neg_1562102972211.xls", sep="\t")
 ExternalGenesets <- rbind(ExternalGenesetsPos, ExternalGenesetsNeg)
 
-LocciGSE50392 <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_ExternalGenesets.GseaPreranked.1539515274110/GSE50392_GCTFH-VS-NAV.xls", sep="\t")
+LocciGSE50392 <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_ExternalGenesets.GseaPreranked.1562102972211/GSE50392_GCTFH-VS-NAV.xls", sep="\t")
 annotationInfo <- paste0("NES: ", round(ExternalGenesets$NES[grep("GCTFH-VS-NAV",ExternalGenesets$NAME)],2), "\n", "FDR: ", formatC(ExternalGenesets$FDR.q.val[grep("GCTFH-VS-NAV",ExternalGenesets$NAME)], format="e", digits=1))
-my_grob = grobTree(textGrob(annotationInfo, x=0.7,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
+my_grob = grobTree(textGrob(annotationInfo, x=0.65,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=LocciGSE50392, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
   ggtitle("GSE50392 HUMAN Tonsil GC-Tfh vs Naive") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
 # ggsave(file="DifferentialExpression/GSEA/Images/AllAges_hihi-v-lolo_v1_LocciGCTfh.pdf", device="pdf", height=3.5, width=5)
-MOUSEGCTFHGSE16697 <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_ExternalGenesets.GseaPreranked.1539515274110/GSE16697_MOUSEGCTFH.xls", sep="\t")
+MOUSEGCTFHGSE16697 <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_ExternalGenesets.GseaPreranked.1562102972211/GSE16697_MOUSEGCTFH.xls", sep="\t")
 annotationInfo <- paste0("NES: ", round(ExternalGenesets$NES[grep("16697",ExternalGenesets$NAME)],2), "\n", "FDR: ", formatC(ExternalGenesets$FDR.q.val[grep("16697",ExternalGenesets$NAME)], format = "e", digits = 1))
-my_grob = grobTree(textGrob(annotationInfo, x=0.7,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
+my_grob = grobTree(textGrob(annotationInfo, x=0.65,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=MOUSEGCTFHGSE16697, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
   ggtitle("GSE16697 MOUSE Tfh vs non-Tfh CD4") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
 # ggsave(file="DifferentialExpression/GSEA/Images/AllAges_hihi-v-lolo_v1_MouseGCTfh.pdf", device="pdf", height=3.5, width=5)
-MOUSEGCTFHGSE32596 <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_ExternalGenesets.GseaPreranked.1539515274110/GSE32596_MOUSEGCTFH.xls", sep="\t")
+MOUSEGCTFHGSE32596 <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_ExternalGenesets.GseaPreranked.1562102972211/GSE32596_MOUSEGCTFH.xls", sep="\t")
 annotationInfo <- paste0("NES: ", round(ExternalGenesets$NES[grep("32596",ExternalGenesets$NAME)],2), "\n", "FDR: ", formatC(ExternalGenesets$FDR.q.val[grep("32596",ExternalGenesets$NAME)], format = "e", digits = 1))
-my_grob = grobTree(textGrob(annotationInfo, x=0.7,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
+my_grob = grobTree(textGrob(annotationInfo, x=0.65,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=MOUSEGCTFHGSE32596, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
   ggtitle("GSE32596 MOUSE Tfh vs Naive CD4") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
@@ -605,7 +586,7 @@ EexternalGenesets <- rbind(EexternalGenesetsPos, EexternalGenesetsNeg)
 
 LocciGSE50392 <- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_lolo_v1_ExternalGeneSets.GseaPreranked.1531001576554/GCTFH-VS-NAV.xls", sep="\t")
 annotationInfo <- paste0("NES: ", round(YexternalGenesets$NES[grep("GCTFH-VS-NAV",YexternalGenesets$NAME)],2), "\n", "FDR: ", formatC(YexternalGenesets$FDR.q.val[grep("GCTFH-VS-NAV",YexternalGenesets$NAME)], format="e", digits=1))
-my_grob = grobTree(textGrob(annotationInfo, x=0.7,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
+my_grob = grobTree(textGrob(annotationInfo, x=0.65,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=LocciGSE50392, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
   ggtitle("GSE50392 HUMAN Tonsil GC-Tfh vs Naive") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
@@ -615,7 +596,7 @@ ggplot(data=LocciGSE50392, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_l
 
 LocciGSE50392 <- read.csv("DifferentialExpression/GSEA/GSEA_Results/E_hihi_v_LoLo_v1_ExtraGeneSets.GseaPreranked.1531837454581/GSE50392_GCTFH-VS-NAV.xls", sep="\t")
 annotationInfo <- paste0("NES: ", round(EexternalGenesets$NES[grep("GCTFH-VS-NAV",EexternalGenesets$NAME)],2), "\n", "FDR: ", formatC(EexternalGenesets$FDR.q.val[grep("GCTFH-VS-NAV",EexternalGenesets$NAME)], format="e", digits=1))
-my_grob = grobTree(textGrob(annotationInfo, x=0.7,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
+my_grob = grobTree(textGrob(annotationInfo, x=0.65,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=LocciGSE50392, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
   ggtitle("GSE50392 HUMAN Tonsil GC-Tfh vs Naive") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
@@ -625,7 +606,7 @@ ggplot(data=LocciGSE50392, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_l
 
 MOUSEGCTFHGSE16697 <- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_lolo_v1_ExternalGeneSets.GseaPreranked.1531001576554/GSE16697_MOUSEGCTFH.xls", sep="\t")
 annotationInfo <- paste0("NES: ", round(YexternalGenesets$NES[grep("16697",YexternalGenesets$NAME)],2), "\n", "FDR: ", formatC(YexternalGenesets$FDR.q.val[grep("16697",YexternalGenesets$NAME)], format = "e", digits = 1))
-my_grob = grobTree(textGrob(annotationInfo, x=0.7,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
+my_grob = grobTree(textGrob(annotationInfo, x=0.65,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=MOUSEGCTFHGSE16697, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
   ggtitle("GSE16697 MOUSE Tfh vs non-Tfh CD4") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
@@ -848,8 +829,8 @@ ggplot(data=hallmarkFactored) +
 ## *****************************       GSEA results: YvE direct comparison at d7 - Hallmark    ***********************************************
 
 
-hallmarkv2Pos <- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1531000206530/gsea_report_for_na_pos_1531000206530.xls", sep="\t", stringsAsFactors = F)
-hallmarkv2Neg <- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1531000206530/gsea_report_for_na_neg_1531000206530.xls", sep="\t", stringsAsFactors = F)
+hallmarkv2Pos <- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1562121168676/gsea_report_for_na_pos_1562121168676.xls", sep="\t", stringsAsFactors = F)
+hallmarkv2Neg <- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1562121168676/gsea_report_for_na_neg_1562121168676.xls", sep="\t", stringsAsFactors = F)
 hallmarkv2 <- rbind(hallmarkv2Pos, hallmarkv2Neg)
 
 hallmarkv2$NAME <- toTitleCase(tolower(substr(hallmarkv2$NAME,start =10, stop=50)))
@@ -915,8 +896,8 @@ hallmarkYvE_v1_Hi$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v1_Hi$NAME,star
 hallmarkYvE_v1_Hi$NAME <- factor(hallmarkYvE_v1_Hi$NAME, levels = hallmarkYvE_v1_Hi$NAME[order(hallmarkYvE_v1_Hi$NES, decreasing = T)])
 rownames(hallmarkYvE_v1_Hi) <- hallmarkYvE_v1_Hi$NAME
 
-hallmarkYvE_v2_Hi <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1531000206530/gsea_report_for_na_pos_1531000206530.xls", sep="\t", stringsAsFactors = F),
-                           read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1531000206530/gsea_report_for_na_neg_1531000206530.xls", sep="\t", stringsAsFactors = F)
+hallmarkYvE_v2_Hi <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1562121168676/gsea_report_for_na_pos_1562121168676.xls", sep="\t", stringsAsFactors = F),
+                           read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1562121168676/gsea_report_for_na_neg_1562121168676.xls", sep="\t", stringsAsFactors = F)
                            )
 hallmarkYvE_v2_Hi$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v2_Hi$NAME,start =10, stop=50)))
 hallmarkYvE_v2_Hi$NAME <- factor(hallmarkYvE_v2_Hi$NAME, levels = hallmarkYvE_v2_Hi$NAME[order(hallmarkYvE_v2_Hi$NES, decreasing = T)])
@@ -943,8 +924,8 @@ hallmarkYvE_v1_Nav$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v1_Nav$NAME,st
 hallmarkYvE_v1_Nav$NAME <- factor(hallmarkYvE_v1_Nav$NAME, levels = hallmarkYvE_v1_Nav$NAME[order(hallmarkYvE_v1_Nav$NES, decreasing = T)])
 rownames(hallmarkYvE_v1_Nav) <- hallmarkYvE_v1_Nav$NAME
 
-hallmarkYvE_v2_Nav <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v2_Hallmark.GseaPreranked.1540914108109/gsea_report_for_na_pos_1540914108109.xls", sep="\t", stringsAsFactors = F), 
-                            read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v2_Hallmark.GseaPreranked.1540914108109/gsea_report_for_na_neg_1540914108109.xls", sep="\t", stringsAsFactors = F)
+hallmarkYvE_v2_Nav <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v2_Hallmark.GseaPreranked.1562122339545/gsea_report_for_na_pos_1562122339545.xls", sep="\t", stringsAsFactors = F), 
+                            read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v2_Hallmark.GseaPreranked.1562122339545/gsea_report_for_na_neg_1562122339545.xls", sep="\t", stringsAsFactors = F)
                             )
 hallmarkYvE_v2_Nav$NAME <- toTitleCase(tolower(substr(hallmarkYvE_v2_Nav$NAME,start =10, stop=50)))
 hallmarkYvE_v2_Nav$NAME <- factor(hallmarkYvE_v2_Nav$NAME, levels = hallmarkYvE_v2_Nav$NAME[order(hallmarkYvE_v2_Nav$NES, decreasing = T)])
@@ -1023,7 +1004,6 @@ savePlots[[50]] <- blankPlot; savePlots[[51]] <- mylegend
 ml <- marrangeGrob(savePlots, nrow=13, ncol=4); ml
 # ggexport(ml,  filename = "DifferentialExpression/GSEA/Images/HexagonPlots/HexagonPlots_allgeneSets.pdf", width = 20, height=70)
  
- 
 
 # hallmark_subsets <- data.frame(row.names=hallmarkYvE_v1_Hi$NAME[order(hallmarkYvE_v1_Hi$NAME)],
 #                                v1Hi = hallmarkYvE_v1_Hi$NES[order(hallmarkYvE_v1_Hi$NAME)],
@@ -1035,7 +1015,7 @@ ml <- marrangeGrob(savePlots, nrow=13, ncol=4); ml
 # )
 
 # ICOS+CD38+ cTfh at day 7 for Young vs Elderly
-YvEHiHiv2TNF<- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1531000206530/HALLMARK_TNFA_SIGNALING_VIA_NFKB.xls", sep="\t")
+YvEHiHiv2TNF<- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1562121168676/HALLMARK_TNFA_SIGNALING_VIA_NFKB.xls", sep="\t")
 annotationInfo <- paste0("NES: ", round(hallmarkYvE_v2_Hi$NES[grep("Tnf",hallmarkYvE_v2_Hi$NAME)],2), "\n", "FDR: ", formatC(hallmarkYvE_v2_Hi$FDR.q.val[grep("Tnf",hallmarkYvE_v2_Hi$NAME)], format = "e", digits = 1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.63,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=YvEHiHiv2TNF, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
@@ -1057,7 +1037,7 @@ ggplot(data=YvELoLov2TNF, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_li
 # ggsave(file="DifferentialExpression/GSEA/Images/YvE_LoLo_d7_Hallmark_TNF-NFkB.pdf", device="pdf", height=3.5, width=5)
 
 # Naive CD4 at day 7 for Young vs Elderly
-YvENaivev2TNF<- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v2_Hallmark.GseaPreranked.1540914108109/HALLMARK_TNFA_SIGNALING_VIA_NFKB.xls", sep="\t")
+YvENaivev2TNF<- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_naive_vs_E_naive_v2_Hallmark.GseaPreranked.1562122339545/HALLMARK_TNFA_SIGNALING_VIA_NFKB.xls", sep="\t")
 annotationInfo <- paste0("NES: ", round(hallmarkYvE_v2_Nav$NES[grep("Tnf",hallmarkYvE_v2_Nav$NAME)],2), "\n", "FDR: ", formatC(hallmarkYvE_v2_Nav$FDR.q.val[grep("Tnf",hallmarkYvE_v2_Nav$NAME)], format = "e", digits = 1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.63,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
 ggplot(data=YvENaivev2TNF, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +

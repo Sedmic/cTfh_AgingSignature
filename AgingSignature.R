@@ -100,11 +100,11 @@ deltaNESmelted <- reshape2::melt(deltaNES, id.vars = "geneset")
 
 
 # plot using violin plots
-ggplot(deltaNESmelted, aes(x=variable, y=value)) + geom_violin() + theme_bw() + #facet_wrap(~variable) +
+ggplot(deltaNESmelted, aes(x=variable, y=value)) + geom_violin(color="grey") + theme_bw() + #facet_wrap(~variable) +
   # geom_sina(data=to_lower_ascii(deltaNESmelted), aes(x=variable, y=value), alpha=0.4, scale=F, method="density", maxwidth = .6) +   # fails in ggforce 0.2.1, awaiting update
-   stat_summary(fun.y=median, geom="point", color="red", size=6) + #geom_dotplot(stackdir='center', binaxis='y', dotsize=0.3, binwidth=0.1) +
-  geom_jitter(width = 0.05) + 
-  theme(axis.text = element_text(size=12,hjust = 0.5), axis.title = element_blank(), plot.title = element_text(size=18,hjust = 0.5))+
+   stat_summary(fun.y=median, geom="point", color="#f66334", size=50, shape='-') + #geom_dotplot(stackdir='center', binaxis='y', dotsize=0.3, binwidth=0.1) +
+  geom_jitter(width = 0.05, color="gray50") + 
+  theme(axis.text = element_text(size=14,hjust = 0.5), axis.title = element_blank(), plot.title = element_text(size=18,hjust = 0.5), panel.border = element_blank()) +
   ggtitle("delta NES for hallmark genesets") + theme(axis.text.x = element_text(angle=45,hjust=1))
 # ggsave(filename = "DifferentialExpression/GSEA/Images/deltaNES_violinplot.pdf")
 
@@ -119,7 +119,7 @@ ggplot(deltaNESmelted, aes(x=geneset, y=value)) + geom_point() + facet_wrap(~var
 
 
 
-# ****************************************************** Milieau Interior Nanostring dataset   ***************************************
+# ****************************************************** milieu Interior Nanostring dataset   ***************************************
 
 nanostringExpr <- read.csv(file="DifferentialExpression/ComparePublishedGeneSets/MilieuInterior/Nano_1000_NULL.csv", stringsAsFactors = F)
 nanostringDemo <- read.csv(file="DifferentialExpression/ComparePublishedGeneSets/MilieuInterior/Nano_demographics.csv", stringsAsFactors = F)
@@ -485,39 +485,39 @@ ggplot(data=GSE123698gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_l
 
 
 # ********************************************************************
-# *******************  Milieau Interieur  ****************************
+# *******************  milieu Interieur  ****************************
 # ********************************************************************
 
 path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/revprobeBAAyr4_targetMilieauInterieur.GseaPreranked.1557956370920/")
-GSEMilieauInterieurgseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_pos_1557956370920.xls"), sep="\t")
-GSEMilieauInterieurgsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
-numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557956370920.xls"), sep="\t")); GSEMilieauInterieurgsea <- rbind(GSEMilieauInterieurgsea, c(0,0,0,0,numGenes,0,0,0,0))
-GSEMilieauInterieurgsea <- rbind(zeroRankRow,GSEMilieauInterieurgsea)
-NES <- GSEMilieauInterieurgseaFDRd$NES[grep("WISTAR",GSEMilieauInterieurgseaFDRd$NAME)]
-FDR <- GSEMilieauInterieurgseaFDRd$FDR.q.val[grep("YOUTH",GSEMilieauInterieurgseaFDRd$NAME)]
+GSEmilieuInterieurgseaFDRd <- read.csv( paste0(path, "gsea_report_for_na_pos_1557956370920.xls"), sep="\t")
+GSEmilieuInterieurgsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_YOUTH.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557956370920.xls"), sep="\t")); GSEmilieuInterieurgsea <- rbind(GSEmilieuInterieurgsea, c(0,0,0,0,numGenes,0,0,0,0))
+GSEmilieuInterieurgsea <- rbind(zeroRankRow,GSEmilieuInterieurgsea)
+NES <- GSEmilieuInterieurgseaFDRd$NES[grep("WISTAR",GSEmilieuInterieurgseaFDRd$NAME)]
+FDR <- GSEmilieuInterieurgseaFDRd$FDR.q.val[grep("YOUTH",GSEmilieuInterieurgseaFDRd$NAME)]
 if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
 {  rpt <- read.delim(file=paste0(path, "revprobeBAAyr4_targetMilieauInterieur.GseaPreranked.1557956370920.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
 annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
-ggplot(data=GSEMilieauInterieurgsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("MilieauInterieur - Youth") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+ggplot(data=GSEmilieuInterieurgsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("MilieuInterieur - Youth") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
 # ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSEMilieauInterieurgsea_YOUTH.pdf", device="pdf", height=3.5, width=5)
 
 
 path <- c("DifferentialExpression/GSEA/AgingSignature/GSEAresults/probeBAAyr4_targetMilieauInterieur.GseaPreranked.1557855965199/")
-GSEMilieauInterieurgseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855965199.xls"), sep="\t")
-GSEMilieauInterieurgsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
-numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855965199.xls"), sep="\t")); GSEMilieauInterieurgsea <- rbind(GSEMilieauInterieurgsea, c(0,0,0,0,numGenes,0,0,0,0))
-NES <- GSEMilieauInterieurgseaFDR$NES[grep("WISTAR",GSEMilieauInterieurgseaFDR$NAME)]
-FDR <- GSEMilieauInterieurgseaFDR$FDR.q.val[grep("AGING",GSEMilieauInterieurgseaFDR$NAME)]
+GSEmilieuInterieurgseaFDR <- read.csv( paste0(path, "gsea_report_for_na_pos_1557855965199.xls"), sep="\t")
+GSEmilieuInterieurgsea <- read.csv( paste0(path, "WISTARBAA_YEAR4_AGING.xls"), sep="\t");   
+numGenes <- nrow(read.csv( paste0(path, "ranked_gene_list_na_pos_versus_na_neg_1557855965199.xls"), sep="\t")); GSEmilieuInterieurgsea <- rbind(GSEmilieuInterieurgsea, c(0,0,0,0,numGenes,0,0,0,0))
+NES <- GSEmilieuInterieurgseaFDR$NES[grep("WISTAR",GSEmilieuInterieurgseaFDR$NAME)]
+FDR <- GSEmilieuInterieurgseaFDR$FDR.q.val[grep("AGING",GSEmilieuInterieurgseaFDR$NAME)]
 if (FDR == 0)  # if FDR == 0, then will set the FDR to 1/permutations in the .rpt file since that is the upper bound on what it could be
 {  rpt <- read.delim(file=paste0(path, "probeBAAyr4_targetMilieauInterieur.GseaPreranked.1557855965199.rpt"),row.names=NULL, stringsAsFactors = F);   FDR <- 1/as.numeric(rpt[ grep("nperm", rpt[,2]), 3])   }
 annotationInfo <- paste0("NES: ", round(NES, 2), "\n", "FDR: ", formatC(FDR, format="e", digits=1))
 my_grob = grobTree(textGrob(annotationInfo, x=0.1, y=0.2, hjust=0, gp=gpar(col="black", fontsize=15)))
-ggplot(data=GSEMilieauInterieurgsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
-  ggtitle("MilieauInterieur - Aging") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+ggplot(data=GSEmilieuInterieurgsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.75, alpha=0.5) + theme_bw() +
+  ggtitle("MilieuInterieur - Aging") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
 # ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/probeBAAyr4_targetGSEMilieauInterieurgsea_AGING.pdf", device="pdf", height=3.5, width=5)
@@ -760,13 +760,14 @@ ggplot(data=Naivev1gsea, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_lin
 
 
 
-# ****************************************************** Milieau Interieur correlations  ***************************************
+# ****************************************************** milieu Interieur correlations  ***************************************
 
 
 gsets <- getGmt("DifferentialExpression/GSEA/AgingSignature/WistarBAAyr4_GeneSets.gmt.txt")
 nanoGSVA <- as.data.frame(GSVA::gsva(as.matrix(t(nano[,7:600])), gsets, method="gsva"))
 
 nanoGSVA <- as.data.frame( t(nanoGSVA) ); nanoGSVA$SUBJID <- nano$SUBJID
+nanostringDemo$SUBJID <- paste0("SUBJ_",nanostringDemo$SUBJID)
 nanoGSVAdemo <- merge(nanostringDemo, nanoGSVA, by="SUBJID")
 
 
@@ -777,7 +778,7 @@ annotationInfo <- paste0("r = ", round(fit, 2), ", ", "P = ", formatC(fit.p$p.va
 my_grob = grobTree(textGrob(annotationInfo, x=0.05,  y=0.05, hjust=0, gp=gpar(col="black", fontsize=36)))
 ggplot(nanoGSVAdemo, aes(x=AGE.V0, y=WistarBAA_Year4_YOUTH)) + geom_point(size=3, alpha=0.5) + theme_bw() + 
   theme(axis.text = element_text(size=30,hjust = 0.5))+theme(axis.title = element_text(size=30,hjust = 0.5))+theme(plot.title = element_text(size=36,hjust = 0.5))+
-  ggtitle("Milieau Interieur - Youth signature") + scale_x_continuous(name = "Age", breaks=seq(20,80,10)) + scale_y_continuous(name="GSVA scores for Youth signature") + 
+  ggtitle("Milieu Interieur - Youth signature") + scale_x_continuous(name = "Age", breaks=seq(20,80,10)) + scale_y_continuous(name="GSVA scores for Youth signature") + 
   stat_smooth(method="lm", col="red") + annotation_custom(my_grob)
 # ggsave(filename = "DifferentialExpression/GSEA/AgingSignature/Images/MilieauInterieur_vs_YouthSignature.pdf", width=9,height=9)
 
@@ -788,7 +789,7 @@ annotationInfo <- paste0("r = ", round(fit, 2), ", ", "P = ", formatC(fit.p$p.va
 my_grob = grobTree(textGrob(annotationInfo, x=0.05,  y=0.05, hjust=0, gp=gpar(col="black", fontsize=36)))
 ggplot(nanoGSVAdemo, aes(x=AGE.V0, y=WistarBAA_Year4_AGING)) + geom_point(size=3, alpha=0.5) + theme_bw() + 
   theme(axis.text = element_text(size=30,hjust = 0.5))+theme(axis.title = element_text(size=30,hjust = 0.5))+theme(plot.title = element_text(size=36,hjust = 0.5))+
-  ggtitle("Milieau Interieur - Aging signature") + scale_x_continuous(name = "Age", breaks=seq(20,80,10)) + scale_y_continuous(name="GSVA scores for Aging signature") + 
+  ggtitle("Milieu Interieur - Aging signature") + scale_x_continuous(name = "Age", breaks=seq(20,80,10)) + scale_y_continuous(name="GSVA scores for Aging signature") + 
   stat_smooth(method="lm", col="red") + annotation_custom(my_grob)
 # ggsave(filename = "DifferentialExpression/GSEA/AgingSignature/Images/MilieauInterieur_vs_AgingSignature.pdf", width=9,height=9)
 
@@ -806,8 +807,8 @@ ggplot(nanoGSVAdemo, aes(x=SEX, y=WistarBAA_Year4_AGING)) + geom_violin() + geom
 
 
 
-extMicroarraysAging <- rbind(BAAyr2gseaFDR, BAAyr3gseaFDR, BAAyr5gseaFDR, GSE79396gseaFDR, GSE123697gseaFDR, GSE123696gseaFDR, GSE123698gseaFDR, GSEMilieauInterieurgseaFDR)
-extMicroarraysAging$NAME <- c("Immport SDY622", "Immport SDY648", "Immport SDY819", "GSE79396 baseline", "GSE123697 (2014)", "GSE123696 (2013)", "GSE123698 (2015)", "Milieau Interieur")
+extMicroarraysAging <- rbind(BAAyr2gseaFDR, BAAyr3gseaFDR, BAAyr5gseaFDR, GSE79396gseaFDR, GSE123697gseaFDR, GSE123696gseaFDR, GSE123698gseaFDR, GSEmilieuInterieurgseaFDR)
+extMicroarraysAging$NAME <- c("Immport SDY622", "Immport SDY648", "Immport SDY819", "GSE79396 baseline", "GSE123697 (2014)", "GSE123696 (2013)", "GSE123698 (2015)", "Milieu Interieur")
 extMicroarraysAging$NAME <- factor(extMicroarraysAging$NAME, levels = extMicroarraysAging$NAME[order(extMicroarraysAging$NES, decreasing = F)])
 
 ggplot(extMicroarraysAging, aes(x=NAME, y=NES)) + geom_point(size=8) + geom_bar(stat="identity", width=0.1, fill="black") + theme_bw() + ylab("Normalized Enrichment \nScore") + 
@@ -816,8 +817,8 @@ ggplot(extMicroarraysAging, aes(x=NAME, y=NES)) + geom_point(size=8) + geom_bar(
 # ggsave(file="DifferentialExpression/GSEA/AgingSignature/Images/externalStudies_wholeBloodArrays_Aging.pdf", width=5, height=8)
 
 
-extMicroarraysYouth <- rbind(BAAyr2gseaFDRd, BAAyr3gseaFDRd, BAAyr5gseaFDRd, GSE79396gseaFDRd, GSE123697gseaFDRd, GSE123696gseaFDRd, GSE123698gseaFDRd, GSEMilieauInterieurgseaFDRd)
-extMicroarraysYouth$NAME <- c("Immport SDY622", "Immport SDY648", "Immport SDY819", "GSE79396 baseline", "GSE123697 (2014)", "GSE123696 (2013)", "GSE123698 (2015)", "Milieau Interieur")
+extMicroarraysYouth <- rbind(BAAyr2gseaFDRd, BAAyr3gseaFDRd, BAAyr5gseaFDRd, GSE79396gseaFDRd, GSE123697gseaFDRd, GSE123696gseaFDRd, GSE123698gseaFDRd, GSEmilieuInterieurgseaFDRd)
+extMicroarraysYouth$NAME <- c("Immport SDY622", "Immport SDY648", "Immport SDY819", "GSE79396 baseline", "GSE123697 (2014)", "GSE123696 (2013)", "GSE123698 (2015)", "Milieu Interieur")
 extMicroarraysYouth$NAME <- factor(extMicroarraysYouth$NAME, levels = extMicroarraysYouth$NAME[order(extMicroarraysYouth$NES, decreasing = F)])
 
 ggplot(extMicroarraysYouth, aes(x=NAME, y=NES)) + geom_point(size=8) + geom_bar(stat="identity", width=0.1, fill="black") + theme_bw() + ylab("Normalized Enrichment \nScore") + 
@@ -890,30 +891,41 @@ makeContingency <- function (genelist1, genelist2)
 
 overlapResults <- sapply(c7signatures, function (x) {    return( fisher.test( makeContingency(agingSignature[,1], x) )$p.value)      })
 overlapResults <- as.data.frame(overlapResults[order(overlapResults, decreasing = F)])
-# write.csv(overlapResults, file = "DifferentialExpression/GSEA/AgingSignature/comparisonToMsigDB_C7.csv")
+ write.csv(overlapResults, file = "DifferentialExpression/GSEA/AgingSignature/comparisonToMsigDB_C7_youth.csv")
+
+overlapResults <- sapply(c7signatures, function (x) {    return( fisher.test( makeContingency(agingSignature[,2], x) )$p.value)      })
+overlapResults <- as.data.frame(overlapResults[order(overlapResults, decreasing = F)])
+ write.csv(overlapResults, file = "DifferentialExpression/GSEA/AgingSignature/comparisonToMsigDB_C7_aging.csv")
+
+
+
+overlapResults <- sapply(hallmarksets, function (x) {    return( fisher.test( makeContingency(agingSignature[,2], x) )$p.value)      })  # overlap of signature of aging vs Hallmark sets
+overlapResults <- as.data.frame(overlapResults[order(overlapResults, decreasing = F)] )
+ write.csv(overlapResults, file = "DifferentialExpression/GSEA/AgingSignature/comparisonToMsigDB_hallmark_aging.csv")
+
+overlapResults <- sapply(hallmarksets, function (x) {    return( fisher.test( makeContingency(agingSignature[,1], x) )$p.value)      })  # overlap of signature of youth vs Hallmark sets 
+overlapResults <- as.data.frame(overlapResults[order(overlapResults, decreasing = F)] )
+ write.csv(overlapResults, file = "DifferentialExpression/GSEA/AgingSignature/comparisonToMsigDB_hallmark_youth.csv")
+
+
 
 overlapHiHi_leadingEdge <- sapply(c7signatures, function (x) {  return (fisher.test(makeContingency( HiHiv2gsea$PROBE[which(HiHiv2gsea$CORE.ENRICHMENT == "Yes")] , x) )$p.value)})
 overlapHiHi_leadingEdge <- as.data.frame(overlapHiHi_leadingEdge[order(overlapHiHi_leadingEdge, decreasing = F)])
 # write.csv(overlapHiHi_leadingEdge, file = "DifferentialExpression/GSEA/AgingSignature/HiHiv2_leadingEdge_comparisonToMsigDB_C7.csv")
 
 
-overlapResults <- sapply(hallmarksets, function (x) {    return( fisher.test( makeContingency(agingSignature[,2], x) )$p.value)      })
-overlapResults <- as.data.frame(overlapResults[order(overlapResults, decreasing = F)] )
-# write.csv(overlapResults, file = "DifferentialExpression/GSEA/AgingSignature/comparisonToMsigDB_C7.csv")
+#  *************************     functional implications of the signature?  *********************************   
 
+hihiv2 <- bestDataLog[,grep("HiHi_v2",colnames(bestDataLog),value=F)]; colnames(hihiv2) <- substr(colnames(hihiv2), start=2,stop=7)
+gsets <- getGmt("DifferentialExpression/GSEA/AgingSignature/WistarBAAyr4_GeneSets.gmt.txt")
+gsvaAgingSignatures <- as.data.frame(t(gsva(as.matrix(hihiv2), gsets, method="ssgsea"))); gsvaPhenotype <- merge(gsvaAgingSignatures, phenotypeMatrix, by.x=0, by.y="X")
 
+ggplot(gsvaPhenotype, aes(x=cTfh_ICOShi.CD38hi...Freq..of, y=WistarBAA_Year4_YOUTH)) + geom_point() + theme_bw()
+ggplot(gsvaPhenotype, aes(x=cTfh_ICOShi.CD38hi...Freq..of, y=WistarBAA_Year4_AGING)) + geom_point() + theme_bw()
+cor.test(gsvaPhenotype$WistarBAA_Year4_AGING, gsvaPhenotype$H1N1.nAb.FCd28)
 
-
-
-
-
-
-
-
-
-
-
-
+ggplot(gsvaPhenotype, aes(x=WistarBAA_Year4_YOUTH, y=H3N2.nAb.FCd28)) + geom_point() + theme_bw() 
+cor.test(gsvaPhenotype$WistarBAA_Year4_YOUTH, gsvaPhenotype$H3N2.nAb.FCd28)
 
 
 
@@ -1204,7 +1216,7 @@ ggplot(data=BAA_deltaNES_HiHi, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + ge
   ggtitle("GSE79396 Zoster Vac: ICOS+CD38+ cTfh") + ylab("Enrichment score") + xlab("Rank in gene list") + 
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
-ggsave(file="DifferentialExpression/GSEA/Images/GSE79396_deltaNES_HiHi.pdf", device="pdf", height=3.5, width=5)
+# ggsave(file="DifferentialExpression/GSEA/Images/GSE79396_deltaNES_HiHi.pdf", device="pdf", height=3.5, width=5)
 
 BAA_deltaNES_LoLo <- read.csv("DifferentialExpression/GSEA/GSEA_Results/GSE79396_ZosterVacc_YvE_visit1.GseaPreranked.1555447501664/BAA_DELTANES_LEADEDGE_LOLO.xls", sep="\t")
 annotationInfo <- paste0("NES: ", round(ExternalGenesets$NES[grep("LOLO",ExternalGenesets$NAME)],2), "\n", "FDR: ", formatC(ExternalGenesets$FDR.q.val[grep("LOLO",ExternalGenesets$NAME)], format="e", digits=1))
@@ -1231,7 +1243,7 @@ ggplot(ExternalGenesets, aes(x=NAME, y=NES)) +  theme_bw() + #geom_point() #+
   theme(axis.text.x = element_text(angle=45, hjust=1)) +
   theme(axis.text = element_text(size=12))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   ggtitle("NES of subsetes for leading edges")  
-ggsave(filename = "DifferentialExpression/GSEA/Images/GSE79396_deltaNES_visit1_barGraph.pdf")
+# ggsave(filename = "DifferentialExpression/GSEA/Images/GSE79396_deltaNES_visit1_barGraph.pdf")
 
 
 
@@ -1249,7 +1261,7 @@ ggplot(ExternalGenesets, aes(x=NAME, y=NES)) +  theme_bw() + #geom_point() #+
   theme(axis.text.x = element_text(angle=45, hjust=1)) +
   theme(axis.text = element_text(size=12))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   ggtitle("NES of subsetes for leading edges")  
-ggsave(filename = "DifferentialExpression/GSEA/Images/GSE79396_deltaNES_visit4_barGraph.pdf")
+# ggsave(filename = "DifferentialExpression/GSEA/Images/GSE79396_deltaNES_visit4_barGraph.pdf")
 
 
 
