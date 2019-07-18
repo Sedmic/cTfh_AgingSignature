@@ -12,9 +12,6 @@ library("ggcorrplot")
 library("viridis")
 
 bestDataLog <- read.csv(file="bestDataLog.csv",stringsAsFactors = FALSE); rownames(bestDataLog) <- bestDataLog$X; bestDataLog$X <- NULL
-# phenotypeMatrix <- read.csv(file="../../Analysis/BAA_yr4_AllMergedData_FC.csv"); 
-# phenotypeMatrix <- phenotypeMatrix[-c(62:73),]; rownames(phenotypeMatrix) <- phenotypeMatrix$Subject; # not sure why there are NA rows introduced into the end
-# phenotypeMatrix$Subject <- NULL
 
 phenotypeMatrix <- read.csv(file="20180828_phenotypeMatrix.csv", stringsAsFactors = FALSE); rownames(bestDataLog) <- bestDataLog$X; bestDataLog$X <- NULL
 
