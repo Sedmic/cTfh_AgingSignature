@@ -58,7 +58,8 @@ qResistin <- ggplot(data=luminex, aes(x=Day,y=Resistin)) + geom_violin(data=subs
 
 
 a <- ggarrange(qCXCL11, qFractaline, qMIP3a, qIL7, qIL8, qMIP1b, qTNF, qLeptin, qHGF, qAdiponectin, qMCP1, qResistin, common.legend = TRUE, legend="right")
-ggexport(a, filename = "../../../Luminex/Year4_Luminex/Images/AllChemokinesByDay_Young.pdf")
+a
+# ggexport(a, filename = "../../../Luminex/Year4_Luminex/Images/AllChemokinesByDay_Young.pdf")
 
 
 qCXCL11 <- ggplot(data=luminex, aes(x=Day,y=CXCL11)) + geom_violin(data=subset(luminex,Day==c(0,7) & AgeCategory=="Elderly",stat="identity"), aes(fill=Day)) + theme_bw() +
@@ -99,7 +100,8 @@ qResistin <- ggplot(data=luminex, aes(x=Day,y=Resistin)) + geom_violin(data=subs
   ggtitle("Resistin") + theme(plot.title = element_text(size=16,hjust = 0.5)) + ylab("Resistin (pg/mL)") + ylim(c(0,9000))
 
 a <- ggarrange(qCXCL11, qFractaline, qMIP3a, qIL7, qIL8, qMIP1b, qTNF, qLeptin, qHGF, qAdiponectin, qMCP1, qResistin, common.legend = TRUE, legend="right")
-ggexport(a, filename = "../../../Luminex/Year4_Luminex/Images/AllChemokinesByDay_Elderly.pdf")
+a
+# ggexport(a, filename = "../../../Luminex/Year4_Luminex/Images/AllChemokinesByDay_Elderly.pdf")
 
 
 # CXCL11 vs TNF
@@ -116,7 +118,6 @@ ggplot(data=subset(luminex, Day==0), aes(x=`CXCL11`,y=TNFa, fill=`AgeCategory`))
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=24,hjust = 0.5))+
   ggtitle("TNF vs CXCL11 at day 0") + theme(plot.title = element_text(size=28,hjust = 0.5)) + ylab("TNF (pg/mL)")  + xlab("CXCL11 (pg/mL)")+
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00'))+ annotation_custom(my_grob1) + annotation_custom(my_grob2)
-# ggsave(filename = "../../Analysis/Antibody data/Images/TNFvsCXCL11_YandE_scatter.png", device="png")
 # ggsave(filename = "../../Analysis/Antibody data/Images/TNFvsCXCL11_YandE_scatter.pdf", device="pdf")
 
 # MIP1b vs TNF
@@ -133,7 +134,6 @@ ggplot(data=subset(luminex, Day==0), aes(x=`MIP1b`,y=TNFa, fill=`AgeCategory`)) 
   ggtitle("TNF vs MIP1b at day 0") + theme(plot.title = element_text(size=28,hjust = 0.5)) + ylab("TNF (pg/mL)")  + xlab("MIP1b (pg/mL)")+
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=24,hjust = 0.5))+
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00'))+ annotation_custom(my_grob1) + annotation_custom(my_grob2)
-# ggsave(filename = "../../Analysis/Antibody data/Images/TNFvsMIP1b_YandE_scatter.png", device="png")
 # ggsave(filename = "../../Analysis/Antibody data/Images/TNFvsMIP1b_YandE_scatter.pdf", device="pdf")
 
 
@@ -303,7 +303,6 @@ ggplot(data=phenotypeMatrix[-1,], aes(x=`H1N1.IgM.FCd28`,y=TNFa, fill=`Identifie
   ggtitle("TNF vs H1N1 IgM FCd28") + theme(plot.title = element_text(size=28,hjust = 0.5)) + ylab("TNF (pg/mL)") + xlab("Fold change of day 28 vs 0") + 
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=24,hjust = 0.5))+
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00'))+ annotation_custom(my_grob1) + annotation_custom(my_grob2)
-# ggsave(filename = "../../Analysis/Antibody data/Images/H1N1_IgM_FCd28_YandE_scatter.png", device="png")
 # ggsave(filename = "../../Analysis/Antibody data/Images/H1N1_IgM_FCd28_YandE_scatter.pdf", device="pdf")
 cor.test(phenotypeMatrixYoung$H1N1.IgM.FCd28[-1], phenotypeMatrixYoung$TNFa[-1], use="complete")
 cor.test(phenotypeMatrixElderly$H1N1.IgM.FCd28, phenotypeMatrixElderly$TNFa, use="complete")
@@ -324,7 +323,6 @@ ggplot(data=phenotypeMatrix[-1,], aes(x=`H3N2.IgM.FCd28`,y=TNFa, fill=`Identifie
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=24,hjust = 0.5))+
   ggtitle("TNF vs H3N2 IgM FCd28") + theme(plot.title = element_text(size=28,hjust = 0.5)) + ylab("TNF (pg/mL)")  + xlab("Fold change of day 28 vs 0") + 
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00'))+ annotation_custom(my_grob1) + annotation_custom(my_grob2)
-# ggsave(filename = "../../Analysis/Antibody data/Images/H3N2_IgM_FCd28_YandE_scatter.png", device="png")
 # ggsave(filename = "../../Analysis/Antibody data/Images/H3N2_IgM_FCd28_YandE_scatter.pdf", device="pdf")
 cor.test(phenotypeMatrixYoung$H3N2.IgM.FCd28[-1], phenotypeMatrixYoung$TNFa[-1], use="complete")
 cor.test(phenotypeMatrixElderly$H3N2.IgM.FCd28, phenotypeMatrixElderly$TNFa, use="complete")
@@ -404,7 +402,6 @@ ggplot(data=phenotypeMatrix[-1,], aes(x=`H3N2.IgG.FCd28`,y=TNFa, fill=`Identifie
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=24,hjust = 0.5))+
   ggtitle("TNF vs H3N2 IgG FCd28") + theme(plot.title = element_text(size=28,hjust = 0.5)) + ylab("TNF (pg/mL)")  + xlab("Fold change of day 28 vs 0") + 
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00'))+ annotation_custom(my_grob1) + annotation_custom(my_grob2)
-# ggsave(filename = "../../Analysis/Antibody data/Images/H3N2_IgG_FCd28_YandE_scatter.png", device="png")
 # ggsave(filename = "../../Analysis/Antibody data/Images/H3N2_IgG_FCd28_YandE_scatter.pdf", device="pdf")
 cor.test(phenotypeMatrixYoung$H3N2.IgG.FCd28[-1], phenotypeMatrixYoung$TNFa[-1], use="complete")
 cor.test(phenotypeMatrixElderly$H3N2.IgG.FCd28, phenotypeMatrixElderly$TNFa, use="complete")
@@ -465,7 +462,6 @@ ggplot(data=phenotypeMatrix[-1,], aes(x=`H1N1.nAb.FCd28`,y=TNFa, fill=`Identifie
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=24,hjust = 0.5))+
   ggtitle("TNF vs H1N1 nAb FCd28") + theme(plot.title = element_text(size=28,hjust = 0.5)) + ylab("TNF (pg/mL)")  + xlab("Fold change of day 28 vs 0") + 
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00'))+ annotation_custom(my_grob1) + annotation_custom(my_grob2)
-# ggsave(filename = "../../Analysis/Antibody data/Images/H1N1_nAb_FCd28_YandE_scatter.png", device="png")
 # ggsave(filename = "../../Analysis/Antibody data/Images/H1N1_nAb_FCd28_YandE_scatter.pdf", device="pdf")
 cor(phenotypeMatrixYoung$H1N1.nAb.FCd28[-1], phenotypeMatrixYoung$TNFa[-1], use="complete")
 cor(phenotypeMatrixElderly$H1N1.nAb.FCd28, phenotypeMatrixElderly$TNFa, use="complete")

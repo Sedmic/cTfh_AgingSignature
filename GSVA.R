@@ -485,10 +485,10 @@ cellLifeDeath <- rbind(proSurvivalYvE, ApoptoticYvE)
 ggplot(data=cellLifeDeath, aes(x=`Young`,y=`Elderly`, color=`Category`)) + theme_bw() +  theme(legend.position = c(0.2,0.1), legend.text = element_text(size=20)) +
   geom_point(size=4) +
   geom_text_repel(size=7, point.padding = 0.5, show.legend = F, aes(label=row.names(cellLifeDeath))) + 
-  ggtitle("Correlations to GSVA TNF-NFkB score") + theme(plot.title = element_text(size=24,hjust = 0.5)) + xlim(-1,1) + ylim(-1,1)+
+  ggtitle("Correlation to GSVA TNF-NFkB score") + theme(plot.title = element_text(size=24,hjust = 0.5)) + xlim(-1,1) + ylim(-1,1)+
   ylab("Pearson r, Elderly")  + xlab("Pearson r, Young") +
   geom_vline(xintercept=0, linetype="dashed", color="grey", size=1) + geom_hline(yintercept=0, linetype="dashed", color="grey", size=1) +
-  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5)) +
+  theme(axis.text = element_text(size=16,hjust = 0.5), axis.title = element_text(size=24,hjust = 0.5), legend.title = element_blank()) +
   scale_color_viridis_d(begin=0, end=0.65)
 # ggsave(filename="DifferentialExpression/GSVA/Images/Bcl_family_GSVATNF_hihi_v2.pdf", device="pdf")
 
