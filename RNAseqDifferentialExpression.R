@@ -171,9 +171,9 @@ Hi_v_Lo_y2 <- cbind(
 
 annotateHeatmap <- data.frame(row.names = colnames(Hi_v_Lo_y2), subset = c(rep("ICOS+CD38+ cTfh", 6),rep("ICOS-CD38- cTfh", 6),rep("Naive CD4", 6)))
 ann_colors = list(  subset = c("ICOS+CD38+ cTfh" ="orange", "ICOS-CD38- cTfh" = "green", "Naive CD4" ="yellow")  )
-pheatmap(Hi_v_Lo_y2, scale="row", cluster_col=F, annotation_col = annotateHeatmap, show_colnames=F, main="Selected Tfh genes",
+pheatmap(Hi_v_Lo_y2, scale="row", cluster_col=F, annotation_col = annotateHeatmap, show_colnames=F, main="Selected Tfh genes - YOUNG only",
          gaps_col = c(6,12), annotation_colors = ann_colors, cutree_rows = 3, fontsize_row = 16, color=inferno(100)
-         #, filename = "Images/SelectedGenesHeatmap.pdf"
+         #, filename = "Images/SelectedGenesHeatmap_YOUNG.pdf"
 )
 
 # dev.off(); dev.off(); 

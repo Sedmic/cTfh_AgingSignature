@@ -828,7 +828,8 @@ ggplot(extMicroarraysYouth, aes(x=NAME, y=NES)) + geom_point(size=8) + geom_bar(
 customPalette <- colorRampPalette(brewer.pal(12,"Paired"))(12)
 customPalette[11] <- "#DE966D"  # modify paired palette to eliminate yellow
 temp <- customPalette[c(7,8,3,4,1,1,9,10,1,1,11,12)]
-temp[5:6] <- c("#fff849","#d6cf44"); temp[9:10] <- c("#03681e","#003d10"); temp[11:12] <- c("#99930a","#686408")
+temp[5:6] <- c("#ffe254","#c1a311"); temp[9:10] <- c("#03681e","#003d10"); temp[11:12] <- c("#99930a","#686408")
+temp[1:4] <- c("#ffd9b3","#ff5f00","#e6f6d8","#1b8416")
 customPalette <- temp;  show_col(customPalette)
 CD4subsetsAgingSig <- rbind(Naivev1gseaFDR, Naivev2gseaFDR, LoLov1gseaFDR, LoLov2gseaFDR, HiHiv1gseaFDR, HiHiv2gseaFDR)
 CD4subsetsAgingSig$NAME <- c("Naive CD4 d0", "Naive CD4 d7", "ICOS-CD38- cTfh d0", "ICOS-CD38- cTfh d7", "ICOS+CD38+ cTfh d0", "ICOS+CD38+ cTfh d7" )
@@ -885,31 +886,28 @@ makeContingency <- function (genelist1, genelist2)
   a <- length(which(genelist1 %in% genelist2));   b <- length(genelist2) - a;   c <- length(genelist1) - a;   d <- 33000
   return( matrix(ncol=2,  c( a, b, c, d)  ) )   }
 
-overlapResults <- sapply(c7signatures, function (x) {    return( fisher.test( makeContingency(agingSignature[,1], x) )$p.value)      })
+overlapResults <- sapply(c7signatures, function (x) {    return( fisher.test( makeContingency(agingSignature[,1], x) )$p.value)      })  # what is the signature of youth?
 overlapResults <- as.data.frame(overlapResults[order(overlapResults, decreasing = F)])
 # write.csv(overlapResults, file = "DifferentialExpression/GSEA/AgingSignature/comparisonToMsigDB_C7_youth.csv")
+head(overlapResults, n=20)
 
-overlapResults <- sapply(c7signatures, function (x) {    return( fisher.test( makeContingency(agingSignature[,2], x) )$p.value)      })
+
+overlapResults <- sapply(c7signatures, function (x) {    return( fisher.test( makeContingency(agingSignature[,2], x) )$p.value)      })   # what is the signature of aging?
 overlapResults <- as.data.frame(overlapResults[order(overlapResults, decreasing = F)])
 # write.csv(overlapResults, file = "DifferentialExpression/GSEA/AgingSignature/comparisonToMsigDB_C7_aging.csv")
-
+head(overlapResults, n=20)
 
 
 overlapResults <- sapply(hallmarksets, function (x) {    return( fisher.test( makeContingency(agingSignature[,2], x) )$p.value)      })  # overlap of signature of aging vs Hallmark sets
 overlapResults <- as.data.frame(overlapResults[order(overlapResults, decreasing = F)] )
 # write.csv(overlapResults, file = "DifferentialExpression/GSEA/AgingSignature/comparisonToMsigDB_hallmark_aging.csv")
+head(overlapResults, n=20)
+
 
 overlapResults <- sapply(hallmarksets, function (x) {    return( fisher.test( makeContingency(agingSignature[,1], x) )$p.value)      })  # overlap of signature of youth vs Hallmark sets 
 overlapResults <- as.data.frame(overlapResults[order(overlapResults, decreasing = F)] )
 # write.csv(overlapResults, file = "DifferentialExpression/GSEA/AgingSignature/comparisonToMsigDB_hallmark_youth.csv")
-
-
-
-overlapHiHi_leadingEdge <- sapply(c7signatures, function (x) {  return (fisher.test(makeContingency( HiHiv2gsea$PROBE[which(HiHiv2gsea$CORE.ENRICHMENT == "Yes")] , x) )$p.value)})
-overlapHiHi_leadingEdge <- as.data.frame(overlapHiHi_leadingEdge[order(overlapHiHi_leadingEdge, decreasing = F)])
-# write.csv(overlapHiHi_leadingEdge, file = "DifferentialExpression/GSEA/AgingSignature/HiHiv2_leadingEdge_comparisonToMsigDB_C7.csv")
-
-
+head(overlapResults, n=20)
 
 
 

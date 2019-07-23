@@ -2,7 +2,8 @@ library("WGCNA")
 library("DESeq2")
 
 #  gene filtering approach
-dataMatrixCounts <- read.table("RawProcessing/2018July_PORTnormalization/SPREADSHEETS/FINAL_master_list_of_gene_counts_MIN.FluVacAging.txt", sep="", header=T, stringsAsFactors = F)
+setwd("D:/BAA project/Year4/RNAseq/HiSeqRun")
+dataMatrixCounts <- utils::read.table("RawProcessing/2018July_PORTnormalization/SPREADSHEETS/FINAL_master_list_of_gene_counts_MIN.FluVacAging.txt", sep="", header=T, stringsAsFactors = F)
 rownames(dataMatrixCounts) <- make.names(dataMatrixCounts$geneSymbol, unique=TRUE)
 dataMatrixCounts$id <- dataMatrixCounts$geneCoordinate <- dataMatrixCounts$geneSymbol <- NULL 
 dataMatrixCounts$X222006_HiHi_v1 <- NULL  # based on what was learned from the RNAseq_QC script
@@ -156,7 +157,7 @@ labeledHeatmap(Matrix = moduleTraitCor, xLabels = names(datTraits), yLabels = na
 
 
 #Plotting TOM
-plotTOM <- (dissTOM)^7
+plotTOM <- (dissTOMy)^7
 diag(plotTOM) = NA;
 sizeGrWindow(9,9)
 #TOMplot(plotTOM, geneTree, moduleColors, main = "Network heatmap plot, all genes")
@@ -206,6 +207,7 @@ ranked <- ranked[,grep(paste(c("MMgreen","MMred","MMbrown","MMturquoise","MMyell
 # write.csv(ranked,"Network/YoungHiHiV2/20180912_RankedGenes_moduleMembership.csv")
 # save(geneTree, merge, MEList, METree, file="Network/YoungHiHiV2/20180912_diffModuleComparison_Y_hihi_v2.Rdata")
 # save.image(file="Network/YoungHiHiV2/20180912_FinalModules.Rdata")
+head(ranked)
 FilterGenes <- abs(geneTraitSignificance)> .9 & abs(geneModuleMembership$MMblue)>.98
 FilterGenes <- subset(FilterGenes,FilterGenes[,1] == TRUE)
 
@@ -225,33 +227,7 @@ geneInfo = geneInfo0[geneOrder, ]
 
 #write.csv(geneInfo, file = "geneInfo.csv")
 
-
+save.image(file="20190721_yHiHiv2_v1.RData")
 
 # --------------------------------------------
-
-
-
-
-# Export the network into edge and node list files Cytoscape can read
-cyt = exportNetworkToCytoscape(modTOM,
-                               edgeFile = paste("CytoscapeInput-edges-", paste(modules, collapse="-"), ".txt", sep=""),
-                               nodeFile = paste("CytoscapeInput-nodes-", paste(modules, collapse="-"), ".txt", sep=""),
-                               weighted = TRUE,
-                               threshold = 0.02,
-                               nodeNames = modProbes,
-                               nodeAttr = moduleColors[inModule]);
-
-
-
-
-
-
-
-
-
-save(DataMatrix, NetworkData, TOM, net, sft, modProbes, file = "wgcna_20150725.RData");
-save(DataMatrix, TOM, sft, sampleTree, file = "wgcna_20150818.RData")
-lnames <- load(file="wgcna_20150818.RData")
-
-save(geneTree, merge, MEList, METree, file = "wgcna_20150915.RData")
 

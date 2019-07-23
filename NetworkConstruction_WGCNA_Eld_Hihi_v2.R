@@ -2,6 +2,7 @@ library(WGCNA)
 library(DESeq2)
 
 #  gene filtering approach
+setwd("D:/BAA project/Year4/RNAseq/HiSeqRun")
 dataMatrixCounts <- read.table("RawProcessing/2018July_PORTnormalization/SPREADSHEETS/FINAL_master_list_of_gene_counts_MIN.FluVacAging.txt", sep="", header=T, stringsAsFactors = F)
 rownames(dataMatrixCounts) <- make.names(dataMatrixCounts$geneSymbol, unique=TRUE)
 dataMatrixCounts$id <- dataMatrixCounts$geneCoordinate <- dataMatrixCounts$geneSymbol <- NULL 
@@ -212,6 +213,7 @@ ranked <- ranked[,grep(paste(c("MMgreen","MMlightgreen","MMbrown","MMturquoise",
 # write.csv(ranked,"Network/Eld_HiHiV2/20180912_RankedGenes_moduleMembership.csv")
 # save(geneTree, merge, MEList, METree, file="Network/Eld_HiHiV2/20180912_diffModuleComparison_E_hihi_v2.Rdata")
 # save.image(file="Network/Eld_HiHiV2/20180913_FinalModules.Rdata")
+head(ranked)
 
 
 FilterGenes <- abs(geneTraitSignificance)> .9 & abs(geneModuleMembership$MMblue)>.98
@@ -233,33 +235,7 @@ geneInfo = geneInfo0[geneOrder, ]
 
 #write.csv(geneInfo, file = "geneInfo.csv")
 
+save.image(file="20190721_eHiHiv2_v1.RData")
 
 
 # --------------------------------------------
-
-
-
-
-# Export the network into edge and node list files Cytoscape can read
-cyt = exportNetworkToCytoscape(modTOM,
-                               edgeFile = paste("CytoscapeInput-edges-", paste(modules, collapse="-"), ".txt", sep=""),
-                               nodeFile = paste("CytoscapeInput-nodes-", paste(modules, collapse="-"), ".txt", sep=""),
-                               weighted = TRUE,
-                               threshold = 0.02,
-                               nodeNames = modProbes,
-                               nodeAttr = moduleColors[inModule]);
-
-
-
-
-
-
-
-
-
-save(DataMatrix, NetworkData, TOM, net, sft, modProbes, file = "wgcna_20150725.RData");
-save(DataMatrix, TOM, sft, sampleTree, file = "wgcna_20150818.RData")
-lnames <- load(file="wgcna_20150818.RData")
-
-save(geneTree, merge, MEList, METree, file = "wgcna_20150915.RData")
-

@@ -10,15 +10,13 @@ library("pheatmap")
 library("reshape2")
 library("ggcorrplot")
 library("viridis")
+sessionInfo()
 
-bestDataLog <- read.csv(file="bestDataLog.csv",stringsAsFactors = FALSE); rownames(bestDataLog) <- bestDataLog$X; bestDataLog$X <- NULL
+bestDataLog <- read.csv(file="bestDataLog.csv",stringsAsFactors = FALSE, row.names=1)
 
 phenotypeMatrix <- read.csv(file="20180828_phenotypeMatrix.csv", stringsAsFactors = FALSE); rownames(bestDataLog) <- bestDataLog$X; bestDataLog$X <- NULL
-
 phenotypeMatrixYoung <- subset(phenotypeMatrix,Identifier=="Young",stat="identity")
 phenotypeMatrixElderly <- subset(phenotypeMatrix,Identifier=="Elderly",stat="identity")
-
-
 
 # ***************************************  TNFRSF1A and B from the bestDataLog  ***********************************************
 
