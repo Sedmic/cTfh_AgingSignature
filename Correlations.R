@@ -561,6 +561,115 @@ cor(phenotypeMatrixElderly$H3N2.nAb.FCd28, phenotypeMatrixElderly$CXCL11, use="c
 
 
 
+
+
+
+#  CD3hi_CD28..FreqParent.v1 vs Tfh response
+a <- cor.test(phenotypeMatrixYoung$CD3hi_CD28..FreqParent.v1, phenotypeMatrixYoung$cTfh_ICOShi.CD38hi...Freq..of, use="complete")
+b <- cor.test(phenotypeMatrixElderly$CD3hi_CD28..FreqParent.v1, phenotypeMatrixElderly$cTfh_ICOShi.CD38hi...Freq..of, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format="e", digits=1))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.6,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=16)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.6,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=16)))
+ggplot(data=phenotypeMatrix, aes(x=`CD3hi_CD28..FreqParent.v1`,y=`cTfh_ICOShi.CD38hi...Freq..of`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=6, pch=21) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Young",stat="identity"), size=6, pch=21) +  #ylim(-1,1) + xlim(0,3)+
+  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
+  ggtitle("ICOS+CD38+ cTfh vs CD3+CD28-") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("ICOShiCD38hi cTfh foldchange")  + xlab("Baseline CD3+CD28- (% CD3)")+
+  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
+ ggsave(filename="../../Analysis/Images/HiHi_vs_CD28negFC.pdf", device="pdf")
+
+
+#  Ratio.of.CD4.to.CD8.at.v1 vs Tfh response
+a <- cor.test(phenotypeMatrixYoung$Ratio.of.CD4.to.CD8.at.v1, phenotypeMatrixYoung$cTfh_ICOShi.CD38hi...Freq..of, use="complete")
+b <- cor.test(phenotypeMatrixElderly$Ratio.of.CD4.to.CD8.at.v1, phenotypeMatrixElderly$cTfh_ICOShi.CD38hi...Freq..of, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format="e", digits=1))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.6,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=16)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.6,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=16)))
+ggplot(data=phenotypeMatrix, aes(x=`Ratio.of.CD4.to.CD8.at.v1`,y=`cTfh_ICOShi.CD38hi...Freq..of`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=6, pch=21) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Young",stat="identity"), size=6, pch=21) +  #ylim(-1,1) + xlim(0,3)+
+  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
+  ggtitle("ICOS+CD38+ cTfh vs CD4/CD8 ratio") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("ICOShiCD38hi cTfh foldchange")  + xlab("Baseline CD4-CD8 ratio")+
+  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
+ ggsave(filename="../../Analysis/Images/HiHi_vs_CD4CD8ratio.pdf", device="pdf")
+
+
+#  Ratio.of.CD4.to.CD8.at.v1 vs Tfh response
+a <- cor.test(phenotypeMatrixYoung$DN.T.cells.at.v1, phenotypeMatrixYoung$cTfh_ICOShi.CD38hi...Freq..of, use="complete")
+b <- cor.test(phenotypeMatrixElderly$DN.T.cells.at.v1, phenotypeMatrixElderly$cTfh_ICOShi.CD38hi...Freq..of, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format="e", digits=1))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.6,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=16)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.6,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=16)))
+ggplot(data=phenotypeMatrix, aes(x=`DN.T.cells.at.v1`,y=`cTfh_ICOShi.CD38hi...Freq..of`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=6, pch=21) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Young",stat="identity"), size=6, pch=21) +  #ylim(-1,1) + xlim(0,3)+
+  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
+  ggtitle("ICOS+CD38+ cTfh vs CD3+CD4-CD8-") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("ICOShiCD38hi cTfh foldchange")  + xlab("Baseline CD3+CD4-CD8- (% CD3)")+
+  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
+ ggsave(filename="../../Analysis/Images/HiHi_vs_DNTcells.pdf", device="pdf")
+
+
+
+#  CD3hi_CD28..FreqParent.v1 vs PB response
+a <- cor.test(phenotypeMatrixYoung$CD3hi_CD28..FreqParent.v1, phenotypeMatrixYoung$ASC.freqLive, use="complete")
+b <- cor.test(phenotypeMatrixElderly$CD3hi_CD28..FreqParent.v1, phenotypeMatrixElderly$ASC.freqLive, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format="e", digits=1))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.6,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=16)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.6,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=16)))
+ggplot(data=phenotypeMatrix, aes(x=`CD3hi_CD28..FreqParent.v1`,y=`ASC.freqLive`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=6, pch=21) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Young",stat="identity"), size=6, pch=21) +  #ylim(-1,1) + xlim(0,3)+
+  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
+  ggtitle("Plasmablast response vs CD3+CD28-") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("Plasmablast foldchange")  + xlab("Baseline CD3+CD28- (% CD3)")+
+  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
+ ggsave(filename="../../Analysis/Images/PB_vs_CD28negFC.pdf", device="pdf")
+
+
+#  Ratio.of.CD4.to.CD8.at.v1 vs PB response
+a <- cor.test(phenotypeMatrixYoung$Ratio.of.CD4.to.CD8.at.v1, phenotypeMatrixYoung$ASC.freqLive, use="complete")
+b <- cor.test(phenotypeMatrixElderly$Ratio.of.CD4.to.CD8.at.v1, phenotypeMatrixElderly$ASC.freqLive, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format="e", digits=1))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.6,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=16)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.6,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=16)))
+ggplot(data=phenotypeMatrix, aes(x=`Ratio.of.CD4.to.CD8.at.v1`,y=`ASC.freqLive`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=6, pch=21) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Young",stat="identity"), size=6, pch=21) +  #ylim(-1,1) + xlim(0,3)+
+  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
+  ggtitle("Plasmablast vs CD4/CD8 ratio") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("Plasmablast foldchange")  + xlab("Baseline CD4-CD8 ratio")+
+  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
+ ggsave(filename="../../Analysis/Images/PB_vs_CD4CD8ratio.pdf", device="pdf")
+
+
+#  Ratio.of.CD4.to.CD8.at.v1 vs PB response
+a <- cor.test(phenotypeMatrixYoung$DN.T.cells.at.v1, phenotypeMatrixYoung$ASC.freqLive, use="complete")
+b <- cor.test(phenotypeMatrixElderly$DN.T.cells.at.v1, phenotypeMatrixElderly$ASC.freqLive, use="complete")
+annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format="e", digits=1))
+annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.6,  y=0.10, hjust=0, gp=gpar(col="orange3", fontsize=16)))
+my_grob2 = grobTree(textGrob(annotationInfo2, x=0.6,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=16)))
+ggplot(data=phenotypeMatrix, aes(x=`DN.T.cells.at.v1`,y=`ASC.freqLive`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=6, pch=21) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Young",stat="identity"), size=6, pch=21) +  #ylim(-1,1) + xlim(0,3)+
+  theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
+  ggtitle("Plasmablast vs CD3+CD4-CD8-") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("Plasmablast foldchange")  + xlab("Baseline CD3+CD4-CD8- (% CD3)")+
+  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
+ ggsave(filename="../../Analysis/Images/PB_vs_DNTcells.pdf", device="pdf")
+
+
+
+#  ***************************************** correlation matrices  ********************************************
+
 corrY <- cor(phenotypeMatrixYoung[,c(4:6, 10, 17:26)],use="complete") 
 p.matY <- cor_pmat(phenotypeMatrixYoung[,c(4:6, 10, 17:26)],use="complete")
 a<-ggcorrplot(corrY, hc.order=FALSE, type="full",outline.col="white",lab=FALSE, p.mat=p.matY, insig="blank", tl.cex=19, colors=inferno(3) )

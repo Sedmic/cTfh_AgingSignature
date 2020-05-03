@@ -4,7 +4,7 @@ library("gplots")
 library("RColorBrewer")
 library("DESeq2")
 library("BiocParallel")
-library(WGCNA)
+library("WGCNA")
 register(MulticoreParam(6))
 sessionInfo()
 

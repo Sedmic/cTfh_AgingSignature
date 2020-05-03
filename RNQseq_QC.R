@@ -40,6 +40,25 @@ ggplot(data = scores, aes(x = PC1, y = PC2, label = rownames(scores))) +
 # ggsave(filename = "Images/PCAplot_allSamples.pdf", device="pdf")
 
 
+scores$color <- c("#FDBF6F","#FF7F00","#B2DF8A","#33A02C","#FFF849","#D6CF44",
+                  "#FDBF6F","#FF7F00","#B2DF8A","#33A02C","#FFF849","#D6CF44",
+                  "#FDBF6F","#FF7F00","#B2DF8A","#33A02C","#FFF849","#D6CF44",
+                  "#FDBF6F","#FF7F00","#B2DF8A","#33A02C","#FFF849","#D6CF44",
+                  "#FDBF6F","#FF7F00","#B2DF8A","#33A02C","#FFF849","#D6CF44",
+                  "#FDBF6F","#FF7F00","#B2DF8A","#33A02C","#FFF849","#D6CF44",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408")
+ggplot(data = scores, aes(x = PC1, y = PC2, label = rownames(scores))) +
+  geom_hline(yintercept = 0, colour = "gray65") + theme_bw() +  geom_vline(xintercept = 0, colour = "gray65") +  
+  geom_point(colour=scores$color, alpha=1, size=6) + 
+  ggtitle("All samples in final pool") + theme(title = element_text(size=28), axis.title = element_text(size=28))
+# ggsave(filename = "Images/PCAplot_allSamples_colored.pdf", device="pdf")
 
 
 

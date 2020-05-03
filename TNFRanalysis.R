@@ -12,9 +12,9 @@ library("ggcorrplot")
 library("viridis")
 sessionInfo()
 
-bestDataLog <- read.csv(file="bestDataLog.csv",stringsAsFactors = FALSE, row.names=1)
+bestDataLog <- read.csv(file="bestDataLog.csv", row.names=1)
 
-phenotypeMatrix <- read.csv(file="20180828_phenotypeMatrix.csv", stringsAsFactors = FALSE); rownames(bestDataLog) <- bestDataLog$X; bestDataLog$X <- NULL
+phenotypeMatrix <- read.csv(file="20180828_phenotypeMatrix.csv", row.names=1); #rownames(bestDataLog) <- bestDataLog$X; bestDataLog$X <- NULL
 phenotypeMatrixYoung <- subset(phenotypeMatrix,Identifier=="Young",stat="identity")
 phenotypeMatrixElderly <- subset(phenotypeMatrix,Identifier=="Elderly",stat="identity")
 
@@ -155,6 +155,7 @@ ggplot(data=TNFRSF1A_beforeAfter, aes()) + theme_bw() +
   theme(plot.title = element_text(size=36,hjust = 0.5)) 
 # ggsave(filename="Images/TNFR1_HiHi_beforeAfter.pdf", device="pdf")
 
+t.test(TNFRSF1A_beforeAfter$visit1[1:6],TNFRSF1A_beforeAfter$visit2[1:6],paired = T)
 
 # TNFR2 pre-post vaccine
 TNFRSF1B_beforeAfter <- dcast(logDataSelected, subject~visit, value.var = "TNFRSF1B" )  # give me a before-after view of the matrix
@@ -570,7 +571,7 @@ plot(data=phenotypeMatrix, `ASC.freqLive`~ H3N2.nAb.FCd28)
 
 summary(lm(data=phenotypeMatrix, `ASC.freqLive`~ TNFa*TNFRSF1Ahihid7)) # no statistical significance for the interaction
 summary(lm(data=phenotypeMatrix, `ASC.freqLive`~ TNFa*TNFRSF1Bhihid7))   # no statistical significance for the interaction 
-summary(lm(data=phenotypeMatrix, `ASC.freqLive`~ TNFa*TNFRSFratiohihid7)) # no statistical significance for the interaction
+summary(lm(data=phenotypeMatrix, `ASC.freqLive`~ TNFa*TNFRSFratiohihid7)) # significant!
 summary(lm(data=phenotypeMatrix, `ASC.freqLive`~ TNFRSF1Ahihid7)) # significant!
 summary(lm(data=phenotypeMatrix, `ASC.freqLive`~ TNFRSF1Bhihid7))   # no statistical significance 
 summary(lm(data=phenotypeMatrix, `ASC.freqLive`~ TNFRSFratiohihid7))  # significant!
@@ -604,9 +605,6 @@ plot(data=phenotypeMatrix, `H3N2.IgG.FCd7`~ TNFRSFratiohihid7)
 plot(data=phenotypeMatrix, `H1N1.IgG.FCd7`~ TNFRSFratiohihid7)
 
 
-summary(lm(data=phenotypeMatrix, `ASC.freqLive`~ TNFa*TNFRSF1Ahihid7)) # no statistical significance for the interaction
-summary(lm(data=phenotypeMatrix, `ASC.freqLive`~ TNFa*TNFRSF1Bhihid7))   # no statistical significance for the interaction 
-summary(lm(data=phenotypeMatrix, `ASC.freqLive`~ TNFa*TNFRSFratiohihid7)) # no statistical significance for the interaction
 summary(lm(data=phenotypeMatrix, `H3N2.nAb.FCd28`~ CXCL11*TNFRSF1Ahihid7)) # no statistical significance for the interaction
 summary(lm(data=phenotypeMatrix, `ASC.freqLive`~ TNFRSF1Bhihid7 ))   # no statistical significance for the interaction 
 
@@ -746,6 +744,24 @@ ggplot(data=phenotypeMatrix, aes(x=`H1N1.nAb.FCd28`,y=`TNFRSF1Ahihid7`)) + theme
 # ggsave(filename = "Images/TNFRSF1A_vs_H1N1nAb_allTogether.pdf", device="pdf", width=7, height=7)
 
 
+a <- cor.test(phenotypeMatrix$`H1N1.nAb.FCd28`, phenotypeMatrix$TNFRSF1Ahihid7, use="complete")
+annotationInfo <- paste0("r = ", round(a$estimate,3), "   \n", "P = ", formatC(a$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.6,  y=0.15, hjust=0, gp=gpar(col="black", fontsize=32)))
+ggplot(data=phenotypeMatrix, aes(x=`H1N1.nAb.FCd28`,y=`TNFRSF1Ahihid7`,fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(fill=`Visit`)) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=8, pch=21) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Young",stat="identity"), size=8, pch=21) +  
+  ggtitle("TNFRSF1A vs H1N1 HAI Ab") + theme(plot.title = element_text(size=24,hjust = 0.5)) + xlim(0,10) +
+  ylab("Log counts of TNFRSF1A, day 7")  + xlab("H1N1.nAb.FCd28 foldchange")+
+  scale_fill_manual(values=c('purple','black','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + 
+  annotation_custom(my_grob1)+ 
+  theme(axis.text = element_text(size=24,hjust = 0.5), axis.title = element_text(size=28,hjust = 0.5))
+# ggsave(filename = "Images/TNFRSF1A_vs_H1N1nAb_allTogether-colorCohorts.pdf", device="pdf", width=7, height=7)
+
+
+
+
+
 a <- cor.test(phenotypeMatrixYoung$`H3N2.nAb.FCd28`, phenotypeMatrixYoung$TNFRSF1Ahihid7, use="complete")
 b <- cor.test(phenotypeMatrixElderly$`H3N2.nAb.FCd28`, phenotypeMatrixElderly$TNFRSF1Ahihid7, use="complete")
 annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format="e", digits=1))
@@ -777,4 +793,18 @@ ggplot(data=phenotypeMatrix, aes(x=`H3N2.nAb.FCd28`,y=`TNFRSF1Ahihid7`)) + theme
   theme(axis.text = element_text(size=24,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))
 # ggsave(filename = "Images/TNFRSF1A_vs_H3N2nAb_allTogether.pdf", device="pdf", width=7, height=7)
 
+
+a <- cor.test(phenotypeMatrix$`H3N2.nAb.FCd28`, phenotypeMatrix$TNFRSF1Ahihid7, use="complete")
+annotationInfo <- paste0("r = ", round(a$estimate,3), "   \n", "P = ", formatC(a$p.value, format="e", digits=1))
+my_grob1 = grobTree(textGrob(annotationInfo, x=0.6,  y=0.15, hjust=0, gp=gpar(col="black", fontsize=32)))
+ggplot(data=phenotypeMatrix, aes(x=`H3N2.nAb.FCd28`,y=`TNFRSF1Ahihid7`,fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
+  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(fill=`Visit`)) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=8, pch=21) + 
+  geom_point(data=subset(phenotypeMatrix,Identifier=="Young",stat="identity"), size=8, pch=21) +  
+  ggtitle("TNFRSF1A vs H3N2 HAI Ab") + theme(plot.title = element_text(size=24,hjust = 0.5)) + xlim(0,35) +
+  ylab("Log counts of TNFRSF1A, day 7")  + xlab("H3N2.nAb.FCd28 foldchange")+
+  scale_fill_manual(values=c('purple','black','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + 
+  annotation_custom(my_grob1)+ 
+  theme(axis.text = element_text(size=24,hjust = 0.5), axis.title = element_text(size=28,hjust = 0.5))
+# ggsave(filename = "Images/TNFRSF1A_vs_H3N2nAb_allTogether-colorCohorts.pdf", device="pdf", width=7, height=7)
 

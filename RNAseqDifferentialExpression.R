@@ -87,6 +87,32 @@ ggplot(tsneReorder, aes(x=V1, y=V2)) +
   guides(colour=guide_legend(override.aes=list(size=8))) #+ xlim(-60,60) + ylim(-55,70)
 # ggsave(filename="Images/tSNE_all_samples.pdf", device="pdf",width=8,height=6)
 
+show_col(customPalette)
+
+pca1 = prcomp(t(bestDataLog), scale = FALSE)
+scores = as.data.frame(pca1$x) 
+scores$color <- c("#FDBF6F","#FF7F00","#B2DF8A","#33A02C","#FFF849","#D6CF44",
+                  "#FDBF6F","#FF7F00","#B2DF8A","#33A02C","#FFF849","#D6CF44",
+                  "#FDBF6F","#FF7F00","#B2DF8A","#33A02C","#FFF849","#D6CF44",
+                  "#FDBF6F","#FF7F00","#B2DF8A","#33A02C","#FFF849","#D6CF44",
+                  "#FDBF6F","#FF7F00","#B2DF8A","#33A02C","#FFF849","#D6CF44",
+                  "#FDBF6F","#FF7F00","#B2DF8A","#33A02C","#FFF849","#D6CF44",
+                  "#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408",
+                  "#CAB2D6","#6A3D9A","#03681E","#003D10","#99930A","#686408")
+ggplot(data = scores, aes(x = PC1, y = PC2, label = rownames(scores))) +
+  geom_hline(yintercept = 0, colour = "gray65") + theme_bw() +  geom_vline(xintercept = 0, colour = "gray65") +  
+  geom_point(colour=scores$color, alpha=1, size=6) + 
+  ggtitle("PCA plot for all samples in final pool") + theme(title = element_text(size=20))
+
+
+
+
 
 subsetTSNE <- tsneReorder[c(grep("Y_HiHi",tsneReorder$subgroup),grep("E_HiHi",tsneReorder$subgroup)),]  ## only view ICOS+CD38+ 
 ggplot(subsetTSNE, aes(x=V1, y=V2)) + 
@@ -106,7 +132,8 @@ scores$color <- c("#FDBF6F","#FF7F00","#FDBF6F","#FF7F00","#FDBF6F","#FF7F00","#
 
 # plot of observations
 ggplot(data = scores, aes(x = PC1, y = PC2, label = rownames(scores))) +
-  geom_hline(yintercept = 0, colour = "gray65") + theme_bw() +  geom_vline(xintercept = 0, colour = "gray65") +  geom_point(colour=scores$color, alpha=1, size=6) + 
+  geom_hline(yintercept = 0, colour = "gray65") + theme_bw() +  geom_vline(xintercept = 0, colour = "gray65") +  
+  geom_point(colour=scores$color, alpha=1, size=6) + 
 #  geom_text_repel(colour = "black", alpha = 1, size = 3) +
   ggtitle("PCA plot for all HiHi samples in final pool") + theme(title = element_text(size=20))
 
@@ -154,10 +181,59 @@ pheatmap(Hi_v_Lo_allAges, scale="row", cluster_col=F, annotation_col = annotateH
 )
 
 
+# ***** just POU2AF1 
+probeList <- c("POU2AF1")
+probeGenes <- bestDataLog[probeList, ]
+Hi_v_Lo_allAges <- cbind(
+  probeGenes[,grep("HiHi_v1",colnames(probeGenes))], probeGenes[,grep("HiHi_v2",colnames(probeGenes))], 
+  probeGenes[,grep("LoLo_v1",colnames(probeGenes))], probeGenes[,grep("LoLo_v2",colnames(probeGenes))], 
+  probeGenes[,grep("Naive_v1",colnames(probeGenes))], probeGenes[,grep("Naive_v2",colnames(probeGenes))])
+
+annotateHeatmap <- data.frame(row.names = colnames(Hi_v_Lo_allAges), 
+                              subset = c(rep("ICOS+CD38+ cTfh", 27),rep("ICOS-CD38- cTfh", 28),rep("Naive CD4", 28)), 
+                              ageGroup = c(rep("Young",6), rep("Elderly", 7),rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8),
+                                           rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8),rep("Young",6), rep("Elderly", 8)),
+                              Day = c(rep("Day 0",13), rep("Day 7", 14),rep("Day 0",14), rep("Day 7", 14),rep("Day 0",14), rep("Day 7", 14))
+                              )
+ann_colors = list(  subset = c("ICOS+CD38+ cTfh" ="#0D0887", "ICOS-CD38- cTfh" = "#E16462", "Naive CD4" ="#F0F921"), ageGroup = c("Young"="orange3", "Elderly" = "purple"),
+                    Day = c("Day 0" = "grey90", "Day 7" = "grey10"))
+pheatmap(Hi_v_Lo_allAges, scale="none", cluster_col=F, cluster_rows = F, annotation_col = annotateHeatmap, show_colnames=F, main="POU2AF1 gene expression",
+         annotation_colors = ann_colors, fontsize_row = 18, color=inferno(100), cellheight=30, cutree_rows=3, border_color = F, gaps_col = c(27,55), 
+#           , filename = "Images/POU2AF1_HeatmapAllAges.pdf"
+)
+
+
+
+
+
+# ***** day 7
+  probeList <- c("STAT5A", "IRAK3", "MYD88", "REL", "TNFSF11", "TNFAIP3")
+probeGenes <- bestDataLog[probeList,grep("HiHi_v2",colnames(bestDataLog))]
+Hi_v_Lo_allAges <- cbind(
+  probeGenes[,grep("HiHi_v1",colnames(probeGenes))], probeGenes[,grep("HiHi_v2",colnames(probeGenes))], 
+  probeGenes[,grep("LoLo_v1",colnames(probeGenes))], probeGenes[,grep("LoLo_v2",colnames(probeGenes))], 
+  probeGenes[,grep("Naive_v1",colnames(probeGenes))], probeGenes[,grep("Naive_v2",colnames(probeGenes))])
+
+annotateHeatmap <- data.frame(row.names = colnames(Hi_v_Lo_allAges), subset = c(rep("ICOS+CD38+ cTfh", 14)), 
+                              ageGroup = c(rep("Young",6), rep("Elderly", 8)))
+ann_colors = list(  subset = c("ICOS+CD38+ cTfh" ="#0D0887", "ICOS-CD38- cTfh" = "#E16462", "Naive CD4" ="#F0F921"), ageGroup = c("Young"="orange3", "Elderly" = "purple")  )
+pheatmap(Hi_v_Lo_allAges, scale="row", cluster_col=T, annotation_col = annotateHeatmap, show_colnames=F, main="Hub genes at day 7",
+         annotation_colors = ann_colors, fontsize_row = 18, color=inferno(100), cellheight=30, border_color = F,   #gaps_col = c(14,28), 
+         #  , filename = "Images/WGCNA_HubGenesHeatmapAllAges_day7.pdf"
+)
+
+
+x <- as.numeric(Hi_v_Lo_allAges["IRAK3",grep(paste("HiHi",sep="|"), colnames(Hi_v_Lo_allAges))])
+mean(x[7:14]) / mean(x[1:6]) ;  t.test(x[1:6],x[7:14])
+x <- as.numeric(Hi_v_Lo_allAges["STAT5A",grep(paste("HiHi",sep="|"), colnames(Hi_v_Lo_allAges))])
+mean(x[7:14]) / mean(x[1:6]) ;  t.test(x[1:6],x[7:14])
 # dev.off(); dev.off(); 
 
 x <- as.numeric(Hi_v_Lo_allAges["POU2AF1",grep(paste("HiHi",sep="|"), colnames(Hi_v_Lo_allAges))])
 mean(x[7:14]) / mean(x[1:6]) ;  t.test(x[1:6],x[7:14])
+
+
+
 
 ## ***************************     heatmap of DiffExp of HiHi vs LoLo for selected genes  YOUNG **************************************
 
