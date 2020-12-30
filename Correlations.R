@@ -578,7 +578,7 @@ ggplot(data=phenotypeMatrix, aes(x=`CD3hi_CD28..FreqParent.v1`,y=`cTfh_ICOShi.CD
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
   ggtitle("ICOS+CD38+ cTfh vs CD3+CD28-") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("ICOShiCD38hi cTfh foldchange")  + xlab("Baseline CD3+CD28- (% CD3)")+
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
- ggsave(filename="../../Analysis/Images/HiHi_vs_CD28negFC.pdf", device="pdf")
+# ggsave(filename="../../Analysis/Images/HiHi_vs_CD28negFC.pdf", device="pdf")
 
 
 #  Ratio.of.CD4.to.CD8.at.v1 vs Tfh response
@@ -595,7 +595,7 @@ ggplot(data=phenotypeMatrix, aes(x=`Ratio.of.CD4.to.CD8.at.v1`,y=`cTfh_ICOShi.CD
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
   ggtitle("ICOS+CD38+ cTfh vs CD4/CD8 ratio") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("ICOShiCD38hi cTfh foldchange")  + xlab("Baseline CD4-CD8 ratio")+
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
- ggsave(filename="../../Analysis/Images/HiHi_vs_CD4CD8ratio.pdf", device="pdf")
+# ggsave(filename="../../Analysis/Images/HiHi_vs_CD4CD8ratio.pdf", device="pdf")
 
 
 #  Ratio.of.CD4.to.CD8.at.v1 vs Tfh response
@@ -612,7 +612,7 @@ ggplot(data=phenotypeMatrix, aes(x=`DN.T.cells.at.v1`,y=`cTfh_ICOShi.CD38hi...Fr
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
   ggtitle("ICOS+CD38+ cTfh vs CD3+CD4-CD8-") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("ICOShiCD38hi cTfh foldchange")  + xlab("Baseline CD3+CD4-CD8- (% CD3)")+
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
- ggsave(filename="../../Analysis/Images/HiHi_vs_DNTcells.pdf", device="pdf")
+# ggsave(filename="../../Analysis/Images/HiHi_vs_DNTcells.pdf", device="pdf")
 
 
 
@@ -630,7 +630,7 @@ ggplot(data=phenotypeMatrix, aes(x=`CD3hi_CD28..FreqParent.v1`,y=`ASC.freqLive`,
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
   ggtitle("Plasmablast response vs CD3+CD28-") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("Plasmablast foldchange")  + xlab("Baseline CD3+CD28- (% CD3)")+
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
- ggsave(filename="../../Analysis/Images/PB_vs_CD28negFC.pdf", device="pdf")
+# ggsave(filename="../../Analysis/Images/PB_vs_CD28negFC.pdf", device="pdf")
 
 
 #  Ratio.of.CD4.to.CD8.at.v1 vs PB response
@@ -647,7 +647,7 @@ ggplot(data=phenotypeMatrix, aes(x=`Ratio.of.CD4.to.CD8.at.v1`,y=`ASC.freqLive`,
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
   ggtitle("Plasmablast vs CD4/CD8 ratio") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("Plasmablast foldchange")  + xlab("Baseline CD4-CD8 ratio")+
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
- ggsave(filename="../../Analysis/Images/PB_vs_CD4CD8ratio.pdf", device="pdf")
+# ggsave(filename="../../Analysis/Images/PB_vs_CD4CD8ratio.pdf", device="pdf")
 
 
 #  Ratio.of.CD4.to.CD8.at.v1 vs PB response
@@ -664,7 +664,7 @@ ggplot(data=phenotypeMatrix, aes(x=`DN.T.cells.at.v1`,y=`ASC.freqLive`, fill=`Id
   theme(axis.text = element_text(size=16,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
   ggtitle("Plasmablast vs CD3+CD4-CD8-") + theme(plot.title = element_text(size=24,hjust = 0.5)) + ylab("Plasmablast foldchange")  + xlab("Baseline CD3+CD4-CD8- (% CD3)")+
   scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + annotation_custom(my_grob1) + annotation_custom(my_grob2)
- ggsave(filename="../../Analysis/Images/PB_vs_DNTcells.pdf", device="pdf")
+# ggsave(filename="../../Analysis/Images/PB_vs_DNTcells.pdf", device="pdf")
 
 
 

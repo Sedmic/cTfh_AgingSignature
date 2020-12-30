@@ -562,7 +562,7 @@ pheatmap(simplifyCorrel, cluster_row=T, cluster_col=F, show_rownames=T, breaks=b
 
 
 
-## ****************************************** Mixed model ********************************************
+## ****************************************** Multivariate model ********************************************
 
 summary(lm(data=phenotypeMatrix, `ASC.freqLive`~ H1N1.nAb.FCd28)) # no statistical significance for the interaction
 plot(data=phenotypeMatrix, `ASC.freqLive`~ H1N1.nAb.FCd28)
@@ -706,11 +706,6 @@ ggplot(data=phenotypeMatrix, aes(x=`H3N2.nAb.FCd28`,y=`TNFRSFratiohihid7`)) + th
 
 
 
-ggplot(data=phenotypeMatrix,aes(x=`ASC.freqLive`, y=`H3N2.nAb.FCd28`)) + geom_point() + geom_smooth(method=lm)
-
-
-
-
 # TNFR1 vs nAb responses
 a <- cor.test(phenotypeMatrixYoung$`H1N1.nAb.FCd28`, phenotypeMatrixYoung$TNFRSF1Ahihid7, use="complete")
 b <- cor.test(phenotypeMatrixElderly$`H1N1.nAb.FCd28`, phenotypeMatrixElderly$TNFRSF1Ahihid7, use="complete")
@@ -759,39 +754,6 @@ ggplot(data=phenotypeMatrix, aes(x=`H1N1.nAb.FCd28`,y=`TNFRSF1Ahihid7`,fill=`Ide
 # ggsave(filename = "Images/TNFRSF1A_vs_H1N1nAb_allTogether-colorCohorts.pdf", device="pdf", width=7, height=7)
 
 
-
-
-
-a <- cor.test(phenotypeMatrixYoung$`H3N2.nAb.FCd28`, phenotypeMatrixYoung$TNFRSF1Ahihid7, use="complete")
-b <- cor.test(phenotypeMatrixElderly$`H3N2.nAb.FCd28`, phenotypeMatrixElderly$TNFRSF1Ahihid7, use="complete")
-annotationInfo <- paste0("r= ", round(a$estimate,2), ";   ", "p = ", formatC(a$p.value, format="e", digits=1))
-annotationInfo2 <- paste0("r= ", round(b$estimate,2), ";   ", "p = ", formatC(b$p.value, format="e", digits=1))
-my_grob1 = grobTree(textGrob(annotationInfo, x=0.4,  y=0.11, hjust=0, gp=gpar(col="orange3", fontsize=24)))
-my_grob2 = grobTree(textGrob(annotationInfo2, x=0.4,  y=0.05, hjust=0, gp=gpar(col="purple", fontsize=24)))
-ggplot(data=phenotypeMatrix, aes(x=`H3N2.nAb.FCd28`,y=`TNFRSF1Ahihid7`, fill=`Identifier`)) + theme_bw() +  theme(legend.position = "none") +
-  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1, aes(color=Identifier)) + 
-  geom_point(data=subset(phenotypeMatrix,Identifier=="Elderly",stat="identity"), size=6, pch=21) + 
-  geom_point(data=subset(phenotypeMatrix,Identifier=="Young",stat="identity"), size=6, pch=21) +  
-  ggtitle("TNFRSF1A vs H3N2 HAI Ab") + theme(plot.title = element_text(size=32,hjust = 0.5)) + xlim(0,33) + #ylim(0.5,0.9)+
-  ylab("Log counts of TNFRSF1A, day 7")  + xlab("H3N2.nAb.FCd28")+
-  theme(axis.text = element_text(size=24,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))+
-  scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + 
-  annotation_custom(my_grob1) + annotation_custom(my_grob2)
-# ggsave(filename = "Images/TNFRSF1A_vs_H3N2nAb_byAge.pdf", device="pdf")
-
-
-a <- cor.test(phenotypeMatrix$`H3N2.nAb.FCd28`, phenotypeMatrix$TNFRSF1Ahihid7, use="complete")
-annotationInfo <- paste0("r = ", round(a$estimate,2), "  \n", "P = ", formatC(a$p.value, format="e", digits=1))
-my_grob1 = grobTree(textGrob(annotationInfo, x=0.6,  y=0.15, hjust=0, gp=gpar(col="black", fontsize=32)))
-ggplot(data=phenotypeMatrix, aes(x=`H3N2.nAb.FCd28`,y=`TNFRSF1Ahihid7`)) + theme_bw() +  theme(legend.position = "none") +
-  geom_smooth(method=lm, se=F, fullrange=T, size=2, alpha=0.1) + 
-  geom_point(size=6, pch=21, fill="black") + 
-  ggtitle("TNFRSF1A vs H3N2 HAI Ab") + theme(plot.title = element_text(size=24,hjust = 0.5)) + xlim(0,35) +
-  ylab("Log counts of TNFRSF1A, day 7")  + xlab("H3N2.nAb.FCd28 foldchange")+
-  #scale_fill_manual(values=c('purple','#E69F00')) + scale_color_manual(values=c('purple', '#E69F00')) + 
-  annotation_custom(my_grob1)+ 
-  theme(axis.text = element_text(size=24,hjust = 0.5))+theme(axis.title = element_text(size=28,hjust = 0.5))
-# ggsave(filename = "Images/TNFRSF1A_vs_H3N2nAb_allTogether.pdf", device="pdf", width=7, height=7)
 
 
 a <- cor.test(phenotypeMatrix$`H3N2.nAb.FCd28`, phenotypeMatrix$TNFRSF1Ahihid7, use="complete")

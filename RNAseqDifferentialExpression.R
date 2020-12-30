@@ -275,6 +275,7 @@ pheatmap(Hi_v_Lo_y2, scale="row", cluster_col=F, annotation_col = annotateHeatma
 # dev.off(); dev.off(); 
 
 
+
 ## ******************************** Differential expression by subgroup and age category *********************************************
 metaData
 fullDataset <- DESeqDataSetFromMatrix(countData=bestDataCounts, colData=metaData, design= ~ subgroup)
@@ -912,11 +913,11 @@ hallmarkv2 <- rbind(hallmarkv2Pos, hallmarkv2Neg)
 hallmarkv2$NAME <- toTitleCase(tolower(substr(hallmarkv2$NAME,start =10, stop=50)))
 hallmarkv2$NAME <- factor(hallmarkv2$NAME, levels = hallmarkv2$NAME[order(hallmarkv2$NES, decreasing = T)])
 
-ggplot(data=subset(hallmarkv2, `FDR.q.val` < 0.05), aes(x=`NAME`, y=`NES`)) + geom_point(size=3) + 
+ggplot(data=subset(hallmarkv2, `FDR.q.val` < 0.05), aes(x=`NAME`, y=`NES`, size=`FDR.q.val`)) + geom_point( ) + 
   geom_bar( aes(x=`NAME`, y=`NES`) , stat="Identity", width=0.01, color="#0D0887", size=1) +
-  coord_flip() + theme_bw() + ggtitle("HALLMARK Genesets FDR<0.05\nICOS+CD38+\nYoung vs Elderly at day 7") + ylab("Normalized Enrichment Score") + xlab(NULL) + 
-  theme(axis.title.x = element_text(size=14), axis.text = element_text(size=12))
-# ggsave(file="DifferentialExpression/GSEA/Images/YvEhihi-v2_Hallmark.pdf", device="pdf", width=6, height=5)
+  coord_flip() + theme_bw() + ggtitle("HALLMARK Genesets\nICOS+CD38+\nYoung vs Elderly at day 7") + ylab("Normalized Enrichment Score") + xlab(NULL) + 
+  theme(axis.title.x = element_text(size=14), axis.text = element_text(size=12)) + scale_size( range=c(8,3),name = "False\nDiscovery\nRate")
+# ggsave(file="DifferentialExpression/GSEA/Images/YvEhihi-v2_Hallmark.pdf", device="pdf", width=8, height=5)
 
 
 # Apoptosis
@@ -1155,5 +1156,129 @@ ggplot(data=YvENaivev1TNF, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_l
   theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
   annotation_custom(my_grob) + geom_hline(yintercept = 0)
 # ggsave(file="DifferentialExpression/GSEA/Images/YvE_Nav_d0_Hallmark_TNF-NFkB.pdf", device="pdf", height=3.5, width=5)
+
+
+
+
+
+
+
+## ***************************     heatmap of NFkB target genes in all subjects at day 7 **************************************
+NFkBtargets <- read.csv(file = "./DifferentialExpression/ComparePublishedGeneSets/NFkB_targetGenes/NFkB_targetGenes_2016.csv")
+probeList <- unlist(NFkBtargets)
+
+dds <- estimateSizeFactors(fullDataset)
+temp <- counts(dds,normalized=TRUE)
+idx <- rowSums( counts(dds, normalized=TRUE) >= 5 ) >= 10  # filter for genes with at least 5 counts in 10% of all samples
+bestDataLogNonzero <- bestDataLog[idx,]
+
+probeGenes <- bestDataLogNonzero[probeList,grep("v2",colnames(bestDataLog))]
+probeGenes <- probeGenes[,grep("HiHi", colnames(probeGenes))]
+probeGenes <- probeGenes[ which(!is.na(rowSums(probeGenes))), ]           # remove NA rows where the gene name did not match 
+probeGenes <- probeGenes[ -which(rowSums(probeGenes) == ncol(probeGenes) * min(probeGenes)), ]        # remove any rows with zero variance
+NFkBexprs <- cbind(
+  probeGenes[,grep("HiHi_v1",colnames(probeGenes))], probeGenes[,grep("HiHi_v2",colnames(probeGenes))], 
+  probeGenes[,grep("LoLo_v1",colnames(probeGenes))], probeGenes[,grep("LoLo_v2",colnames(probeGenes))], 
+  probeGenes[,grep("Naive_v1",colnames(probeGenes))], probeGenes[,grep("Naive_v2",colnames(probeGenes))])
+
+annotateHeatmap <- data.frame(row.names = colnames(NFkBexprs), subset = c(rep("Young ICOS+CD38+ cTfh", 6),rep("Elderly ICOS+CD38+ cTfh", 8)))
+ann_colors = list(  subset = c("Young ICOS+CD38+ cTfh" ="orange3", "Elderly ICOS+CD38+ cTfh" = "purple")  )
+pheatmap(NFkBexprs, cluster_col=T, cluster_row = T, annotation_col = annotateHeatmap, show_colnames=F, main="NFkB target genes", scale = "row",
+         annotation_colors = ann_colors, fontsize_row = 5, color=inferno(100), show_rownames = F
+         #, filename = "Images/NFkBtargets_heatmap.pdf"
+)
+
+# dev.off(); dev.off(); 
+fisher.test( x= matrix(c(0,6,6,2), nrow=2) )          # based on hclust of NFkB target genes
+# write.csv(NFkBexprs, file = "./DifferentialExpression/ComparePublishedGeneSets/NFkB_targetGenes/filteredList.csv")
+
+
+## *****************************       GSEA results: YvE direct comparison - NFkB target genes    ***********************************************
+
+
+NFkBmetrics <- rbind(read.csv("DifferentialExpression/GSEA/GSEA_Results/NFkBtargetgenes.GseaPreranked.1603725342590/gsea_report_for_na_pos_1603725342590.tsv", sep="\t", stringsAsFactors = F),
+                           read.csv("DifferentialExpression/GSEA/GSEA_Results/NFkBtargetgenes.GseaPreranked.1603725342590/gsea_report_for_na_neg_1603725342590.tsv", sep="\t", stringsAsFactors = F)
+)
+# NFkBmetrics$NAME <- toTitleCase(tolower(substr(NFkBmetrics$NAME,start =10, stop=50)))
+NFkBmetrics$NAME <- factor(NFkBmetrics$NAME, levels = NFkBmetrics$NAME[order(NFkBmetrics$NES, decreasing = T)])
+rownames(NFkBmetrics) <- NFkBmetrics$NAME
+
+
+# ICOS+CD38+ cTfh at day 7 for Young vs Elderly
+NFkB <- read.csv("DifferentialExpression/GSEA/GSEA_Results/NFkBtargetgenes.GseaPreranked.1603725342590/NFKB_TARGETGENES.tsv", sep="\t")
+if (NFkBmetrics$FDR.q.val == 0)
+{
+  annotationInfo <- paste0("NES: ", round(NFkBmetrics$NES[grep("NFKB",NFkBmetrics$NAME)],2), "\n", "FDR: ", 
+                         formatC(1/25000, format = "e", digits = 1))
+}
+if (NFkBmetrics$FDR.q.val != 0)
+{
+  annotationInfo <- paste0("NES: ", round(NFkBmetrics$NES[grep("NFKB",NFkBmetrics$NAME)],2), "\n", "FDR: ", 
+                           formatC(NFkBmetrics$FDR.q.val[grep("NFKB",NFkBmetrics$NAME)], format = "e", digits = 1))
+}
+my_grob = grobTree(textGrob(annotationInfo, x=0.63,  y=0.85, hjust=0, gp=gpar(col="black", fontsize=15)))
+ggplot(data=NFkB, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_line(color="black", size=1) + geom_rug(sides="b", size=0.2, alpha=0.2) + theme_bw() +
+  ggtitle("NFkB targets ICOS+CD38+ cTfh at day 7") + ylab("Enrichment score") + xlab("Rank in gene list") + 
+  # annotate("text", x = -Inf, y = Inf, label = annotationInfo, hjust = 0, vjust = 1, parse = TRUE) + 
+  theme(axis.text = element_text(size=12,hjust = 0.5))+theme(axis.title = element_text(size=14,hjust = 0.5))+theme(plot.title = element_text(size=18,hjust = 0.5))+
+  annotation_custom(my_grob) + geom_hline(yintercept = 0)
+# ggsave(file="DifferentialExpression/GSEA/Images/YvE_HiHi_d7_NFkB-targets.pdf", device="pdf", height=3.5, width=5)
+
+
+probeList <- NFkB$SYMBOL[c(1:58,1059:1083)]                                     # took the DESeq2 diffExp genes and filtered for NFkB for padj<0.05
+
+probeGenes <- bestDataLogNonzero[probeList,grep("v2",colnames(bestDataLog))]
+probeGenes <- probeGenes[,grep("HiHi", colnames(probeGenes))]
+# probeGenes <- probeGenes[ which(!is.na(rowSums(probeGenes))), ]           # remove NA rows where the gene name did not match 
+# probeGenes <- probeGenes[ -which(rowSums(probeGenes) == ncol(probeGenes) * min(probeGenes)), ]        # remove any rows with zero variance
+NFkBexprs <- cbind(
+  probeGenes[,grep("HiHi_v1",colnames(probeGenes))], probeGenes[,grep("HiHi_v2",colnames(probeGenes))], 
+  probeGenes[,grep("LoLo_v1",colnames(probeGenes))], probeGenes[,grep("LoLo_v2",colnames(probeGenes))], 
+  probeGenes[,grep("Naive_v1",colnames(probeGenes))], probeGenes[,grep("Naive_v2",colnames(probeGenes))])
+
+annotateHeatmap <- data.frame(row.names = colnames(NFkBexprs), subset = c(rep("Young ICOS+CD38+ cTfh", 6),rep("Elderly ICOS+CD38+ cTfh", 8)))
+ann_colors = list(  subset = c("Young ICOS+CD38+ cTfh" ="orange3", "Elderly ICOS+CD38+ cTfh" = "purple")  )
+pheatmap(NFkBexprs, cluster_col=F, cluster_row = F, annotation_col = annotateHeatmap, show_colnames=F, main="NFkB target genes", scale = "row",
+         annotation_colors = ann_colors, fontsize_row = 5, color=inferno(100), width=4 
+         , filename = "Images/NFkBtargets_DiffExp_Heatmap.pdf"
+)
+
+dev.off()
+
+
+## *****************************       Single gene plots    ***********************************************
+
+PRDM1 <- as.data.frame(t(bestDataLog["PRDM1",]))
+PRDM1$Identity <- rownames(PRDM1)
+
+metaPRDM1 <- metaData; metaPRDM1$Identity <- rownames(metaData)
+metaPRDM1 <- dplyr::full_join(PRDM1, metaPRDM1, by='Identity')
+
+metaPRDM1$ageGroup <- ifelse(metaPRDM1$ageGroup == 'Y', "Young","Elderly")
+metaPRDM1$ageGroup <- factor(metaPRDM1$ageGroup, levels = c("Young","Elderly"))
+metaPRDM1$condition <- ifelse( metaPRDM1$condition == "HiHi_v1", "ICOS+CD38+ cTfh, day 0", 
+        ifelse (metaPRDM1$condition == "HiHi_v2", "ICOS+CD38+ cTfh, day 7", 
+                ifelse(metaPRDM1$condition == "LoLo_v1", "ICOS-CD38- cTfh, day 0", 
+                       ifelse(metaPRDM1$condition == "LoLo_v2","ICOS-CD38- cTfh, day 7", 
+                              ifelse(metaPRDM1$condition == "Naive_v1","Naive CD4, day 0",
+                                     ifelse(metaPRDM1$condition == "Naive_v2", "Naive CD4, day 7", "NA"))))))
+metaPRDM1$condition <- factor(metaPRDM1$condition, levels = c("Naive CD4, day 0", "Naive CD4, day 7", "ICOS-CD38- cTfh, day 0", "ICOS-CD38- cTfh, day 7", 
+                                                              "ICOS+CD38+ cTfh, day 0", "ICOS+CD38+ cTfh, day 7"))
+
+ggplot(metaPRDM1, aes(x = condition, y=PRDM1, group = ageGroup)) + geom_bar(stat='summary', fun='mean', position = 'dodge', aes(fill=ageGroup)) + ggtitle("PRDM1 with aging") + 
+  ggbeeswarm::geom_beeswarm(dodge.width=1) + # geom_boxplot() + 
+  # geom_violin(position = position_dodge(width=0.75)) + 
+  theme_bw() + ylab("log2 PRDM1 transcripts") + scale_fill_manual(values = c("orange", "purple")) + scale_color_manual(values=c("black","black")) + 
+  theme(axis.title.x = element_blank(), axis.text = element_text(size=16), axis.title = element_text(size=16), 
+        axis.text.x = element_text(angle=45, hjust=1, vjust=1), title = element_text(size=24),
+        legend.title = element_text(size=16), legend.text = element_text(size=16)) + 
+  scale_y_continuous(limits = c(0,15), breaks=seq(0,15,3))
+
+
+
+
+
+
+
 
 
