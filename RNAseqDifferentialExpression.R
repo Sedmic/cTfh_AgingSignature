@@ -15,6 +15,7 @@ library("scales")
 library("gridExtra")
 register(SnowParam(workers=7))
 sessionInfo()
+#+ fig.height = 8, fig.width = 8 
 
 dataMatrixCounts <- read.table("RawProcessing/2018July_PORTnormalization/SPREADSHEETS/FINAL_master_list_of_gene_counts_MIN.FluVacAging.txt", sep="", header=T, stringsAsFactors = F)
 rownames(dataMatrixCounts) <- make.names(dataMatrixCounts$geneSymbol, unique=TRUE)
@@ -30,7 +31,7 @@ dataMatrixCounts$X222006_HiHi_v1 <- NULL  # based on what was learned from the R
 bestDataCounts <- dataMatrixCounts
 
 
-## ***************************     Log transformation  **************************************
+#' # ## ***************************     Log transformation  **************************************
 
 metaData <- data.frame(row.names=colnames(bestDataCounts));  metaData$condition <- "empty"
 #  1:36 are young, then 37:83 are elderly
@@ -47,9 +48,7 @@ bestDataLog <- as.data.frame(assay(vsd))
 # write.csv(bestDataLog, file="bestDataLog.csv")
 # bestDataLog <- read.csv("bestDataLog.csv"); rownames(bestDataLog) <- bestDataLog$X; bestDataLog$X <- NULL
 
-
-
-## ***************************     tSNE analysis  **************************************
+#' # ## ***************************     tSNE analysis  **************************************
 
 set.seed(42)
 tsneMap <- Rtsne(t(bestDataLog),epoch=50,perplexity=6,k=2,theta=0,verbosity=TRUE,max_iter=1000)
@@ -140,7 +139,7 @@ ggplot(data = scores, aes(x = PC1, y = PC2, label = rownames(scores))) +
 
 
 
-## ***************************     heatmap of DiffExp of HiHi vs LoLo for selected genes AllAges **************************************
+#' # ## ***************************     heatmap of DiffExp of HiHi vs LoLo for selected genes AllAges **************************************
 
 # **** day 0
 probeList <- c("CXCR5", "PRDM1", "BCL6", "IL10",  "IFNG","MAF","CCR6","CXCR3","GATA3",
@@ -223,19 +222,8 @@ pheatmap(Hi_v_Lo_allAges, scale="row", cluster_col=T, annotation_col = annotateH
 )
 
 
-x <- as.numeric(Hi_v_Lo_allAges["IRAK3",grep(paste("HiHi",sep="|"), colnames(Hi_v_Lo_allAges))])
-mean(x[7:14]) / mean(x[1:6]) ;  t.test(x[1:6],x[7:14])
-x <- as.numeric(Hi_v_Lo_allAges["STAT5A",grep(paste("HiHi",sep="|"), colnames(Hi_v_Lo_allAges))])
-mean(x[7:14]) / mean(x[1:6]) ;  t.test(x[1:6],x[7:14])
-# dev.off(); dev.off(); 
 
-x <- as.numeric(Hi_v_Lo_allAges["POU2AF1",grep(paste("HiHi",sep="|"), colnames(Hi_v_Lo_allAges))])
-mean(x[7:14]) / mean(x[1:6]) ;  t.test(x[1:6],x[7:14])
-
-
-
-
-## ***************************     heatmap of DiffExp of HiHi vs LoLo for selected genes  YOUNG **************************************
+#' # ## ***************************     heatmap of DiffExp of HiHi vs LoLo for selected genes  YOUNG **************************************
 
 probeList <- c("CXCR5", "PRDM1", "BCL6", "IL10",  "IFNG","MAF","CCR6","CXCR3","GATA3",
                "BTLA","TNFRSF4", "CD38","TIGIT","SLAMF1","POU2AF1","LEF1","MKI67","SH2D1A", "TOX2", "BIRC5", "TBK1", "IL32")
@@ -254,7 +242,7 @@ pheatmap(Hi_v_Lo_y2, scale="row", cluster_col=F, annotation_col = annotateHeatma
 
 # dev.off(); dev.off(); 
 
-## ***************************     heatmap of DiffExp of HiHi vs LoLo for selected genes  ELDERLY **************************************
+#' # ## ***************************     heatmap of DiffExp of HiHi vs LoLo for selected genes  ELDERLY **************************************
 
 probeList <- c("CXCR5", "PRDM1", "BCL6", "IL10",  "IFNG","MAF","CCR6","CXCR3","GATA3",
                "BTLA","TNFRSF4", "CD38","TIGIT","SLAMF1","POU2AF1","LEF1","MKI67","SH2D1A", "TOX2", "BIRC5", "TBK1", "IL32")
@@ -276,7 +264,7 @@ pheatmap(Hi_v_Lo_y2, scale="row", cluster_col=F, annotation_col = annotateHeatma
 
 
 
-## ******************************** Differential expression by subgroup and age category *********************************************
+#' # ## ******************************** Differential expression by subgroup and age category *********************************************
 metaData
 fullDataset <- DESeqDataSetFromMatrix(countData=bestDataCounts, colData=metaData, design= ~ subgroup)
 dds <- estimateSizeFactors(fullDataset)
@@ -320,7 +308,7 @@ diffExpr <- list( Y_HiHivsLoLo_v1 = results(DESdata_fullDataset, contrast=c("sub
 # for (i in 1:length(diffExpr)) { write.csv(diffExpr[[i]], file=paste0("DifferentialExpression/",names(diffExpr[i]),".csv")) }
 
 
-## ******************************** Differential expression by subgroup only, ages mixed  *********************************************
+#' # ## ******************************** Differential expression by subgroup only, ages mixed  *********************************************
 metaData
 fullDataset <- DESeqDataSetFromMatrix(countData=bestDataCounts, colData=metaData, design= ~ condition + subject)   # mixed ages but control for subject
 dds <- estimateSizeFactors(fullDataset)
@@ -515,7 +503,7 @@ pheatmap(geneOntology, scale="none", cluster_col=F, cluster_row=F,show_colnames=
 )
 
 
-## *****************************       GSEA results: Hallmark Genesets    ***********************************************
+#' # ## *****************************       GSEA results: Hallmark Genesets    ***********************************************
 # all together at baseline
 Hallmark_HivsLo_v1_Pos <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_Hallmark.GseaPreranked.1539515189801/gsea_report_for_na_pos_1539515189801.xls", sep="\t")
 Hallmark_HivsLo_v1_Neg <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_Hallmark.GseaPreranked.1539515189801/gsea_report_for_na_neg_1539515189801.xls", sep="\t")
@@ -618,7 +606,7 @@ ggplot(data=subset(Hallmark_HivsLo_v1, `FDR.q.val` < 0.05), aes(x=`NAME`, y=`NES
 
 
 
-## *****************************       GSEA results: external Genesets    ***********************************************
+#' # ## *****************************       GSEA results: external Genesets    ***********************************************
 
 # all together at baseline
 ExternalGenesetsPos <- read.csv("DifferentialExpression/GSEA/GSEA_Results/AllAges_HiHi_vs_LoLo_v1_ExternalGenesets.GseaPreranked.1562102972211/gsea_report_for_na_pos_1562102972211.xls", sep="\t")
@@ -734,7 +722,7 @@ ggplot(data=TCF1KOGSE65693, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_
 # ggsave(file="DifferentialExpression/GSEA/Images/Yhihi-v-lolo_v1_TCF1ko.png", device="png", height=3.5, width=5)
 
 
-## *****************************       GSEA results: Y and E D0-to-D7 for Hallmark    ***********************************************
+#' # ## *****************************       GSEA results: Y and E D0-to-D7 for Hallmark    ***********************************************
 Yd0tod7HallmarkPos <- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_v1_vs_v2_HALLMARK.GseaPreranked.1530926605818/gsea_report_for_na_pos_1530926605818.xls", sep="\t")
 Yd0tod7HallmarkNeg <- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_v1_vs_v2_HALLMARK.GseaPreranked.1530926605818/gsea_report_for_na_neg_1530926605818.xls", sep="\t")
 Yd0tod7Hallmark <- rbind(Yd0tod7HallmarkPos, Yd0tod7HallmarkNeg)
@@ -829,7 +817,7 @@ ggplot(data=YoungHiHiv2Apoptosis, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) +
 # ggsave(file="DifferentialExpression/GSEA/Images/YandE_hihi_d7vsd0_Apoptosis.pdf", device="pdf", height=3.5, width=5)
 
 
-## *****************************       GSEA results: YvE parallel d7 vs d0 comparison - Hallmark    ***********************************************
+#' # ## *****************************       GSEA results: YvE parallel d7 vs d0 comparison - Hallmark    ***********************************************
 
 
 Youngv1v2Pos <- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_v1_vs_v2_HALLMARK.GseaPreranked.1530926605818/gsea_report_for_na_pos_1530926605818.xls", sep="\t", stringsAsFactors = F)
@@ -903,7 +891,7 @@ ggplot(data=hallmarkFactored) +
 
 
 
-## *****************************       GSEA results: YvE direct comparison at d7 - Hallmark    ***********************************************
+#' ### *****************************       GSEA results: YvE direct comparison at d7 - Hallmark    ***********************************************
 
 
 hallmarkv2Pos <- read.csv("DifferentialExpression/GSEA/GSEA_Results/Y_hihi_vs_E_hihi_v2_HALLMARK.GseaPreranked.1562121168676/gsea_report_for_na_pos_1562121168676.xls", sep="\t", stringsAsFactors = F)
@@ -959,7 +947,7 @@ ggplot(data=YvEHiHiv2Apoptosis, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) +  
 # ggsave(file="DifferentialExpression/GSEA/Images/YvE_HiHi_d7_TNFandApoptosis.pdf", device="pdf", height=3.5, width=5)
 
 
-## *****************************       GSEA results: YvE direct comparison - HexagonPlots    ***********************************************
+#' ### *****************************       GSEA results: YvE direct comparison - HexagonPlots    ***********************************************
 
 # viridis color scheme for discrete
 # library(scales)
@@ -1163,7 +1151,7 @@ ggplot(data=YvENaivev1TNF, aes(x=`RANK.IN.GENE.LIST`, y=`RUNNING.ES`) ) + geom_l
 
 
 
-## ***************************     heatmap of NFkB target genes in all subjects at day 7 **************************************
+#' ### ***************************     heatmap of NFkB target genes in all subjects at day 7 **************************************
 NFkBtargets <- read.csv(file = "./DifferentialExpression/ComparePublishedGeneSets/NFkB_targetGenes/NFkB_targetGenes_2016.csv")
 probeList <- unlist(NFkBtargets)
 
@@ -1246,7 +1234,7 @@ pheatmap(NFkBexprs, cluster_col=F, cluster_row = F, annotation_col = annotateHea
 dev.off()
 
 
-## *****************************       Single gene plots    ***********************************************
+#' ### *****************************       Single gene plots    ***********************************************
 
 PRDM1 <- as.data.frame(t(bestDataLog["PRDM1",]))
 PRDM1$Identity <- rownames(PRDM1)

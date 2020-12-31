@@ -11,6 +11,7 @@ library("viridis")
 library("tools")
 library("ggcorrplot")
 library("ggrepel")
+sessionInfo()
 
 bestDataLog <- read.csv(file="bestDataLog.csv",stringsAsFactors = FALSE); rownames(bestDataLog) <- bestDataLog$X; bestDataLog$X <- NULL
 phenotypeMatrix <- read.csv(file="../../Analysis/BAA_yr4_AllMergedData_FC.csv"); phenotypeMatrix <- phenotypeMatrix[-c(62:73),]; rownames(phenotypeMatrix) <- phenotypeMatrix$Subject; 

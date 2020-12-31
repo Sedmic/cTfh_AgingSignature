@@ -102,7 +102,7 @@ deltaNESmelted <- reshape2::melt(deltaNES, id.vars = "geneset")
 # plot using violin plots
 ggplot(deltaNESmelted, aes(x=variable, y=value)) + geom_violin(color="grey") + theme_bw() + #facet_wrap(~variable) +
   # geom_sina(data=to_lower_ascii(deltaNESmelted), aes(x=variable, y=value), alpha=0.4, scale=F, method="density", maxwidth = .6) +   # fails in ggforce 0.2.1, awaiting update
-   stat_summary(fun.y=median, geom="point", color="#f66334", size=50, shape='-') + #geom_dotplot(stackdir='center', binaxis='y', dotsize=0.3, binwidth=0.1) +
+   stat_summary(fun=median, geom="point", color="#f66334", size=50, shape='-') + #geom_dotplot(stackdir='center', binaxis='y', dotsize=0.3, binwidth=0.1) +
   geom_jitter(width = 0.05, color="gray50") + 
   theme(axis.text = element_text(size=14,hjust = 0.5), axis.title = element_blank(), plot.title = element_text(size=18,hjust = 0.5), panel.border = element_blank()) +
   ggtitle("delta NES for hallmark genesets") + theme(axis.text.x = element_text(angle=45,hjust=1))
